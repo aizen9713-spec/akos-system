@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>ÁKOS SYSTEM // CORE</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="system-header">
+      <div>
+        <p class="eyebrow">SYSTEM CORE</p>
+        <h1>ÁKOS SYSTEM // CORE</h1>     </div>
+</h1>
+      </div>
+      <div class="status-dot">ONLINE</div>
+    </header>
+
+    <section class="card player-card">
+      <div class="player-top">
+        <div>
+          <p class="eyebrow">PLAYER</p>
+          <h2 id="playerName">Ákos</h2>
+          <p class="muted">Title: <span id="playerTitle">THE MAIN CHARACTER</span></p>
+          <p class="muted">Arc: <span id="playerArc">VILLAIN ORIGIN</span></p>
+        </div>
+        <div class="level-box">
+          <span>LEVEL</span>
+          <strong id="levelValue">1</strong>
+        </div>
+      </div>
+
+      <div class="xp-row">
+        <span id="xpText">50 / 100 XP</span>
+        <span id="xpPercent">50%</span>
+      </div>
+      <div class="xp-bar">
+        <div id="xpFill" class="xp-fill"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">DAILY QUESTS</p>
+          <h2>Today's objectives</h2>
+        </div>
+        <span id="questCounter" class="pill">0/0</span>
+      </div>
+
+      <div class="quest-create">
+        <input id="questInput" type="text" maxlength="80" placeholder="New quest..." />
+        <input id="questXpInput" type="number" min="1" max="100" value="10" aria-label="Quest XP" />
+        <button id="addQuestBtn">ADD</button>
+      </div>
+
+      <div id="questList" class="quest-list"></div>
+    </section>
+
+    <section class="card grid-two">
+      <div>
+        <p class="eyebrow">STREAK</p>
+        <h3>NO ZERO DAYS</h3>
+        <p><strong id="streakValue">1</strong> / 7</p>
+      </div>
+      <div>
+        <p class="eyebrow">MAIN QUEST</p>
+        <h3>BUILD THE SYSTEM</h3>
+        <p class="muted">PHASE I · ACTIVE</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">SYSTEM LOG</p>
+          <h2>Recent events</h2>
+        </div>
+        <button id="resetBtn" class="danger-ghost">RESET</button>
+      </div>
+      <div id="logList" class="log-list"></div>
+    </section>
+
+    <footer>
+      <p>Potential: UNKNOWN · Level Cap: NONE</p>
+      <p>NPC Ending: LOCKED FOREVER</p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
