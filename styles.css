@@ -245,10 +245,37 @@ footer {
   margin-top: 24px;
 }
 
+.quest-create select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(120, 160, 220, 0.25);
+  background: rgba(8, 18, 35, 0.85);
+  color: #eaf4ff;
+  outline: none;
+}
+
+.quest-create select:focus {
+  border-color: #55dfff;
+}
+
 @media (max-width: 560px) {
   .quest-create {
-    grid-template-columns: 1fr 70px;
+    grid-template-columns: 1fr 80px;
   }
+
+  #questInput {
+    grid-column: 1 / -1;
+  }
+
+  #questStatInput {
+    grid-column: 1 / 2;
+  }
+
+  #questStatXpInput {
+    grid-column: 2 / 3;
+  }
+
   .quest-create button {
     grid-column: 1 / -1;
   }
@@ -265,4 +292,53 @@ footer {
   .quest-actions button {
     flex: 1;
   }
+}
+.stats-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.stat-item {
+  padding: 16px;
+  border: 1px solid rgba(120, 160, 220, 0.22);
+  border-radius: 18px;
+  background: rgba(8, 18, 35, 0.55);
+}
+
+.stat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.stat-top span:last-child {
+  color: #8fa4bd;
+  font-size: 14px;
+}
+
+.stat-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 8px;
+}
+
+.stat-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    #55cef0,
+    #79edb3
+  );
+  transition: width 0.3s ease;
+}
+
+.stat-item small {
+  color: #7e91a8;
 }

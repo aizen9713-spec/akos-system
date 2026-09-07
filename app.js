@@ -9,8 +9,25 @@ const defaultState = {
     xp: 50,
     streak: 1
   },
+  stats: {
+  str: 0,
+  end: 0,
+  int: 0,
+  dis: 0,
+  cha: 0,
+  wis: 0,
+  virtue: 0
+},
   quests: [
-    { id: crypto.randomUUID(), title: "Complete one meaningful action today", xp: 10, completed: false }
+    {
+  id: crypto.randomUUID(),
+  title: "Complete one meaningful action today",
+  xp: 10,
+  completed: false,
+  statRewards: {
+    dis: 5
+  }
+}
   ],
   log: [
     { id: crypto.randomUUID(), text: "[SYSTEM] Day 1 baseline loaded." }
@@ -19,10 +36,39 @@ const defaultState = {
 
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
-  if (!saved) return structuredClone(defaultState);
+
+  if (!saved) {
+    return structuredClone(defaultState);
+  }
 
   try {
-    return JSON.parse(saved);
+    const loaded = JSON.parse(saved);
+
+    return {
+      ...structuredClone(defaultState),
+      ...loaded,
+
+      player: {
+        ...defaultState.player,
+        ...(loaded.player || {})
+      },
+
+     stats: {
+  ...defaultState.stats,
+  ...(loaded.stats || {})
+},
+
+quests: (loaded.quests || defaultState.quests).map(quest => ({
+  ...quest,
+  statRewards:
+    quest.statRewards ??
+    (
+      quest.title === "Complete one meaningful action today"
+        ? { dis: 5 }
+        : {}
+    )
+}))
+    };
   } catch {
     return structuredClone(defaultState);
   }
@@ -61,6 +107,11 @@ function addLog(text) {
 function addQuest() {
   const input = document.getElementById("questInput");
   const xpInput = document.getElementById("questXpInput");
+  const statInput = document.getElementById("questStatInput");
+const statXpInput = document.getElementById("questStatXpInput");
+
+const stat = statInput.value;
+const statXp = Number(statXpInput.value);
   const title = input.value.trim();
   const xp = Number(xpInput.value);
 
@@ -72,14 +123,19 @@ function addQuest() {
   }
 
   state.quests.push({
-    id: crypto.randomUUID(),
-    title,
-    xp,
-    completed: false
-  });
+  id: crypto.randomUUID(),
+  title,
+  xp,
+  completed: false,
+  statRewards: stat
+    ? { [stat]: statXp }
+    : {}
+});
 
   addLog(`[QUEST ADDED] ${title}`);
   input.value = "";
+  statInput.value = "";
+statXpInput.value = 5;
   saveState();
   render();
 }
@@ -90,6 +146,14 @@ function completeQuest(id) {
 
   quest.completed = true;
   state.player.xp += quest.xp;
+
+  if (quest.statRewards) {
+  for (const [statKey, amount] of Object.entries(quest.statRewards)) {
+    if (state.stats[statKey] !== undefined) {
+      state.stats[statKey] += amount;
+    }
+  }
+}
 
   addLog(`[QUEST COMPLETE] ${quest.title} · +${quest.xp} XP`);
   applyLevelUps();
@@ -132,6 +196,35 @@ function renderPlayer() {
   document.getElementById("streakValue").textContent = p.streak;
 }
 
+function renderStats() {
+  const stats = state.stats;
+
+  const statMap = {
+    str: { value: "strValue", fill: "strFill" },
+    end: { value: "endValue", fill: "endFill" },
+    int: { value: "intValue", fill: "intFill" },
+    dis: { value: "disValue", fill: "disFill" },
+    cha: { value: "chaValue", fill: "chaFill" },
+    wis: { value: "wisValue", fill: "wisFill" },
+    virtue: { value: "virtueValue", fill: "virtueFill" }
+  };
+
+  for (const [statKey, elements] of Object.entries(statMap)) {
+    const xp = stats[statKey] || 0;
+
+    const valueEl = document.getElementById(elements.value);
+    const fillEl = document.getElementById(elements.fill);
+
+    if (valueEl) {
+      valueEl.textContent = `${xp} XP`;
+    }
+
+    if (fillEl) {
+      const percent = Math.min((xp / 100) * 100, 100);
+      fillEl.style.width = `${percent}%`;
+    }
+  }
+}
 function renderQuests() {
   const list = document.getElementById("questList");
   list.innerHTML = "";
@@ -145,10 +238,21 @@ function renderQuests() {
     row.className = `quest-row ${quest.completed ? "completed" : ""}`;
 
     const left = document.createElement("div");
-    left.innerHTML = `
-      <div class="quest-name">${escapeHtml(quest.title)}</div>
-      <div class="quest-meta">${quest.xp} XP · ${quest.completed ? "COMPLETED" : "ACTIVE"}</div>
-    `;
+    const statRewardText = quest.statRewards
+  ? Object.entries(quest.statRewards)
+      .filter(([_, amount]) => amount > 0)
+      .map(([stat, amount]) => `+${amount} ${stat.toUpperCase()}`)
+      .join(" · ")
+  : "";
+
+left.innerHTML = `
+  <div class="quest-name">${escapeHtml(quest.title)}</div>
+  <div class="quest-meta">
+    ${quest.xp} XP
+    ${statRewardText ? ` · ${statRewardText}` : ""}
+    · ${quest.completed ? "COMPLETED" : "ACTIVE"}
+  </div>
+`;
 
     const actions = document.createElement("div");
     actions.className = "quest-actions";
@@ -196,9 +300,28 @@ function escapeHtml(value) {
 
 function render() {
   renderPlayer();
+  renderStats();
   renderQuests();
   renderLog();
 }
+
+const questStatInput = document.getElementById("questStatInput");
+const questStatXpInput = document.getElementById("questStatXpInput");
+
+function updateStatXpInput() {
+  const hasStat = questStatInput.value !== "";
+
+  questStatXpInput.disabled = !hasStat;
+
+  if (!hasStat) {
+    questStatXpInput.value = 0;
+  } else if (Number(questStatXpInput.value) === 0) {
+    questStatXpInput.value = 5;
+  }
+}
+
+questStatInput.addEventListener("change", updateStatXpInput);
+updateStatXpInput();
 
 document.getElementById("addQuestBtn").addEventListener("click", addQuest);
 document.getElementById("questInput").addEventListener("keydown", e => {
@@ -208,7 +331,11 @@ document.getElementById("resetBtn").addEventListener("click", resetSystem);
 
 render();
 
-if ("serviceWorker" in navigator) {
+if (
+  "serviceWorker" in navigator &&
+  location.hostname !== "127.0.0.1" &&
+  location.hostname !== "localhost"
+) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js").catch(() => {});
   });

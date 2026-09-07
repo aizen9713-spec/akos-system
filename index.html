@@ -41,7 +41,95 @@
         <div id="xpFill" class="xp-fill"></div>
       </div>
     </section>
+<section class="card">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">PLAYER STATS</p>
+      <h2>Character attributes</h2>
+    </div>
+  </div>
 
+  <div class="stats-grid">
+
+    <div class="stat-item">
+      <div class="stat-top">
+        <span>💪 STR</span>
+        <span id="strValue">0 XP</span>
+      </div>
+      <div class="stat-bar">
+        <div id="strFill" class="stat-fill"></div>
+      </div>
+      <small>Strength</small>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-top">
+        <span>🫀 END</span>
+        <span id="endValue">0 XP</span>
+      </div>
+      <div class="stat-bar">
+        <div id="endFill" class="stat-fill"></div>
+      </div>
+      <small>Endurance</small>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-top">
+        <span>🧠 INT</span>
+        <span id="intValue">0 XP</span>
+      </div>
+      <div class="stat-bar">
+        <div id="intFill" class="stat-fill"></div>
+      </div>
+      <small>Knowledge</small>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-top">
+        <span>⚔️ DIS</span>
+        <span id="disValue">0 XP</span>
+      </div>
+      <div class="stat-bar">
+        <div id="disFill" class="stat-fill"></div>
+      </div>
+      <small>Discipline</small>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-top">
+        <span>🗣️ CHA</span>
+        <span id="chaValue">0 XP</span>
+      </div>
+      <div class="stat-bar">
+        <div id="chaFill" class="stat-fill"></div>
+      </div>
+      <small>Social</small>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-top">
+        <span>💰 WIS</span>
+        <span id="wisValue">0 XP</span>
+      </div>
+      <div class="stat-bar">
+        <div id="wisFill" class="stat-fill"></div>
+      </div>
+      <small>Financial Wisdom</small>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-top">
+        <span>❤️ VIRTUE</span>
+        <span id="virtueValue">0 XP</span>
+      </div>
+      <div class="stat-bar">
+        <div id="virtueFill" class="stat-fill"></div>
+      </div>
+      <small>Character</small>
+    </div>
+
+  </div>
+</section>
     <section class="card">
       <div class="section-head">
         <div>
@@ -51,11 +139,45 @@
         <span id="questCounter" class="pill">0/0</span>
       </div>
 
-      <div class="quest-create">
-        <input id="questInput" type="text" maxlength="80" placeholder="New quest..." />
-        <input id="questXpInput" type="number" min="1" max="100" value="10" aria-label="Quest XP" />
-        <button id="addQuestBtn">ADD</button>
-      </div>
+     <div class="quest-create">
+  <input
+    id="questInput"
+    type="text"
+    maxlength="80"
+    placeholder="New quest..."
+  />
+
+  <input
+    id="questXpInput"
+    type="number"
+    min="1"
+    max="100"
+    value="10"
+    aria-label="Quest XP"
+  />
+
+  <select id="questStatInput" aria-label="Reward stat">
+    <option value="">No stat</option>
+    <option value="str">STR</option>
+    <option value="end">END</option>
+    <option value="int">INT</option>
+    <option value="dis">DIS</option>
+    <option value="cha">CHA</option>
+    <option value="wis">WIS</option>
+    <option value="virtue">VIRTUE</option>
+  </select>
+
+  <input
+    id="questStatXpInput"
+    type="number"
+    min="0"
+    max="100"
+    value="5"
+    aria-label="Stat XP"
+  />
+
+  <button id="addQuestBtn">ADD</button>
+</div>
 
       <div id="questList" class="quest-list"></div>
     </section>
