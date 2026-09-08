@@ -1,10 +1,10 @@
-const CACHE_NAME = "akos-system-v0.3.0";
+const CACHE_NAME = "akos-system-v0.4.0";
 
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
-  "./app.js",
+  "./app.js?v=0.4.0",
   "./manifest.webmanifest",
   "./icon.svg"
 ];
