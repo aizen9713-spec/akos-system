@@ -131,6 +131,17 @@
   </div>
 </section>
     <section class="card">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">PLAYER SKILLS</p>
+      <h2>Skill development</h2>
+    </div>
+  </div>
+
+  <div id="skillsGrid" class="skills-grid">
+    <!-- Skills are rendered by app.js -->
+  </div>
+</section>
       <div class="section-head">
         <div>
           <p class="eyebrow">DAILY QUESTS</p>
@@ -175,6 +186,31 @@
     value="5"
     aria-label="Stat XP"
   />
+
+  <select id="questSkillInput" aria-label="Reward skill">
+  <option value="">No skill</option>
+  <option value="automotive">Automotive</option>
+  <option value="automotiveElectrical">Automotive Electrical</option>
+  <option value="diagnostics">Diagnostics</option>
+  <option value="automotiveAC">Automotive AC</option>
+  <option value="welding">Welding</option>
+  <option value="buildingDIY">Building / DIY</option>
+  <option value="appDevelopment">App Development</option>
+  <option value="investing">Investing</option>
+  <option value="entrepreneurship">Entrepreneurship</option>
+  <option value="communication">Communication</option>
+  <option value="english">English</option>
+  <option value="firstAid">First Aid</option>
+</select>
+
+<input
+  id="questSkillXpInput"
+  type="number"
+  min="0"
+  max="100"
+  value="0"
+  aria-label="Skill XP"
+/>
 
   <button id="addQuestBtn">ADD</button>
 </div>

@@ -18,6 +18,79 @@ const defaultState = {
   wis: 0,
   virtue: 0
 },
+skills: {
+  automotive: {
+    name: "Automotive",
+    rank: "Intermediate",
+    xp: 0
+  },
+
+  automotiveElectrical: {
+    name: "Automotive Electrical",
+    rank: "Beginner",
+    xp: 0
+  },
+
+  diagnostics: {
+    name: "Diagnostics",
+    rank: "Intermediate",
+    xp: 0
+  },
+
+  automotiveAC: {
+    name: "Automotive AC",
+    rank: "Intermediate",
+    xp: 0
+  },
+
+  welding: {
+    name: "Welding",
+    rank: "Beginner",
+    xp: 0
+  },
+
+  buildingDIY: {
+    name: "Building / DIY",
+    rank: "Intermediate",
+    xp: 0
+  },
+
+  appDevelopment: {
+    name: "App Development",
+    rank: "Beginner",
+    xp: 0
+  },
+
+  investing: {
+    name: "Investing",
+    rank: "Intermediate",
+    xp: 0
+  },
+
+  entrepreneurship: {
+    name: "Entrepreneurship",
+    rank: "Beginner",
+    xp: 0
+  },
+
+  communication: {
+    name: "Communication",
+    rank: "Intermediate",
+    xp: 0
+  },
+
+  english: {
+    name: "English",
+    rank: "Developing",
+    xp: 0
+  },
+
+  firstAid: {
+    name: "First Aid",
+    rank: "Intermediate",
+    xp: 0
+  }
+},
   quests: [
     {
   id: crypto.randomUUID(),
@@ -53,10 +126,20 @@ function loadState() {
         ...(loaded.player || {})
       },
 
-     stats: {
+   stats: {
   ...defaultState.stats,
   ...(loaded.stats || {})
 },
+
+skills: Object.fromEntries(
+  Object.entries(defaultState.skills).map(([skillKey, defaultSkill]) => [
+    skillKey,
+    {
+      ...defaultSkill,
+      ...(loaded.skills?.[skillKey] || {})
+    }
+  ])
+),
 
 quests: (loaded.quests || defaultState.quests).map(quest => ({
   ...quest,
@@ -109,11 +192,17 @@ function addQuest() {
   const xpInput = document.getElementById("questXpInput");
   const statInput = document.getElementById("questStatInput");
 const statXpInput = document.getElementById("questStatXpInput");
+const skillInput = document.getElementById("questSkillInput");
+const skillXpInput = document.getElementById("questSkillXpInput");
 
 const stat = statInput.value;
 const statXp = Number(statXpInput.value);
-  const title = input.value.trim();
-  const xp = Number(xpInput.value);
+
+const skill = skillInput.value;
+const skillXp = Number(skillXpInput.value);
+
+const title = input.value.trim();
+const xp = Number(xpInput.value);
 
   if (!title) return;
 
@@ -122,22 +211,37 @@ const statXp = Number(statXpInput.value);
     return;
   }
 
-  state.quests.push({
+ state.quests.push({
   id: crypto.randomUUID(),
   title,
   xp,
   completed: false,
+
   statRewards: stat
     ? { [stat]: statXp }
+    : {},
+
+  skillRewards: skill
+    ? { [skill]: skillXp }
     : {}
 });
 
   addLog(`[QUEST ADDED] ${title}`);
-  input.value = "";
-  statInput.value = "";
-statXpInput.value = 5;
-  saveState();
-  render();
+
+input.value = "";
+
+// Reset stat reward
+statInput.value = "";
+statXpInput.value = 0;
+updateStatXpInput();
+
+// Reset skill reward
+skillInput.value = "";
+skillXpInput.value = 0;
+updateSkillXpInput();
+
+saveState();
+render();
 }
 
 function completeQuest(id) {
@@ -151,6 +255,14 @@ function completeQuest(id) {
   for (const [statKey, amount] of Object.entries(quest.statRewards)) {
     if (state.stats[statKey] !== undefined) {
       state.stats[statKey] += amount;
+    }
+  }
+}
+
+if (quest.skillRewards) {
+  for (const [skillKey, amount] of Object.entries(quest.skillRewards)) {
+    if (state.skills[skillKey]) {
+      state.skills[skillKey].xp += amount;
     }
   }
 }
@@ -225,6 +337,38 @@ function renderStats() {
     }
   }
 }
+function renderSkills() {
+  const grid = document.getElementById("skillsGrid");
+
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  Object.entries(state.skills).forEach(([skillKey, skill]) => {
+    const card = document.createElement("div");
+    card.className = "skill-item";
+
+    card.innerHTML = `
+      <div class="skill-top">
+        <strong>${escapeHtml(skill.name)}</strong>
+        <span class="skill-rank">${escapeHtml(skill.rank)}</span>
+      </div>
+
+      <div class="skill-xp">
+        ${skill.xp} XP
+      </div>
+
+      <div class="skill-bar">
+        <div
+          class="skill-fill"
+          style="width: ${Math.min(skill.xp, 100)}%"
+        ></div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
 function renderQuests() {
   const list = document.getElementById("questList");
   list.innerHTML = "";
@@ -244,13 +388,25 @@ function renderQuests() {
       .map(([stat, amount]) => `+${amount} ${stat.toUpperCase()}`)
       .join(" · ")
   : "";
+  const skillRewardText = quest.skillRewards
+  ? Object.entries(quest.skillRewards)
+      .filter(([, amount]) => amount > 0)
+      .map(([skillKey, amount]) => {
+        const skillName =
+          state.skills?.[skillKey]?.name || skillKey;
+
+        return `+${amount} ${skillName} XP`;
+      })
+      .join(" · ")
+  : "";
 
 left.innerHTML = `
   <div class="quest-name">${escapeHtml(quest.title)}</div>
   <div class="quest-meta">
-    ${quest.xp} XP
-    ${statRewardText ? ` · ${statRewardText}` : ""}
-    · ${quest.completed ? "COMPLETED" : "ACTIVE"}
+   ${quest.xp} XP
+${statRewardText ? ` · ${statRewardText}` : ""}
+${skillRewardText ? ` · ${skillRewardText}` : ""}
+${quest.completed ? " · COMPLETED" : " · ACTIVE"}
   </div>
 `;
 
@@ -301,6 +457,7 @@ function escapeHtml(value) {
 function render() {
   renderPlayer();
   renderStats();
+  renderSkills();
   renderQuests();
   renderLog();
 }
@@ -392,6 +549,24 @@ function updateStatXpInput() {
 
 questStatInput.addEventListener("change", updateStatXpInput);
 updateStatXpInput();
+
+const questSkillInput = document.getElementById("questSkillInput");
+const questSkillXpInput = document.getElementById("questSkillXpInput");
+
+function updateSkillXpInput() {
+  const hasSkill = questSkillInput.value !== "";
+
+  questSkillXpInput.disabled = !hasSkill;
+
+  if (!hasSkill) {
+    questSkillXpInput.value = 0;
+  } else if (Number(questSkillXpInput.value) === 0) {
+    questSkillXpInput.value = 5;
+  }
+}
+
+questSkillInput.addEventListener("change", updateSkillXpInput);
+updateSkillXpInput();
 
 document.getElementById("addQuestBtn").addEventListener("click", addQuest);
 document.getElementById("questInput").addEventListener("keydown", e => {
