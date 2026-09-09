@@ -454,11 +454,23 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function renderDashboard() {
+  const questProgress = document.getElementById("dashboardQuestProgress");
+  const streak = document.getElementById("dashboardStreak");
+
+  const quests = state.quests || [];
+  const completedQuests = quests.filter(quest => quest.completed).length;
+  const totalQuests = quests.length;
+
+  questProgress.textContent = `${completedQuests} / ${totalQuests}`;
+  streak.textContent = `${state.player.streak} / 7`;
+}
 function render() {
   renderPlayer();
   renderStats();
   renderSkills();
   renderQuests();
+  renderDashboard();
   renderLog();
 }
 
