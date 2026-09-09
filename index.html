@@ -19,6 +19,30 @@
       <div class="status-dot">ONLINE</div>
     </header>
 
+    <nav class="system-nav">
+  <button class="nav-btn active" data-page="dashboard">
+    <span class="nav-icon">⌂</span>
+    <span>Dashboard</span>
+  </button>
+
+  <button class="nav-btn" data-page="quests">
+    <span class="nav-icon">⚔</span>
+    <span>Quests</span>
+  </button>
+
+  <button class="nav-btn" data-page="skills">
+    <span class="nav-icon">◆</span>
+    <span>Skills</span>
+  </button>
+
+  <button class="nav-btn" data-page="system">
+    <span class="nav-icon">◈</span>
+    <span>System</span>
+  </button>
+</nav>
+
+<div id="page-dashboard" class="app-page active">
+
     <section class="card player-card">
       <div class="player-top">
         <div>
@@ -41,7 +65,9 @@
         <div id="xpFill" class="xp-fill"></div>
       </div>
     </section>
-<section class="card">
+    </div>
+<div id="page-skills" class="app-page">
+    <section class="card">
   <div class="section-head">
     <div>
       <p class="eyebrow">PLAYER STATS</p>
@@ -142,6 +168,9 @@
     <!-- Skills are rendered by app.js -->
   </div>
 </section>
+</div> <!-- page-skills -->
+<div id="page-quests" class="app-page">
+  <section class="card">
       <div class="section-head">
         <div>
           <p class="eyebrow">DAILY QUESTS</p>
@@ -230,7 +259,9 @@
         <p class="muted">PHASE I · ACTIVE</p>
       </div>
     </section>
+</div> <!-- page-quests -->
 
+<div id="page-system" class="app-page">
     <section class="card">
       <div class="section-head">
         <div>
@@ -255,6 +286,7 @@
       </div>
       <div id="logList" class="log-list"></div>
     </section>
+    </div> <!-- page-system -->
 
     <footer>
       <p>Potential: UNKNOWN · Level Cap: NONE</p>

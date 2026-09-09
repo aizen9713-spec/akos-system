@@ -139,7 +139,7 @@ button {
 
 .quest-create {
   display: grid;
-  grid-template-columns: 1fr 74px auto;
+  grid-template-columns: 1fr 90px 130px;
   gap: 8px;
   margin: 16px 0;
 }
@@ -260,9 +260,9 @@ footer {
 }
 
 @media (max-width: 560px) {
-  .quest-create {
-    grid-template-columns: 1fr 80px;
-  }
+ .quest-create {
+    grid-template-columns: 1fr 120px;
+}
 
   #questInput {
     grid-column: 1 / -1;
@@ -416,4 +416,74 @@ footer {
   .skill-item {
     padding: 14px;
   }
+}
+/* =========================
+   SYSTEM NAVIGATION v1
+   ========================= */
+
+.system-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 12px 0 16px;
+  padding: 6px;
+  background: rgba(8, 18, 35, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 8px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: 0.2s ease;
+}
+
+.nav-btn:hover {
+  color: var(--text);
+  background: rgba(85, 223, 255, 0.08);
+}
+
+.nav-btn.active {
+  color: var(--text);
+  background: rgba(85, 223, 255, 0.12);
+  border-color: rgba(85, 223, 255, 0.35);
+}
+
+.nav-icon {
+  font-size: 1rem;
+}
+
+@media (max-width: 500px) {
+  .system-nav {
+    position: sticky;
+    bottom: 8px;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    flex-direction: column;
+    gap: 3px;
+    padding: 8px 4px;
+    font-size: 0.65rem;
+  }
+}
+/* =========================
+   APP PAGES
+   ========================= */
+
+.app-page {
+  display: none;
+}
+
+.app-page.active {
+  display: block;
 }
