@@ -60,6 +60,19 @@ button {
   padding: 8px 11px;
   font-size: 0.75rem;
   font-weight: 800;
+  animation: systemPulse 2s ease-in-out infinite;
+}
+
+@keyframes systemPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(134, 239, 172, 0);
+    opacity: 0.85;
+  }
+
+  50% {
+    box-shadow: 0 0 14px rgba(134, 239, 172, 0.45);
+    opacity: 1;
+  }
 }
 
 .card {

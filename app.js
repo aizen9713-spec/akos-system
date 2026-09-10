@@ -380,12 +380,16 @@ function renderSkills() {
   });
 }
 function renderQuests() {
-  const list = document.getElementById("questList");
-  list.innerHTML = "";
+  const activeList = document.getElementById("activeQuestList");
+const completedList = document.getElementById("completedQuestList");
+
+activeList.innerHTML = "";
+completedList.innerHTML = "";
 
   if (state.quests.length === 0) {
-    list.innerHTML = `<p class="muted">No active quests.</p>`;
-  }
+  activeList.innerHTML = `<p class="muted">No active quests.</p>`;
+  completedList.innerHTML = `<p class="muted">No completed quests.</p>`;
+}
 
   state.quests.forEach(quest => {
     const row = document.createElement("div");
@@ -436,8 +440,20 @@ ${quest.completed ? " · COMPLETED" : " · ACTIVE"}
 
     actions.append(complete, remove);
     row.append(left, actions);
-    list.appendChild(row);
+    if (quest.completed) {
+  completedList.appendChild(row);
+} else {
+  activeList.appendChild(row);
+}
   });
+  
+  if (activeList.children.length === 0) {
+  activeList.innerHTML = `<p class="muted">No active quests.</p>`;
+}
+
+if (completedList.children.length === 0) {
+  completedList.innerHTML = `<p class="muted">No completed quests yet.</p>`;
+}
 
   const completed = state.quests.filter(q => q.completed).length;
   document.getElementById("questCounter").textContent = `${completed}/${state.quests.length}`;
