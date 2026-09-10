@@ -8,7 +8,7 @@
   "description": "Personal RPG-style self-development system for Ákos.",
   "icons": [
   {
-    "src": "icon-512.png",
+    "src": "icon-512-v2.png",
     "sizes": "512x512",
     "type": "image/png",
     "purpose": "any"
