@@ -1,5 +1,15 @@
 const STORAGE_KEY = "akos-system-v0.1.0";
 
+const STAT_CONFIG = {
+  str: { name: "Strength", icon: "💪" },
+  end: { name: "Endurance", icon: "🏃" },
+  int: { name: "Intelligence", icon: "🧠" },
+  dis: { name: "Discipline", icon: "⚔️" },
+  cha: { name: "Charisma", icon: "🗣️" },
+  wis: { name: "Wisdom", icon: "💰" },
+  virtue: { name: "Virtue", icon: "🛡️" }
+};
+
 const defaultState = {
   player: {
     name: "Ákos",
@@ -457,13 +467,39 @@ function escapeHtml(value) {
 function renderDashboard() {
   const questProgress = document.getElementById("dashboardQuestProgress");
   const streak = document.getElementById("dashboardStreak");
+  const growthSnapshot = document.getElementById("growthSnapshot");
 
   const quests = state.quests || [];
   const completedQuests = quests.filter(quest => quest.completed).length;
   const totalQuests = quests.length;
+  const stats = state.stats || {};
+  const statEntries = Object.entries(stats);
 
   questProgress.textContent = `${completedQuests} / ${totalQuests}`;
   streak.textContent = `${state.player.streak} / 7`;
+  growthSnapshot.innerHTML = statEntries
+  .map(([key, value]) => {
+    const xp = value ?? 0;
+    const xpNeeded = 100;
+    const progress = Math.min((xp / xpNeeded) * 100, 100);
+
+    return `
+      <div class="growth-stat">
+        <div class="growth-stat-head">
+          <span>
+  ${STAT_CONFIG[key]?.icon || ""}
+  ${key.toUpperCase()}
+</span>
+          <span>${xp} / ${xpNeeded} XP</span>
+        </div>
+
+        <div class="growth-bar">
+          <div class="growth-bar-fill" style="width: ${progress}%"></div>
+        </div>
+      </div>
+    `;
+  })
+  .join("");
 }
 function render() {
   renderPlayer();

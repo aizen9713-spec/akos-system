@@ -487,3 +487,44 @@ footer {
 .app-page.active {
   display: block;
 }
+.growth-snapshot {
+  display: grid;
+  gap: 14px;
+}
+
+.growth-stat {
+  display: grid;
+  gap: 6px;
+}
+
+.growth-stat-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.9rem;
+}
+
+.growth-stat-head span:first-child {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.growth-stat-head span:last-child {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.growth-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.growth-bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #4cc9f0, #80ffdb);
+}
