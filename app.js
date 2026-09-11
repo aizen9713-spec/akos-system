@@ -10,6 +10,24 @@ const STAT_CONFIG = {
   virtue: { name: "Virtue", icon: "🛡️" }
 };
 
+const DAILY_QUOTES = [
+  "Discipline is choosing what you want most over what you want now.",
+  "A weak day completed is worth more than a perfect day postponed.",
+  "You do not need motivation. You need the next action.",
+  "Comfort is useful for recovery. Dangerous as a permanent residence.",
+  "Small steps repeated long enough become an unfair advantage.",
+  "The Player who repeats the basics eventually becomes the boss others cannot understand.",
+  "Recovery is not retreat. Weapons are maintained before the next battle.",
+  "Every excuse avoided becomes strength stored for later.",
+  "You are not behind. You are still building.",
+  "Progress becomes visible only after consistency becomes boring.",
+  "Do the difficult thing before it becomes the emergency.",
+  "The starting stats do not determine the final build.",
+  "There is no final form.",
+  "Build the life that makes discipline feel worth it.",
+  "One disciplined decision can change the direction of an entire day."
+];
+
 const defaultState = {
   player: {
     name: "Ákos",
@@ -484,12 +502,26 @@ function renderDashboard() {
   const questProgress = document.getElementById("dashboardQuestProgress");
   const streak = document.getElementById("dashboardStreak");
   const growthSnapshot = document.getElementById("growthSnapshot");
+  const dailyQuote = document.getElementById("dailyQuote");
 
   const quests = state.quests || [];
   const completedQuests = quests.filter(quest => quest.completed).length;
   const totalQuests = quests.length;
   const stats = state.stats || {};
   const statEntries = Object.entries(stats);
+  const today = new Date();
+
+const dayNumber = Math.floor(
+  Date.UTC(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  ) / 86400000
+);
+
+const quoteIndex = dayNumber % DAILY_QUOTES.length;
+
+dailyQuote.textContent = `"${DAILY_QUOTES[quoteIndex]}"`;
 
   questProgress.textContent = `${completedQuests} / ${totalQuests}`;
   streak.textContent = `${state.player.streak} / 7`;

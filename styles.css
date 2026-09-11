@@ -564,3 +564,41 @@ footer {
   letter-spacing: 0.22em;
   color: var(--muted);
 }
+.daily-transmission {
+  position: relative;
+  overflow: hidden;
+}
+
+.daily-transmission::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(76, 201, 240, 0.06),
+    transparent 45%,
+    rgba(128, 255, 219, 0.04)
+  );
+  pointer-events: none;
+}
+
+.transmission-content {
+  position: relative;
+  padding: 10px 2px 2px;
+}
+
+.daily-quote {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-style: italic;
+  color: #e8f7ff;
+}
+
+.daily-quote-author {
+  margin: 10px 0 0;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--accent-2);
+}

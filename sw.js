@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-v0.4.0";
+const CACHE_NAME = "akos-system-v0.4.1";
 
 const ASSETS = [
   "./",
@@ -6,7 +6,7 @@ const ASSETS = [
   "./styles.css",
   "./app.js?v=0.4.0",
   "./manifest.webmanifest",
-  "./icon.svg"
+  "./icon-512-v2.png",
 ];
 
 self.addEventListener("install", event => {
