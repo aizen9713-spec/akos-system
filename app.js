@@ -485,13 +485,16 @@ function renderSkills() {
 function renderQuests() {
   const activeList = document.getElementById("activeQuestList");
 const completedList = document.getElementById("completedQuestList");
+const historyList = document.getElementById("historyList");
 
 activeList.innerHTML = "";
 completedList.innerHTML = "";
+historyList.innerHTML = "";
 
   if (state.quests.length === 0) {
   activeList.innerHTML = `<p class="muted">No active quests.</p>`;
   completedList.innerHTML = `<p class="muted">No completed quests.</p>`;
+  
 }
 
   state.quests.forEach(quest => {
@@ -560,6 +563,42 @@ if (completedList.children.length === 0) {
 
   const completed = state.quests.filter(q => q.completed).length;
   document.getElementById("questCounter").textContent = `${completed}/${state.quests.length}`;
+  if (state.history.length === 0) {
+  historyList.innerHTML = `<p class="muted">No history yet.</p>`;
+} else {
+  state.history.forEach(day => {
+    const row = document.createElement("div");
+    row.className = "quest-row completed";
+
+    const questDetails = day.quests
+  .map(quest => `
+    <div class="history-quest-item">
+      <span>${quest.completed ? "✓" : "○"} ${escapeHtml(quest.title)}</span>
+      <span class="muted">${quest.completed ? "COMPLETED" : "INCOMPLETE"}</span>
+    </div>
+  `)
+  .join("");
+
+row.innerHTML = `
+  <details class="history-day">
+    <summary>
+      <div>
+        <strong>${day.date}</strong>
+        <div class="muted">
+          ${day.completedQuests} / ${day.totalQuests} completed
+        </div>
+      </div>
+    </summary>
+
+    <div class="history-details">
+      ${questDetails}
+    </div>
+  </details>
+`;
+
+    historyList.appendChild(row);
+  });
+}
 }
 
 function renderLog() {
@@ -572,6 +611,7 @@ function renderLog() {
     row.textContent = item.text;
     list.appendChild(row);
   });
+  
 }
 
 function escapeHtml(value) {
