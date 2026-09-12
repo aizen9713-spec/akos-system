@@ -10,6 +10,13 @@ const STAT_CONFIG = {
   virtue: { name: "Virtue", icon: "🛡️" }
 };
 
+const STREAK_MILESTONES = [7, 14, 30, 100];
+
+function getNextStreakMilestone(streak) {
+  return STREAK_MILESTONES.find(milestone => milestone > streak)
+    ?? STREAK_MILESTONES[STREAK_MILESTONES.length - 1];
+}
+
 const DAILY_QUOTES = [
   "Discipline is choosing what you want most over what you want now.",
   "A weak day completed is worth more than a perfect day postponed.",
@@ -314,9 +321,13 @@ function handleDayRollover() {
     return false;
   }
 
-  archiveCurrentDay();
-  updateStreakFromArchivedDay();
-  checkNoZeroDaysAchievement();
+  const archived = archiveCurrentDay();
+
+  if (archived) {
+    updateStreakFromArchivedDay();
+    checkNoZeroDaysAchievement();
+  }
+
   startNewDay();
   render();
 
@@ -467,8 +478,10 @@ function renderPlayer() {
   document.getElementById("xpText").textContent = `${p.xp} / ${needed} XP`;
   document.getElementById("xpPercent").textContent = `${percent}%`;
   document.getElementById("xpFill").style.width = `${percent}%`;
-  document.getElementById("streakValue").textContent =
-  `${p.streak} / ${p.streakGoal}`;
+  const nextStreakMilestone = getNextStreakMilestone(p.streak);
+
+document.getElementById("streakValue").textContent =
+  `${p.streak} / ${nextStreakMilestone}`;
 }
 
 function renderStats() {
@@ -686,11 +699,22 @@ function renderAchievements() {
     card.className = "achievement-item";
 
     card.innerHTML = `
+  <div class="achievement-head">
+    <div class="achievement-title">
+      <span class="achievement-icon">🏆</span>
       <strong>${escapeHtml(achievement.title)}</strong>
-      <div class="muted">
-        ${escapeHtml(achievement.description)}
-      </div>
-    `;
+    </div>
+
+    <span class="achievement-badge">UNLOCKED</span>
+  </div>
+
+  <div class="muted achievement-description">
+    ${escapeHtml(achievement.description)}
+  </div>
+  <div class="achievement-date">
+  UNLOCKED ${new Date(achievement.unlockedAt).toLocaleDateString()}
+</div>
+`;
 
     list.appendChild(card);
   });
@@ -731,7 +755,12 @@ const quoteIndex = dayNumber % DAILY_QUOTES.length;
 dailyQuote.textContent = `"${DAILY_QUOTES[quoteIndex]}"`;
 
   questProgress.textContent = `${completedQuests} / ${totalQuests}`;
-  streak.textContent = `${state.player.streak} / 7`;
+  const nextStreakMilestone = getNextStreakMilestone(
+  state.player.streak
+);
+
+streak.textContent =
+  `${state.player.streak} / ${nextStreakMilestone}`;
   growthSnapshot.innerHTML = statEntries
   .map(([key, value]) => {
     const xp = value ?? 0;

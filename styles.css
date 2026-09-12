@@ -1007,3 +1007,45 @@ footer {
   margin-bottom: 4px;
   letter-spacing: 0.03em;
 }
+.achievement-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.achievement-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.achievement-icon {
+  font-size: 1rem;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 90, 0.35));
+}
+
+.achievement-badge {
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #72ffad;
+  border: 1px solid rgba(114, 255, 173, 0.28);
+  background: rgba(35, 120, 80, 0.12);
+  box-shadow: 0 0 10px rgba(80, 255, 160, 0.08);
+}
+
+.achievement-description {
+  margin-top: 6px;
+  padding-left: 24px;
+}
+.achievement-date {
+  margin-top: 7px;
+  padding-left: 24px;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: rgba(180, 200, 220, 0.55);
+  text-transform: uppercase;
+}
