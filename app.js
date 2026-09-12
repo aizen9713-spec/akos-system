@@ -28,7 +28,18 @@ const DAILY_QUOTES = [
   "One disciplined decision can change the direction of an entire day."
 ];
 
+function getDateKey() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 const defaultState = {
+  activeDay: getDateKey(),
   player: {
     name: "Ákos",
     title: "THE MAIN CHARACTER",
@@ -130,6 +141,7 @@ skills: {
   }
 }
   ],
+  history: [],
   log: [
     { id: crypto.randomUUID(), text: "[SYSTEM] Day 1 baseline loaded." }
   ]
@@ -144,6 +156,12 @@ function loadState() {
 
   try {
     const loaded = JSON.parse(saved);
+    if (!loaded.activeDay) {
+  loaded.activeDay = getDateKey();
+}
+if (!Array.isArray(loaded.history)) {
+  loaded.history = [];
+}
 
     return {
       ...structuredClone(defaultState),
@@ -190,6 +208,73 @@ let state = loadState();
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
+
+function detectNewDay() {
+  const today = getDateKey();
+
+  if (state.activeDay !== today) {
+    console.log(
+      `[SYSTEM] New day detected. ${state.activeDay} -> ${today}`
+    );
+
+    return true;
+  }
+
+  return false;
+}
+
+function archiveCurrentDay() {
+  const dayKey = state.activeDay;
+
+  const alreadyArchived = state.history.some(
+    day => day.date === dayKey
+  );
+
+  if (alreadyArchived) {
+    return false;
+  }
+
+  const questsSnapshot = structuredClone(state.quests);
+
+  state.history.unshift({
+    date: dayKey,
+    totalQuests: questsSnapshot.length,
+    completedQuests: questsSnapshot.filter(
+      quest => quest.completed
+    ).length,
+    quests: questsSnapshot
+  });
+
+  return true;
+}
+
+function startNewDay() {
+  const today = getDateKey();
+
+  state.activeDay = today;
+
+  state.quests = state.quests.map(quest => ({
+    ...quest,
+    completed: false
+  }));
+
+  saveState();
+
+  return true;
+}
+
+function handleDayRollover() {
+  if (!detectNewDay()) {
+    return false;
+  }
+
+  archiveCurrentDay();
+  startNewDay();
+
+  return true;
+}
+
+handleDayRollover();
 
 function xpNeededForLevel(level) {
   return 100;
