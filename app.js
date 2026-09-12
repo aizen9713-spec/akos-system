@@ -46,7 +46,8 @@ const defaultState = {
     arc: "VILLAIN ORIGIN",
     level: 1,
     xp: 50,
-    streak: 1
+streak: 1,
+streakGoal: 7
   },
   stats: {
   str: 0,
@@ -142,6 +143,7 @@ skills: {
 }
   ],
   history: [],
+  achievements: [],
   log: [
     { id: crypto.randomUUID(), text: "[SYSTEM] Day 1 baseline loaded." }
   ]
@@ -161,6 +163,9 @@ function loadState() {
 }
 if (!Array.isArray(loaded.history)) {
   loaded.history = [];
+}
+if (!Array.isArray(loaded.achievements)) {
+  loaded.achievements = [];
 }
 
     return {
@@ -248,6 +253,47 @@ function archiveCurrentDay() {
   return true;
 }
 
+function updateStreakFromArchivedDay() {
+  const archivedDay = state.history[0];
+
+  if (!archivedDay) {
+    return false;
+  }
+
+  if (archivedDay.completedQuests > 0) {
+    state.player.streak += 1;
+  } else {
+    state.player.streak = 0;
+  }
+
+  return true;
+}
+
+function checkNoZeroDaysAchievement() {
+  const achievementId = "no-zero-days";
+
+  const alreadyUnlocked = state.achievements.some(
+    achievement => achievement.id === achievementId
+  );
+
+  if (alreadyUnlocked) {
+    return false;
+  }
+
+  if (state.player.streak >= state.player.streakGoal) {
+    state.achievements.push({
+      id: achievementId,
+      title: "NO ZERO DAYS",
+      description: "Completed at least one meaningful action for 7 consecutive days.",
+      unlockedAt: new Date().toISOString()
+    });
+
+    return true;
+  }
+
+  return false;
+}
+
 function startNewDay() {
   const today = getDateKey();
 
@@ -269,7 +315,10 @@ function handleDayRollover() {
   }
 
   archiveCurrentDay();
+  updateStreakFromArchivedDay();
+  checkNoZeroDaysAchievement();
   startNewDay();
+  render();
 
   return true;
 }
@@ -418,7 +467,8 @@ function renderPlayer() {
   document.getElementById("xpText").textContent = `${p.xp} / ${needed} XP`;
   document.getElementById("xpPercent").textContent = `${percent}%`;
   document.getElementById("xpFill").style.width = `${percent}%`;
-  document.getElementById("streakValue").textContent = p.streak;
+  document.getElementById("streakValue").textContent =
+  `${p.streak} / ${p.streakGoal}`;
 }
 
 function renderStats() {
@@ -573,7 +623,10 @@ if (completedList.children.length === 0) {
     const questDetails = day.quests
   .map(quest => `
     <div class="history-quest-item">
-      <span>${quest.completed ? "✓" : "○"} ${escapeHtml(quest.title)}</span>
+      <span class="${quest.completed ? "history-check done" : "history-check missed"}">
+  ${quest.completed ? "✓" : "✕"}
+</span>
+<span>${escapeHtml(quest.title)}</span>
       <span class="muted">${quest.completed ? "COMPLETED" : "INCOMPLETE"}</span>
     </div>
   `)
@@ -612,6 +665,35 @@ function renderLog() {
     list.appendChild(row);
   });
   
+}
+
+function renderAchievements() {
+  const list = document.getElementById("achievementList");
+
+  if (!list) {
+    return;
+  }
+
+  list.innerHTML = "";
+
+  if (state.achievements.length === 0) {
+    list.innerHTML = `<p class="muted">No achievements unlocked yet.</p>`;
+    return;
+  }
+
+  state.achievements.forEach(achievement => {
+    const card = document.createElement("div");
+    card.className = "achievement-item";
+
+    card.innerHTML = `
+      <strong>${escapeHtml(achievement.title)}</strong>
+      <div class="muted">
+        ${escapeHtml(achievement.description)}
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
 }
 
 function escapeHtml(value) {
@@ -680,6 +762,7 @@ function render() {
   renderSkills();
   renderQuests();
   renderDashboard();
+  renderAchievements();
   renderLog();
 }
 
