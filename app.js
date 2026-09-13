@@ -35,6 +35,234 @@ const DAILY_QUOTES = [
   "One disciplined decision can change the direction of an entire day."
 ];
 
+const WEEKLY_QUESTS = {
+  monday: [
+    {
+      title: "COMPLETE ONE MEANINGFUL ACTION",
+      xp: 10,
+      statRewards: { dis: 5 },
+      skillRewards: {}
+    },
+    {
+      title: "30 MIN DEVELOPMENT",
+      xp: 10,
+      statRewards: { int: 5 },
+      skillRewards: { appDevelopment: 5 }
+    },
+    {
+      title: "20-30 MIN LIGHT CARDIO OR WALK",
+      xp: 10,
+      statRewards: { end: 5 },
+      skillRewards: {}
+    },
+    {
+      title: "FINANCIAL CHECK",
+      xp: 5,
+      statRewards: { wis: 5 },
+      skillRewards: {}
+    }
+  ],
+
+  tuesday: [
+  {
+    title: "GYM SESSION",
+    xp: 15,
+    statRewards: { str: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "CARDIO FINISHER",
+    xp: 10,
+    statRewards: { end: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "PROTEIN TARGET",
+    xp: 5,
+    statRewards: { dis: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "5 MIN TRAINING LOG",
+    xp: 5,
+    statRewards: {},
+    skillRewards: {}
+  }
+],
+  wednesday: [
+  {
+    title: "ACTIVE RECOVERY",
+    xp: 10,
+    statRewards: { end: 3 },
+    skillRewards: {}
+  },
+  {
+    title: "AUTOMOTIVE LEARNING",
+    xp: 10,
+    statRewards: { int: 5 },
+    skillRewards: { automotive: 5 }
+  },
+  {
+    title: "SOCIAL ACTION",
+    xp: 10,
+    statRewards: { cha: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "EXPENSE CHECK",
+    xp: 5,
+    statRewards: { wis: 3 },
+    skillRewards: {}
+  }
+],
+  thursday: [
+  {
+    title: "GYM SESSION",
+    xp: 15,
+    statRewards: { str: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "CARDIO FINISHER",
+    xp: 10,
+    statRewards: { end: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "TRAINING LOG",
+    xp: 5,
+    statRewards: {},
+    skillRewards: {}
+  },
+  {
+    title: "NUTRITION COMPLIANCE",
+    xp: 5,
+    statRewards: { dis: 5 },
+    skillRewards: {}
+  }
+],
+  friday: [
+  {
+    title: "30 MIN MONEY OR BUSINESS WORK",
+    xp: 10,
+    statRewards: { wis: 5 },
+    skillRewards: { entrepreneurship: 5 }
+  },
+  {
+    title: "30 MIN SKILL DEVELOPMENT",
+    xp: 10,
+    statRewards: { int: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "CARDIO OR LONG WALK",
+    xp: 10,
+    statRewards: { end: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "ONE UNCOMFORTABLE ACTION",
+    xp: 10,
+    statRewards: {
+      cha: 3,
+      dis: 3
+    },
+    skillRewards: {}
+  }
+],
+ saturday: [
+  {
+    title: "GYM SESSION",
+    xp: 20,
+    statRewards: { str: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "CARDIO",
+    xp: 10,
+    statRewards: { end: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "WEEKLY CHALLENGE",
+    xp: 15,
+    statRewards: { dis: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "ENJOY LIFE",
+    xp: 5,
+    statRewards: { virtue: 2 },
+    skillRewards: {}
+  }
+],
+  sunday: [
+  {
+    title: "MEAL PREP",
+    xp: 10,
+    statRewards: { dis: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "WEEKLY REVIEW",
+    xp: 10,
+    statRewards: {
+      int: 3,
+      wis: 3
+    },
+    skillRewards: {}
+  },
+  {
+    title: "WEEKLY FINANCE REVIEW",
+    xp: 10,
+    statRewards: { wis: 5 },
+    skillRewards: {}
+  },
+  {
+    title: "RECOVERY",
+    xp: 5,
+    statRewards: { end: 2 },
+    skillRewards: {}
+  },
+  {
+    title: "PLAN NEXT WEEK",
+    xp: 5,
+    statRewards: { dis: 3 },
+    skillRewards: {}
+  }
+],
+};
+
+function getWeekdayKey(date = new Date()) {
+  const dayIndex = date.getDay();
+
+  const days = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday"
+  ];
+
+  return days[dayIndex];
+}
+
+function createDailyQuests(date = new Date()) {
+  const weekdayKey = getWeekdayKey(date);
+  const template = WEEKLY_QUESTS[weekdayKey] || [];
+
+  return template.map(quest => ({
+    id: crypto.randomUUID(),
+    title: quest.title,
+    xp: quest.xp,
+    completed: false,
+    statRewards: structuredClone(quest.statRewards || {}),
+    skillRewards: structuredClone(quest.skillRewards || {})
+  }));
+}
+
 function getDateKey() {
   const now = new Date();
 
@@ -53,7 +281,7 @@ const defaultState = {
     arc: "VILLAIN ORIGIN",
     level: 1,
     xp: 50,
-streak: 1,
+streak: 0,
 streakGoal: 7
   },
   stats: {
@@ -138,16 +366,49 @@ skills: {
     xp: 0
   }
 },
-  quests: [
-    {
-  id: crypto.randomUUID(),
-  title: "Complete one meaningful action today",
-  xp: 10,
-  completed: false,
-  statRewards: {
-    dis: 5
+quests: [
+  {
+    id: crypto.randomUUID(),
+    title: "COMPLETE ONE MEANINGFUL ACTION",
+    xp: 10,
+    completed: false,
+    statRewards: {
+      dis: 5
+    },
+    skillRewards: {}
+  },
+  {
+    id: crypto.randomUUID(),
+    title: "30 MIN DEVELOPMENT",
+    xp: 10,
+    completed: false,
+    statRewards: {
+      int: 5
+    },
+    skillRewards: {
+      appDevelopment: 5
+    }
+  },
+  {
+    id: crypto.randomUUID(),
+    title: "20-30 MIN LIGHT CARDIO OR WALK",
+    xp: 10,
+    completed: false,
+    statRewards: {
+      end: 5
+    },
+    skillRewards: {}
+  },
+  {
+    id: crypto.randomUUID(),
+    title: "FINANCIAL CHECK",
+    xp: 5,
+    completed: false,
+    statRewards: {
+      wis: 5
+    },
+    skillRewards: {}
   }
-}
   ],
   history: [],
   achievements: [],
@@ -155,7 +416,20 @@ skills: {
   initialized: true,
   initializedAt: "2026-09-13",
   version: "BETA 0.1",
-  note: "[SYSTEM INITIALIZATION] Baseline imported. Player profile established. Previous life: recorded. Grind start: NOW."
+  note: "[SYSTEM INITIALIZATION] Baseline imported. Player profile established. Previous life: recorded. Grind start: NOW.",
+
+  body: {
+    weightKg: 93.7,
+    waistCm: 100,
+    chestCm: 102,
+    armCm: {
+      relaxed: 35,
+      flexed: 38
+    },
+    thighCm: 60,
+    neckCm: 40,
+    restingHeartRate: "60-70"
+  }
 },
   log: [
     { id: crypto.randomUUID(), text: "[SYSTEM] Day 1 baseline loaded." }
@@ -325,10 +599,7 @@ function startNewDay() {
 
   state.activeDay = today;
 
-  state.quests = state.quests.map(quest => ({
-    ...quest,
-    completed: false
-  }));
+  state.quests = createDailyQuests();
 
   saveState();
 
@@ -804,6 +1075,7 @@ streak.textContent =
   })
   .join("");
 }
+
 function render() {
   renderPlayer();
   renderStats();
