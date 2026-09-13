@@ -151,10 +151,73 @@ skills: {
   ],
   history: [],
   achievements: [],
+  baseline: {
+  initialized: true,
+  initializedAt: "2026-09-13",
+  version: "BETA 0.1",
+  note: "[SYSTEM INITIALIZATION] Baseline imported. Player profile established. Previous life: recorded. Grind start: NOW."
+},
   log: [
     { id: crypto.randomUUID(), text: "[SYSTEM] Day 1 baseline loaded." }
   ]
 };
+
+function migrateState(rawState) {
+  const migrated = {
+    ...structuredClone(defaultState),
+    ...rawState,
+
+    player: {
+      ...defaultState.player,
+      ...(rawState.player || {})
+    },
+
+    stats: {
+      ...defaultState.stats,
+      ...(rawState.stats || {})
+    },
+
+    baseline: {
+  ...defaultState.baseline,
+  ...(rawState.baseline || {})
+},
+
+    skills: Object.fromEntries(
+      Object.entries(defaultState.skills).map(([skillKey, defaultSkill]) => [
+        skillKey,
+        {
+          ...defaultSkill,
+          ...(rawState.skills?.[skillKey] || {})
+        }
+      ])
+    ),
+
+    quests: (rawState.quests || defaultState.quests).map(quest => ({
+      ...quest,
+      statRewards:
+        quest.statRewards ??
+        (
+          quest.title === "Complete one meaningful action today"
+            ? { dis: 5 }
+            : {}
+        )
+    }))
+  };
+
+  if (!migrated.activeDay) {
+    migrated.activeDay = getDateKey();
+  }
+
+  if (!Array.isArray(migrated.history)) {
+    migrated.history = [];
+  }
+
+  if (!Array.isArray(migrated.achievements)) {
+    migrated.achievements = [];
+  }
+
+  return migrated;
+}
 
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -165,51 +228,7 @@ function loadState() {
 
   try {
     const loaded = JSON.parse(saved);
-    if (!loaded.activeDay) {
-  loaded.activeDay = getDateKey();
-}
-if (!Array.isArray(loaded.history)) {
-  loaded.history = [];
-}
-if (!Array.isArray(loaded.achievements)) {
-  loaded.achievements = [];
-}
-
-    return {
-      ...structuredClone(defaultState),
-      ...loaded,
-
-      player: {
-        ...defaultState.player,
-        ...(loaded.player || {})
-      },
-
-   stats: {
-  ...defaultState.stats,
-  ...(loaded.stats || {})
-},
-
-skills: Object.fromEntries(
-  Object.entries(defaultState.skills).map(([skillKey, defaultSkill]) => [
-    skillKey,
-    {
-      ...defaultSkill,
-      ...(loaded.skills?.[skillKey] || {})
-    }
-  ])
-),
-
-quests: (loaded.quests || defaultState.quests).map(quest => ({
-  ...quest,
-  statRewards:
-    quest.statRewards ??
-    (
-      quest.title === "Complete one meaningful action today"
-        ? { dis: 5 }
-        : {}
-    )
-}))
-    };
+    return migrateState(loaded);
   } catch {
     return structuredClone(defaultState);
   }
@@ -850,7 +869,7 @@ async function importSave(file) {
       return;
     }
 
-    state = imported.state;
+    state = migrateState(imported.state);
 
     saveState();
     render();

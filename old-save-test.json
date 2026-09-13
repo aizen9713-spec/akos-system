@@ -1,0 +1,23 @@
+{
+  "app": "AKOS SYSTEM",
+  "state": {
+    "player": {
+      "name": "Old Save Test",
+      "level": 1,
+      "xp": 25,
+      "streak": 3
+    },
+    "stats": {
+      "str": 10,
+      "end": 4
+    },
+    "quests": [
+      {
+        "id": "legacy-quest",
+        "title": "Legacy quest",
+        "xp": 5,
+        "completed": false
+      }
+    ]
+  }
+}
