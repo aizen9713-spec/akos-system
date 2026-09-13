@@ -995,6 +995,12 @@ function renderSettings() {
 
   document.getElementById("settings-body-checkin-day").value =
     state.settings.bodyCheckInDay;
+
+  document
+    .querySelectorAll(".training-days-options input[type='checkbox']")
+    .forEach(input => {
+      input.checked = state.settings.trainingDays.includes(input.value);
+    });
 }
 
 function saveSettingsFromForm() {
@@ -1009,6 +1015,12 @@ function saveSettingsFromForm() {
 
   state.settings.bodyCheckInDay =
     document.getElementById("settings-body-checkin-day").value;
+
+    state.settings.trainingDays = Array.from(
+  document.querySelectorAll(
+    ".training-days-options input[type='checkbox']:checked"
+  )
+).map(input => input.value);
 
   saveState();
   render();
