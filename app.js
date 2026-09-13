@@ -1001,6 +1001,14 @@ function renderSettings() {
     .forEach(input => {
       input.checked = state.settings.trainingDays.includes(input.value);
     });
+    document.getElementById("settings-mode-badge").textContent =
+  `MODE: ${state.settings.guidanceMode}`;
+
+document.getElementById("settings-units-badge").textContent =
+  `UNITS: ${state.settings.units.toUpperCase()}`;
+
+document.getElementById("settings-checkin-badge").textContent =
+  `CHECK-IN: ${state.settings.bodyCheckInDay.slice(0, 3).toUpperCase()}`;
 }
 
 function saveSettingsFromForm() {
@@ -1032,6 +1040,15 @@ function saveSettingsFromForm() {
 
   saveState();
   render();
+  const saveButton = document.getElementById("save-settings-btn");
+
+saveButton.textContent = "SAVED ✓";
+saveButton.classList.add("is-saved");
+
+setTimeout(() => {
+  saveButton.textContent = "SAVE SETTINGS";
+  saveButton.classList.remove("is-saved");
+}, 1200);
 }
 
 function renderAchievements() {
