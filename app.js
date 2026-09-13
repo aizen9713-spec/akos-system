@@ -431,6 +431,14 @@ quests: [
     restingHeartRate: "60-70"
   }
 },
+settings: {
+  guidanceMode: "HIGH",
+  units: "metric",
+  weekStartsOn: "monday",
+  trainingDays: ["tuesday", "thursday", "saturday"],
+  bodyCheckInDay: "sunday",
+  timezone: "Europe/Budapest"
+},
   log: [
     { id: crypto.randomUUID(), text: "[SYSTEM] Day 1 baseline loaded." }
   ]
@@ -454,6 +462,11 @@ function migrateState(rawState) {
     baseline: {
   ...defaultState.baseline,
   ...(rawState.baseline || {})
+},
+
+settings: {
+  ...defaultState.settings,
+  ...(rawState.settings || {})
 },
 
     skills: Object.fromEntries(
@@ -970,6 +983,45 @@ function renderLog() {
   
 }
 
+function renderSettings() {
+  document.getElementById("settings-guidance-mode").value =
+    state.settings.guidanceMode;
+
+  document.getElementById("settings-units").value =
+    state.settings.units;
+
+  document.getElementById("settings-week-start").value =
+    state.settings.weekStartsOn;
+
+  document.getElementById("settings-body-checkin-day").value =
+    state.settings.bodyCheckInDay;
+}
+
+function saveSettingsFromForm() {
+  state.settings.guidanceMode =
+    document.getElementById("settings-guidance-mode").value;
+
+  state.settings.units =
+    document.getElementById("settings-units").value;
+
+  state.settings.weekStartsOn =
+    document.getElementById("settings-week-start").value;
+
+  state.settings.bodyCheckInDay =
+    document.getElementById("settings-body-checkin-day").value;
+
+  saveState();
+  render();
+
+  state.log.unshift({
+    id: crypto.randomUUID(),
+    text: "[SYSTEM] Settings updated."
+  });
+
+  saveState();
+  render();
+}
+
 function renderAchievements() {
   const list = document.getElementById("achievementList");
 
@@ -1083,6 +1135,7 @@ function render() {
   renderQuests();
   renderDashboard();
   renderAchievements();
+  renderSettings();
   renderLog();
 }
 
@@ -1197,6 +1250,10 @@ document.getElementById("questInput").addEventListener("keydown", e => {
   if (e.key === "Enter") addQuest();
 });
 document.getElementById("resetBtn").addEventListener("click", resetSystem);
+
+document
+  .getElementById("save-settings-btn")
+  .addEventListener("click", saveSettingsFromForm);
 
 document
   .getElementById("exportSaveBtn")
