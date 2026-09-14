@@ -1350,6 +1350,9 @@ document
 
 render();
 
+window.addEventListener("online", renderSystemHealth);
+window.addEventListener("offline", renderSystemHealth);
+
 if (
   "serviceWorker" in navigator &&
   location.hostname !== "127.0.0.1" &&
