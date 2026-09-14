@@ -333,12 +333,6 @@
 
 <div id="page-system" class="app-page">
     <section class="card">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">SYSTEM LOG</p>
-          <h2>Recent events</h2>
-        </div>
-        </div>
         <div class="achievement-panel">
   <p class="eyebrow">ACHIEVEMENTS</p>
   <div id="achievementList"></div>
@@ -421,9 +415,50 @@
   <span></span>
 </div>
 
+<section class="system-health-card">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">SYSTEM DIAGNOSTICS</p>
+      <h2>System Health</h2>
+    </div>
+  </div>
+
+  <div class="system-health-grid">
+    <div class="health-item">
+      <span>App Version</span>
+      <strong id="health-app-version">BETA 0.1</strong>
+    </div>
+
+    <div class="health-item">
+      <span>Active Day</span>
+      <strong id="health-active-day">—</strong>
+    </div>
+
+    <div class="health-item">
+      <span>Storage</span>
+      <strong id="health-storage">—</strong>
+    </div>
+
+    <div class="health-item">
+      <span>Network</span>
+      <strong id="health-network">—</strong>
+    </div>
+
+    <div class="health-item">
+      <span>Last Save</span>
+      <strong id="health-last-save">—</strong>
+    </div>
+
+    <div class="health-item">
+      <span>Status</span>
+      <strong id="health-status">—</strong>
+    </div>
+  </div>
+</section>
+ 
         <div class="save-controls premium-controls">
 
-  <button
+          <button
     id="exportSaveBtn"
     class="system-control-btn control-export"
     type="button"
@@ -455,8 +490,15 @@
     <span class="control-icon">↻</span>
     <span>Reset</span>
   </button>
-
 </div>
+
+<div class="section-head">
+  <div>
+    <p class="eyebrow">SYSTEM LOG</p>
+    <h2>Recent events</h2>
+  </div>
+</div>
+
       <div id="logList" class="log-list"></div>
     </section>
     </div> <!-- page-system -->
