@@ -587,6 +587,38 @@ function updateStreakFromArchivedDay() {
   return true;
 }
 
+function recalculateStreak() {
+  const completedDays = state.history
+    .filter(day => day.completedQuests > 0)
+    .map(day => day.date)
+    .sort()
+    .reverse();
+
+  let streak = 0;
+
+let cursor = new Date();
+cursor.setHours(12, 0, 0, 0);
+cursor.setDate(cursor.getDate() - 1);
+
+while (true) {
+  const year = cursor.getFullYear();
+  const month = String(cursor.getMonth() + 1).padStart(2, "0");
+  const day = String(cursor.getDate()).padStart(2, "0");
+
+  const dateKey = `${year}-${month}-${day}`;
+
+    if (completedDays.includes(dateKey)) {
+      streak += 1;
+      cursor.setDate(cursor.getDate() - 1);
+      continue;
+    }
+
+    break;
+  }
+
+  state.player.streak = streak;
+}
+
 function checkNoZeroDaysAchievement() {
   const achievementId = "no-zero-days";
 
@@ -725,31 +757,36 @@ saveState();
 render();
 }
 
+function applyQuestRewards(quest) {
+  state.player.xp += quest.xp;
+
+  if (quest.statRewards) {
+    for (const [statKey, amount] of Object.entries(quest.statRewards)) {
+      if (state.stats[statKey] !== undefined) {
+        state.stats[statKey] += amount;
+      }
+    }
+  }
+
+  if (quest.skillRewards) {
+    for (const [skillKey, amount] of Object.entries(quest.skillRewards)) {
+      if (state.skills[skillKey]) {
+        state.skills[skillKey].xp += amount;
+      }
+    }
+  }
+
+  applyLevelUps();
+}
+
 function completeQuest(id) {
   const quest = state.quests.find(q => q.id === id);
   if (!quest || quest.completed) return;
 
   quest.completed = true;
-  state.player.xp += quest.xp;
-
-  if (quest.statRewards) {
-  for (const [statKey, amount] of Object.entries(quest.statRewards)) {
-    if (state.stats[statKey] !== undefined) {
-      state.stats[statKey] += amount;
-    }
-  }
-}
-
-if (quest.skillRewards) {
-  for (const [skillKey, amount] of Object.entries(quest.skillRewards)) {
-    if (state.skills[skillKey]) {
-      state.skills[skillKey].xp += amount;
-    }
-  }
-}
+applyQuestRewards(quest);
 
   addLog(`[QUEST COMPLETE] ${quest.title} · +${quest.xp} XP`);
-  applyLevelUps();
 
   saveState();
   render();
@@ -965,15 +1002,131 @@ row.innerHTML = `
     </summary>
 
     <div class="history-details">
-      ${questDetails}
-    </div>
+  ${questDetails}
+
+  <button
+    class="recover-day-btn"
+    type="button"
+    data-date="${day.date}"
+  >
+    RECOVER DAY
+  </button>
+</div>
   </details>
 `;
 
     historyList.appendChild(row);
   });
 }
+document.querySelectorAll(".recover-day-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    const targetDate = button.dataset.date;
+
+    const targetDay = state.history.find(
+  day => day.date === targetDate
+);
+
+if (!targetDay) {
+  return;
 }
+
+const details = button.closest(".history-details");
+
+if (!details) {
+  return;
+}
+
+const recoveryQuestList = targetDay.quests
+  .map(quest => `
+    <label class="recovery-quest-item">
+      <input
+        type="checkbox"
+        data-quest-id="${quest.id}"
+        ${quest.completed ? "checked" : ""}
+      >
+
+      <span>${escapeHtml(quest.title)}</span>
+    </label>
+  `)
+  .join("");
+
+details.innerHTML = `
+  <div class="recovery-panel">
+    <p class="eyebrow">MISSED DAY RECOVERY</p>
+    <h3>${targetDay.date}</h3>
+
+    <div class="recovery-quest-list">
+      ${recoveryQuestList}
+    </div>
+
+    <button
+      class="save-recovery-btn"
+      type="button"
+      data-date="${targetDay.date}"
+    >
+      SAVE CORRECTION
+    </button>
+  </div>
+`;
+const saveRecoveryButton =
+  details.querySelector(".save-recovery-btn");
+
+if (!saveRecoveryButton) {
+  return;
+}
+
+saveRecoveryButton.addEventListener("click", () => {
+  const recoveryPanel =
+    saveRecoveryButton.closest(".recovery-panel");
+
+  if (!recoveryPanel) {
+    return;
+  }
+
+  const checkedQuestIds = Array.from(
+    recoveryPanel.querySelectorAll(
+      'input[type="checkbox"]:checked'
+    )
+  ).map(input => input.dataset.questId);
+
+  let recoveredCount = 0;
+
+  targetDay.quests.forEach(quest => {
+    const shouldBeCompleted =
+      checkedQuestIds.includes(quest.id);
+
+    if (shouldBeCompleted && !quest.completed) {
+      quest.completed = true;
+
+      applyQuestRewards(quest);
+
+      addLog(
+        `[HISTORY CORRECTION] ${targetDay.date} - ${quest.title} recovered +${quest.xp} XP`
+      );
+
+      recoveredCount += 1;
+    }
+  });
+
+  targetDay.completedQuests =
+    targetDay.quests.filter(
+      quest => quest.completed
+    ).length;
+
+    recalculateStreak();
+checkNoZeroDaysAchievement();
+
+  addLog(
+    `[SYSTEM] History correction saved for ${targetDay.date}. ${recoveredCount} quest(s) recovered.`
+  );
+
+  saveState();
+  render();
+});
+  });
+});
+}
+
 
 function renderLog() {
   const list = document.getElementById("logList");
