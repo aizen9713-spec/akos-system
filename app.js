@@ -275,15 +275,17 @@ function getDateKey() {
 
 const defaultState = {
   activeDay: getDateKey(),
-  player: {
-    name: "Ákos",
-    title: "THE MAIN CHARACTER",
-    arc: "VILLAIN ORIGIN",
-    level: 1,
-    xp: 50,
-streak: 0,
-streakGoal: 7
-  },
+ player: {
+  name: "Ákos",
+  title: "THE MAIN CHARACTER",
+  arc: "VILLAIN ORIGIN",
+  level: 1,
+  xp: 50,
+  streak: 0,
+  bestStreak: 0,
+  totalActiveDays: 0,
+  streakGoal: 7
+},
   stats: {
   str: 0,
   end: 0,
@@ -411,6 +413,7 @@ quests: [
   }
   ],
   history: [],
+  historyCorrections: [],
   achievements: [],
   baseline: {
   initialized: true,
@@ -498,6 +501,10 @@ settings: {
   if (!Array.isArray(migrated.history)) {
     migrated.history = [];
   }
+
+if (!Array.isArray(migrated.historyCorrections)) {
+  migrated.historyCorrections = [];
+}
 
   if (!Array.isArray(migrated.achievements)) {
     migrated.achievements = [];
@@ -588,27 +595,63 @@ function updateStreakFromArchivedDay() {
 }
 
 function recalculateStreak() {
-  const completedDays = state.history
+  const activeDates = state.history
     .filter(day => day.completedQuests > 0)
     .map(day => day.date)
-    .sort()
-    .reverse();
+    .sort();
 
-  let streak = 0;
+  state.player.totalActiveDays = activeDates.length;
 
-let cursor = new Date();
-cursor.setHours(12, 0, 0, 0);
-cursor.setDate(cursor.getDate() - 1);
+  let bestStreak = 0;
+  let runningStreak = 0;
+  let previousDate = null;
 
-while (true) {
-  const year = cursor.getFullYear();
-  const month = String(cursor.getMonth() + 1).padStart(2, "0");
-  const day = String(cursor.getDate()).padStart(2, "0");
+  activeDates.forEach(dateKey => {
+    const currentDate = new Date(`${dateKey}T12:00:00`);
 
-  const dateKey = `${year}-${month}-${day}`;
+    if (!previousDate) {
+      runningStreak = 1;
+    } else {
+      const expectedNextDate = new Date(previousDate);
+      expectedNextDate.setDate(expectedNextDate.getDate() + 1);
 
-    if (completedDays.includes(dateKey)) {
-      streak += 1;
+      const expectedKey = `${expectedNextDate.getFullYear()}-${String(
+        expectedNextDate.getMonth() + 1
+      ).padStart(2, "0")}-${String(
+        expectedNextDate.getDate()
+      ).padStart(2, "0")}`;
+
+      if (dateKey === expectedKey) {
+        runningStreak += 1;
+      } else {
+        runningStreak = 1;
+      }
+    }
+
+    if (runningStreak > bestStreak) {
+      bestStreak = runningStreak;
+    }
+
+    previousDate = currentDate;
+  });
+
+  state.player.bestStreak = bestStreak;
+
+  let currentStreak = 0;
+
+  let cursor = new Date();
+  cursor.setHours(12, 0, 0, 0);
+  cursor.setDate(cursor.getDate() - 1);
+
+  while (true) {
+    const year = cursor.getFullYear();
+    const month = String(cursor.getMonth() + 1).padStart(2, "0");
+    const day = String(cursor.getDate()).padStart(2, "0");
+
+    const dateKey = `${year}-${month}-${day}`;
+
+    if (activeDates.includes(dateKey)) {
+      currentStreak += 1;
       cursor.setDate(cursor.getDate() - 1);
       continue;
     }
@@ -616,7 +659,7 @@ while (true) {
     break;
   }
 
-  state.player.streak = streak;
+  state.player.streak = currentStreak;
 }
 
 function checkNoZeroDaysAchievement() {
@@ -663,10 +706,10 @@ function handleDayRollover() {
 
   const archived = archiveCurrentDay();
 
-  if (archived) {
-    updateStreakFromArchivedDay();
-    checkNoZeroDaysAchievement();
-  }
+ if (archived) {
+  recalculateStreak();
+  checkNoZeroDaysAchievement();
+}
 
   startNewDay();
   render();
@@ -807,6 +850,7 @@ function resetSystem() {
   if (!okay) return;
 
   state = structuredClone(defaultState);
+  recalculateStreak();
   saveState();
   render();
 }
@@ -1055,6 +1099,10 @@ details.innerHTML = `
     <p class="eyebrow">MISSED DAY RECOVERY</p>
     <h3>${targetDay.date}</h3>
 
+    <p class="recovery-status">
+  Select only quests that were actually completed. Rewards are restored once.
+</p>
+
     <div class="recovery-quest-list">
       ${recoveryQuestList}
     </div>
@@ -1066,6 +1114,12 @@ details.innerHTML = `
     >
       SAVE CORRECTION
     </button>
+    <button
+  class="cancel-recovery-btn"
+  type="button"
+>
+  CANCEL
+</button>
   </div>
 `;
 const saveRecoveryButton =
@@ -1074,6 +1128,17 @@ const saveRecoveryButton =
 if (!saveRecoveryButton) {
   return;
 }
+
+const cancelRecoveryButton =
+  details.querySelector(".cancel-recovery-btn");
+
+if (!cancelRecoveryButton) {
+  return;
+}
+
+cancelRecoveryButton.addEventListener("click", () => {
+  render();
+});
 
 saveRecoveryButton.addEventListener("click", () => {
   const recoveryPanel =
@@ -1090,6 +1155,7 @@ saveRecoveryButton.addEventListener("click", () => {
   ).map(input => input.dataset.questId);
 
   let recoveredCount = 0;
+  let restoredXp = 0;
 
   targetDay.quests.forEach(quest => {
     const shouldBeCompleted =
@@ -1105,6 +1171,7 @@ saveRecoveryButton.addEventListener("click", () => {
       );
 
       recoveredCount += 1;
+      restoredXp += quest.xp;
     }
   });
 
@@ -1112,6 +1179,16 @@ saveRecoveryButton.addEventListener("click", () => {
     targetDay.quests.filter(
       quest => quest.completed
     ).length;
+
+    if (recoveredCount > 0) {
+  state.historyCorrections.push({
+    id: crypto.randomUUID(),
+    date: targetDay.date,
+    correctedAt: new Date().toISOString(),
+    recoveredQuests: recoveredCount,
+    restoredXp: restoredXp
+  });
+}
 
     recalculateStreak();
 checkNoZeroDaysAchievement();
@@ -1261,6 +1338,10 @@ function escapeHtml(value) {
 function renderDashboard() {
   const questProgress = document.getElementById("dashboardQuestProgress");
   const streak = document.getElementById("dashboardStreak");
+  const bestStreak =
+  document.getElementById("dashboardBestStreak");
+const activeDays =
+  document.getElementById("dashboardActiveDays");
   const growthSnapshot = document.getElementById("growthSnapshot");
   const dailyQuote = document.getElementById("dailyQuote");
 
@@ -1290,6 +1371,10 @@ dailyQuote.textContent = `"${DAILY_QUOTES[quoteIndex]}"`;
 
 streak.textContent =
   `${state.player.streak} / ${nextStreakMilestone}`;
+  bestStreak.textContent =
+  state.player.bestStreak;
+activeDays.textContent =
+  state.player.totalActiveDays;
   growthSnapshot.innerHTML = statEntries
   .map(([key, value]) => {
     const xp = value ?? 0;
@@ -1425,6 +1510,7 @@ async function importSave(file) {
     }
 
     state = migrateState(imported.state);
+    recalculateStreak();
 
     saveState();
     render();
