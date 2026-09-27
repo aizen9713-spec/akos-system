@@ -626,6 +626,40 @@ function archiveMissedDay(dateKey) {
   return true;
 }
 
+function repairMissingHistoryDays() {
+  if (!Array.isArray(state.history) || state.history.length === 0) {
+    return 0;
+  }
+
+  const archivedDates = state.history
+    .map(day => day.date)
+    .filter(Boolean)
+    .sort();
+
+  const lastArchivedDate =
+    archivedDates[archivedDates.length - 1];
+
+  let cursor =
+    addDaysToDateKey(lastArchivedDate, 1);
+
+  let repairedCount = 0;
+
+  while (cursor < state.activeDay) {
+    if (archiveMissedDay(cursor)) {
+      repairedCount += 1;
+    }
+
+    cursor = addDaysToDateKey(cursor, 1);
+  }
+
+  if (repairedCount > 0) {
+    recalculateStreak();
+    saveState();
+  }
+
+  return repairedCount;
+}
+
 function updateStreakFromArchivedDay() {
   const archivedDay = state.history[0];
 
@@ -773,6 +807,7 @@ function handleDayRollover() {
   return true;
 }
 
+repairMissingHistoryDays();
 handleDayRollover();
 
 function xpNeededForLevel(level) {
