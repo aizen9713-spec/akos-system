@@ -273,6 +273,32 @@ function getDateKey() {
   return `${year}-${month}-${day}`;
 }
 
+function dateKeyToLocalDate(dateKey) {
+  const [year, month, day] = dateKey.split("-").map(Number);
+
+  return new Date(
+    year,
+    month - 1,
+    day,
+    12,
+    0,
+    0,
+    0
+  );
+}
+
+function addDaysToDateKey(dateKey, amount) {
+  const date = dateKeyToLocalDate(dateKey);
+
+  date.setDate(date.getDate() + amount);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 const defaultState = {
   activeDay: getDateKey(),
  player: {
@@ -578,6 +604,28 @@ function archiveCurrentDay() {
   return true;
 }
 
+function archiveMissedDay(dateKey) {
+  const alreadyArchived = state.history.some(
+    day => day.date === dateKey
+  );
+
+  if (alreadyArchived) {
+    return false;
+  }
+
+  const missedDate = dateKeyToLocalDate(dateKey);
+  const questsSnapshot = createDailyQuests(missedDate);
+
+  state.history.unshift({
+    date: dateKey,
+    totalQuests: questsSnapshot.length,
+    completedQuests: 0,
+    quests: questsSnapshot
+  });
+
+  return true;
+}
+
 function updateStreakFromArchivedDay() {
   const archivedDay = state.history[0];
 
@@ -704,12 +752,20 @@ function handleDayRollover() {
     return false;
   }
 
-  const archived = archiveCurrentDay();
+  const previousActiveDay = state.activeDay;
+  const today = getDateKey();
 
- if (archived) {
+  archiveCurrentDay();
+
+  let missedDay = addDaysToDateKey(previousActiveDay, 1);
+
+  while (missedDay < today) {
+    archiveMissedDay(missedDay);
+    missedDay = addDaysToDateKey(missedDay, 1);
+  }
+
   recalculateStreak();
   checkNoZeroDaysAchievement();
-}
 
   startNewDay();
   render();
