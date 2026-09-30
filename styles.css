@@ -105,6 +105,25 @@ button {
   position: relative;
 }
 
+.daily-transmission {
+  border-color: rgba(103, 215, 255, 0.22);
+}
+
+.daily-transmission::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 48px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(103, 215, 255, 0.25),
+    rgba(103, 215, 255, 0)
+  );
+  pointer-events: none;
+}
+
 .player-card::before,
 .daily-transmission::before,
 .quest-row::before,
@@ -1532,4 +1551,56 @@ footer {
 .streak-meta strong {
   color: rgba(120, 235, 200, 0.95);
   font-size: 0.9rem;
+}
+
+.history-week-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+
+  margin: 10px 0 14px;
+  padding: 10px 12px;
+
+  border: 1px solid rgba(103, 215, 255, 0.14);
+  border-radius: 14px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(10, 24, 44, 0.72),
+    rgba(7, 18, 34, 0.88)
+  );
+}
+
+.history-week-nav button {
+  padding: 8px 11px;
+
+  border: 1px solid rgba(103, 215, 255, 0.22);
+  border-radius: 10px;
+
+  background: rgba(103, 215, 255, 0.08);
+  color: var(--accent);
+
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.history-week-nav button:hover:not(:disabled) {
+  background: rgba(103, 215, 255, 0.14);
+  border-color: rgba(103, 215, 255, 0.38);
+}
+
+.history-week-nav button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+#historyWeekLabel {
+  text-align: center;
+
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
 }
