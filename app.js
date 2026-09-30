@@ -12,6 +12,8 @@ const STAT_CONFIG = {
 
 const STREAK_MILESTONES = [7, 14, 30, 100];
 
+let historyWeekOffset = 0;
+
 function getNextStreakMilestone(streak) {
   return STREAK_MILESTONES.find(milestone => milestone > streak)
     ?? STREAK_MILESTONES[STREAK_MILESTONES.length - 1];
@@ -299,8 +301,40 @@ function addDaysToDateKey(dateKey, amount) {
   return `${year}-${month}-${day}`;
 }
 
+function getMondayDateKey(dateKey) {
+  const date = dateKeyToLocalDate(dateKey);
+
+  const day = date.getDay();
+  const diffToMonday = day === 0 ? -6 : 1 - day;
+
+  date.setDate(date.getDate() + diffToMonday);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const dayOfMonth = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${dayOfMonth}`;
+}
+
+function getHistoryWeekRange() {
+  const currentMonday = getMondayDateKey(getDateKey());
+
+  const startDate = addDaysToDateKey(
+    currentMonday,
+    historyWeekOffset * -7
+  );
+
+  const endDate = addDaysToDateKey(startDate, 6);
+
+  return {
+    startDate,
+    endDate
+  };
+}
+
 const defaultState = {
   activeDay: getDateKey(),
+  dailyMessageIndex: 0,
  player: {
   name: "Ákos",
   title: "THE MAIN CHARACTER",
@@ -550,6 +584,10 @@ if (!Array.isArray(migrated.historyCorrections)) {
     migrated.achievements = [];
   }
 
+  if (!Number.isInteger(migrated.dailyMessageIndex)) {
+  migrated.dailyMessageIndex = 0;
+}
+
   return migrated;
 }
 
@@ -787,6 +825,9 @@ function startNewDay() {
   const today = getDateKey();
 
   state.activeDay = today;
+
+  state.dailyMessageIndex =
+  (state.dailyMessageIndex + 1) % DAILY_QUOTES.length;
 
   state.quests = createDailyQuests();
 
@@ -1073,6 +1114,37 @@ function renderQuests() {
 const completedList = document.getElementById("completedQuestList");
 const historyList = document.getElementById("historyList");
 
+const historyPrevWeek =
+  document.getElementById("historyPrevWeek");
+
+const historyNextWeek =
+  document.getElementById("historyNextWeek");
+
+const historyWeekLabel =
+  document.getElementById("historyWeekLabel");
+
+  const { startDate, endDate } = getHistoryWeekRange();
+
+  historyWeekLabel.textContent =
+  historyWeekOffset === 0
+    ? `CURRENT WEEK · ${startDate} — ${endDate}`
+    : `${startDate} — ${endDate}`;
+
+historyNextWeek.disabled =
+  historyWeekOffset === 0;
+
+historyPrevWeek.onclick = () => {
+  historyWeekOffset += 1;
+  render();
+};
+
+historyNextWeek.onclick = () => {
+  if (historyWeekOffset > 0) {
+    historyWeekOffset -= 1;
+    render();
+  }
+};
+
 activeList.innerHTML = "";
 completedList.innerHTML = "";
 historyList.innerHTML = "";
@@ -1152,7 +1224,21 @@ if (completedList.children.length === 0) {
   if (state.history.length === 0) {
   historyList.innerHTML = `<p class="muted">No history yet.</p>`;
 } else {
-  state.history.forEach(day => {
+
+  const visibleHistory = state.history.filter(day =>
+    day.date >= startDate &&
+    day.date <= endDate
+  );
+
+  if (visibleHistory.length === 0) {
+    historyList.innerHTML = `
+      <p class="muted">
+        No history for this week.
+      </p>
+    `;
+  }
+
+  visibleHistory.forEach(day => {
     const row = document.createElement("div");
     row.className = "quest-row completed";
 
@@ -1484,19 +1570,11 @@ const activeDays =
   const totalQuests = quests.length;
   const stats = state.stats || {};
   const statEntries = Object.entries(stats);
-  const today = new Date();
+ const quoteIndex =
+  state.dailyMessageIndex % DAILY_QUOTES.length;
 
-const dayNumber = Math.floor(
-  Date.UTC(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate()
-  ) / 86400000
-);
-
-const quoteIndex = dayNumber % DAILY_QUOTES.length;
-
-dailyQuote.textContent = `"${DAILY_QUOTES[quoteIndex]}"`;
+dailyQuote.textContent =
+  `"${DAILY_QUOTES[quoteIndex]}"`;
 
   questProgress.textContent = `${completedQuests} / ${totalQuests}`;
   const nextStreakMilestone = getNextStreakMilestone(
