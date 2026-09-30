@@ -322,6 +322,15 @@ const defaultState = {
   wis: 0,
   virtue: 0
 },
+statLevels: {
+  str: 1,
+  end: 1,
+  int: 1,
+  dis: 1,
+  cha: 1,
+  wis: 1,
+  virtue: 1
+},
 skills: {
   automotive: {
     name: "Automotive",
@@ -488,6 +497,11 @@ function migrateState(rawState) {
       ...defaultState.stats,
       ...(rawState.stats || {})
     },
+
+    statLevels: {
+  ...defaultState.statLevels,
+  ...(rawState.statLevels || {})
+},
 
     baseline: {
   ...defaultState.baseline,
@@ -816,7 +830,31 @@ repairMissingHistoryDays();
 handleDayRollover();
 
 function xpNeededForLevel(level) {
-  return 100;
+  return 100 + (level - 1) * 50;
+}
+
+function statXpNeededForLevel(level) {
+  return 100 + (level - 1) * 20;
+}
+
+function applyStatLevelUps(statKey) {
+  if (state.stats[statKey] === undefined) return;
+  if (state.statLevels[statKey] === undefined) return;
+
+  let level = state.statLevels[statKey];
+  let needed = statXpNeededForLevel(level);
+
+  while (state.stats[statKey] >= needed) {
+    state.stats[statKey] -= needed;
+    state.statLevels[statKey] += 1;
+
+    addLog(
+      `[STAT LEVEL UP] ${statKey.toUpperCase()} reached Lv.${state.statLevels[statKey]}.`
+    );
+
+    level = state.statLevels[statKey];
+    needed = statXpNeededForLevel(level);
+  }
 }
 
 function applyLevelUps() {
@@ -900,12 +938,14 @@ function applyQuestRewards(quest) {
   state.player.xp += quest.xp;
 
   if (quest.statRewards) {
-    for (const [statKey, amount] of Object.entries(quest.statRewards)) {
-      if (state.stats[statKey] !== undefined) {
-        state.stats[statKey] += amount;
-      }
+  for (const [statKey, amount] of Object.entries(quest.statRewards)) {
+    if (state.stats[statKey] !== undefined) {
+      state.stats[statKey] += amount;
+
+      applyStatLevelUps(statKey);
     }
   }
+}
 
   if (quest.skillRewards) {
     for (const [skillKey, amount] of Object.entries(quest.skillRewards)) {
@@ -985,15 +1025,18 @@ function renderStats() {
   for (const [statKey, elements] of Object.entries(statMap)) {
     const xp = stats[statKey] || 0;
 
+    const level = state.statLevels[statKey] || 1;
+const needed = statXpNeededForLevel(level);
+
     const valueEl = document.getElementById(elements.value);
     const fillEl = document.getElementById(elements.fill);
 
     if (valueEl) {
-      valueEl.textContent = `${xp} XP`;
+      valueEl.textContent = `Lv.${level} · ${xp} / ${needed} XP`;
     }
 
     if (fillEl) {
-      const percent = Math.min((xp / 100) * 100, 100);
+      const percent = Math.min((xp / needed) * 100, 100);
       fillEl.style.width = `${percent}%`;
     }
   }
@@ -1466,8 +1509,9 @@ activeDays.textContent =
   growthSnapshot.innerHTML = statEntries
   .map(([key, value]) => {
     const xp = value ?? 0;
-    const xpNeeded = 100;
-    const progress = Math.min((xp / xpNeeded) * 100, 100);
+const level = state.statLevels[key] || 1;
+const xpNeeded = statXpNeededForLevel(level);
+const progress = Math.min((xp / xpNeeded) * 100, 100);
 
     return `
       <div class="growth-stat">
@@ -1476,7 +1520,7 @@ activeDays.textContent =
   ${STAT_CONFIG[key]?.icon || ""}
   ${key.toUpperCase()}
 </span>
-          <span>${xp} / ${xpNeeded} XP</span>
+          <span>Lv.${level} · ${xp} / ${xpNeeded} XP</span>
         </div>
 
         <div class="growth-bar">
