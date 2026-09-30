@@ -301,6 +301,7 @@ function addDaysToDateKey(dateKey, amount) {
 
 const defaultState = {
   activeDay: getDateKey(),
+  dailyMessageIndex: 0,
  player: {
   name: "Ákos",
   title: "THE MAIN CHARACTER",
@@ -535,6 +536,10 @@ if (!Array.isArray(migrated.historyCorrections)) {
   if (!Array.isArray(migrated.achievements)) {
     migrated.achievements = [];
   }
+
+  if (!Number.isInteger(migrated.dailyMessageIndex)) {
+  migrated.dailyMessageIndex = 0;
+}
 
   return migrated;
 }
@@ -1441,19 +1446,11 @@ const activeDays =
   const totalQuests = quests.length;
   const stats = state.stats || {};
   const statEntries = Object.entries(stats);
-  const today = new Date();
+ const quoteIndex =
+  state.dailyMessageIndex % DAILY_QUOTES.length;
 
-const dayNumber = Math.floor(
-  Date.UTC(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate()
-  ) / 86400000
-);
-
-const quoteIndex = dayNumber % DAILY_QUOTES.length;
-
-dailyQuote.textContent = `"${DAILY_QUOTES[quoteIndex]}"`;
+dailyQuote.textContent =
+  `"${DAILY_QUOTES[quoteIndex]}"`;
 
   questProgress.textContent = `${completedQuests} / ${totalQuests}`;
   const nextStreakMilestone = getNextStreakMilestone(
