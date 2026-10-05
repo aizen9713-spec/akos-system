@@ -1604,3 +1604,42 @@ footer {
   font-weight: 800;
   letter-spacing: 0.04em;
 }
+
+.transmission-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.transmission-head .eyebrow {
+  margin-bottom: 0;
+}
+
+.transmission-category {
+  padding: 5px 10px;
+
+  border: 1px solid rgba(103, 215, 255, 0.28);
+  border-radius: 999px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(103, 215, 255, 0.10),
+    rgba(103, 215, 255, 0.04)
+  );
+
+  color: var(--accent);
+
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+
+  box-shadow:
+    0 0 10px rgba(103, 215, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.daily-quote {
+  margin-top: 14px;
+}
