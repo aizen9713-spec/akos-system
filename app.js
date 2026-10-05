@@ -19,23 +19,46 @@ function getNextStreakMilestone(streak) {
     ?? STREAK_MILESTONES[STREAK_MILESTONES.length - 1];
 }
 
-const DAILY_QUOTES = [
-  "Discipline is choosing what you want most over what you want now.",
-  "A weak day completed is worth more than a perfect day postponed.",
-  "You do not need motivation. You need the next action.",
-  "Comfort is useful for recovery. Dangerous as a permanent residence.",
-  "Small steps repeated long enough become an unfair advantage.",
-  "The Player who repeats the basics eventually becomes the boss others cannot understand.",
-  "Recovery is not retreat. Weapons are maintained before the next battle.",
-  "Every excuse avoided becomes strength stored for later.",
-  "You are not behind. You are still building.",
-  "Progress becomes visible only after consistency becomes boring.",
-  "Do the difficult thing before it becomes the emergency.",
-  "The starting stats do not determine the final build.",
-  "There is no final form.",
-  "Build the life that makes discipline feel worth it.",
-  "One disciplined decision can change the direction of an entire day."
-];
+const DAILY_TRANSMISSIONS = {
+  discipline: [
+    "Discipline is choosing what you want most over what you want now.",
+    "A weak day completed is worth more than a perfect day postponed."
+  ],
+
+  focus: [
+    "You do not need motivation. You need the next action.",
+    "Do the difficult thing before it becomes the emergency."
+  ]
+};
+
+const DAILY_TRANSMISSION_CATEGORIES =
+  Object.keys(DAILY_TRANSMISSIONS);
+
+function getDailyTransmission() {
+  const categoryIndex =
+    state.dailyMessageIndex %
+    DAILY_TRANSMISSION_CATEGORIES.length;
+
+  const category =
+    DAILY_TRANSMISSION_CATEGORIES[categoryIndex];
+
+  const messages =
+    DAILY_TRANSMISSIONS[category];
+
+  const messageCycle =
+    Math.floor(
+      state.dailyMessageIndex /
+      DAILY_TRANSMISSION_CATEGORIES.length
+    );
+
+  const messageIndex =
+    messageCycle % messages.length;
+
+  return {
+    category,
+    message: messages[messageIndex]
+  };
+}
 
 const WEEKLY_QUESTS = {
   monday: [
@@ -826,9 +849,16 @@ function startNewDay() {
 
   state.activeDay = today;
 
-  state.dailyMessageIndex =
-  (state.dailyMessageIndex + 1) % DAILY_QUOTES.length;
+ const transmissionCount =
+  DAILY_TRANSMISSION_CATEGORIES.reduce(
+    (total, category) =>
+      total + DAILY_TRANSMISSIONS[category].length,
+    0
+  );
 
+state.dailyMessageIndex =
+  (state.dailyMessageIndex + 1) % transmissionCount;
+  
   state.quests = createDailyQuests();
 
   saveState();
@@ -1570,11 +1600,11 @@ const activeDays =
   const totalQuests = quests.length;
   const stats = state.stats || {};
   const statEntries = Object.entries(stats);
- const quoteIndex =
-  state.dailyMessageIndex % DAILY_QUOTES.length;
+const transmission =
+  getDailyTransmission();
 
 dailyQuote.textContent =
-  `"${DAILY_QUOTES[quoteIndex]}"`;
+  `"${transmission.message}"`;
 
   questProgress.textContent = `${completedQuests} / ${totalQuests}`;
   const nextStreakMilestone = getNextStreakMilestone(
