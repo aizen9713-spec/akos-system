@@ -41,14 +41,26 @@ self.addEventListener("fetch", event => {
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        const responseCopy = response.clone();
+  const url = new URL(event.request.url);
 
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseCopy);
-        });
+  if (
+    response.ok &&
+    url.origin === self.location.origin &&
+    url.pathname.startsWith(
+      new URL(self.registration.scope).pathname
+    )
+  ) {
+    const responseCopy = response.clone();
 
-        return response;
-      })
+    event.waitUntil(
+  caches.open(CACHE_NAME).then(cache =>
+    cache.put(event.request, responseCopy)
+  )
+);
+  }
+
+  return response;
+})
       .catch(() => caches.match(event.request))
   );
 });
