@@ -1,10 +1,10 @@
-const CACHE_NAME = "akos-system-v0.4.1";
+const CACHE_NAME = "akos-system-v0.4.2";
 
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
-  "./app.js?v=0.4.0",
+  "./app.js?v=0.4.2",
   "./manifest.webmanifest",
   "./icon-512-v2.png",
 ];
@@ -13,8 +13,12 @@ self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
+});
 
-  self.skipWaiting();
+self.addEventListener("message", event => {
+  if (event.data?.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener("activate", event => {

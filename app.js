@@ -1953,8 +1953,65 @@ if (
   location.hostname !== "127.0.0.1" &&
   location.hostname !== "localhost"
 ) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  window.addEventListener("load", async () => {
+    try {
+      const registration =
+        await navigator.serviceWorker.register("./sw.js", {
+          updateViaCache: "none"
+        });
+
+      const updatePanel =
+        document.getElementById("systemUpdatePanel");
+
+        let isRefreshing = false;
+
+navigator.serviceWorker.addEventListener(
+  "controllerchange",
+  () => {
+    if (isRefreshing) return;
+
+    isRefreshing = true;
+    window.location.reload();
+  }
+);
+
+        const updateButton =
+  document.getElementById("systemUpdateBtn");
+
+updateButton.addEventListener("click", () => {
+  if (registration.waiting) {
+    registration.waiting.postMessage({
+      type: "SKIP_WAITING"
+    });
+  }
+});
+
+      function checkForUpdate() {
+        if (
+          registration.waiting &&
+          navigator.serviceWorker.controller
+        ) {
+          updatePanel.hidden = false;
+        }
+      }
+
+      checkForUpdate();
+
+      registration.addEventListener("updatefound", () => {
+        const newWorker = registration.installing;
+
+        if (!newWorker) return;
+
+        newWorker.addEventListener("statechange", () => {
+          if (newWorker.state === "installed") {
+            checkForUpdate();
+          }
+        });
+      });
+
+    } catch (error) {
+      console.error("[SYSTEM] Update check failed:", error);
+    }
   });
 }
 // =========================
