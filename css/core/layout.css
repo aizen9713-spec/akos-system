@@ -1,0 +1,13 @@
+.app-shell {
+  width: min(1000px, 100%);
+  margin: 0 auto;
+  padding: 20px 14px 40px;
+}
+
+.system-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}

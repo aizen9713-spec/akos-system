@@ -1,0 +1,52 @@
+.system-update-panel {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: min(360px, calc(100% - 32px));
+  z-index: 9999;
+
+  padding: 2px;
+  border-radius: 16px;
+
+  background: linear-gradient(
+    135deg,
+    #67d7ff,
+    #245b85,
+    #67d7ff
+  );
+
+  box-shadow: 0 0 30px rgba(103, 215, 255, 0.18);
+}
+
+.system-update-content {
+  padding: 20px;
+  border-radius: 14px;
+  background: #071426;
+  color: #e8f5ff;
+}
+
+.system-update-content strong {
+  color: #67d7ff;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+.system-update-content p {
+  margin: 12px 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+#systemUpdateBtn {
+  width: 100%;
+  background: #67d7ff;
+  color: #041019;
+  font-weight: 900;
+}
+
+@media (max-width: 600px) {
+  .system-update-panel {
+    right: 16px;
+    bottom: 16px;
+  }
+}
