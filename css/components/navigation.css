@@ -64,3 +64,48 @@
     font-size: 0.65rem;
   }
 }
+
+/* SHADOW PROTOCOL — HUD V1 */
+
+.system-nav {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+
+  position: sticky;
+  top: 20px;
+
+  background: rgba(8, 18, 35, 0.78);
+  border: 1px solid rgba(103, 215, 255, 0.16);
+  border-radius: 18px;
+  padding: 12px;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.nav-btn {
+  justify-content: flex-start;
+  text-align: left;
+  width: 100%;
+  min-height: 48px;
+}
+
+.nav-btn.active {
+  border-color: rgba(111, 216, 255, 0.7);
+  box-shadow:
+    inset 0 0 20px rgba(54, 171, 255, 0.14),
+    0 0 14px rgba(54, 171, 255, 0.15);
+}
+
+.nav-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  width: 60%;
+  height: 2px;
+  background: #67d7ff;
+  box-shadow: 0 0 12px #67d7ff;
+}

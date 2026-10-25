@@ -1,13 +1,31 @@
 .app-shell {
-  width: min(1000px, 100%);
+  width: min(1400px, 100%);
   margin: 0 auto;
-  padding: 20px 14px 40px;
+  padding: 20px 18px 32px;
+
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  grid-template-areas:
+    "header content"
+    "nav    content";
+  gap: 18px 24px;
+  align-items: start;
 }
 
 .system-header {
+  grid-area: header;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 18px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.system-nav {
+  grid-area: nav;
+}
+
+.app-page,
+.app-page.active {
+  grid-area: content;
 }
