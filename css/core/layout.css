@@ -29,3 +29,16 @@
 .app-page.active {
   grid-area: content;
 }
+
+/* SHADOW PROTOCOL — Mobile layout */
+
+@media (max-width: 768px) {
+  .app-shell {
+    display: block;
+    padding: 16px 12px 90px;
+  }
+
+  .system-header {
+    margin-bottom: 16px;
+  }
+}

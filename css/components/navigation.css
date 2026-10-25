@@ -112,3 +112,23 @@
   background: #67d7ff;
   box-shadow: 0 0 12px #67d7ff;
 }
+
+/* SHADOW PROTOCOL — MOBILE HUD DOCK */
+
+@media (max-width: 768px) {
+  .system-nav {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+
+    margin: 0;
+    padding: 10px 12px;
+    z-index: 1000;
+  }
+}
