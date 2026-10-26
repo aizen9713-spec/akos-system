@@ -209,3 +209,25 @@
   align-items: center;
   gap: 12px;
 }
+
+/* SHADOW OS — Navigation V2 icon scaling */
+
+@media (min-width: 769px) {
+  .system-nav .nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .system-nav .nav-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .system-nav .nav-btn {
+    min-height: 54px;
+    gap: 8px;
+    padding: 8px;
+  }
+}
