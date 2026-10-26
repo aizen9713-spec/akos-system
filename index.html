@@ -705,7 +705,13 @@
     </p>
 
     <div class="training-sections">
-      <div>
+      <div
+  role="button"
+  tabindex="0"
+  aria-label="Open Workout Log"
+  onclick="showPage('workout')"
+  onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); showPage('workout'); }"
+>
   <svg
     width="28"
     height="28"
@@ -728,20 +734,21 @@
 </div>
       <div>
   <svg
-    width="28"
-    height="28"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.8"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    aria-hidden="true"
-  >
-    <path d="m22 7-8.5 8.5-5-5L2 17"/>
-    <path d="M16 7h6v6"/>
-  </svg>
-  <span>STRENGTH PROGRESS</span>
+  width="28"
+  height="28"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  <path d="M3 12a9 9 0 1 0 2.6-6.4"/>
+  <path d="M3 3v5h5"/>
+  <path d="M12 7v5l3 2"/>
+</svg>
+  <span>HISTORY</span>
 </div>
       <div>
   <svg
@@ -780,6 +787,29 @@
 
   </section>
 
+</div>
+<!-- SHADOW OS — WORKOUT LOG -->
+
+<div id="page-workout" class="app-page">
+  <section class="card">
+    <button
+  type="button"
+  class="training-back-btn"
+  onclick="showPage('training')"
+>
+  ← BACK TO TRAINING
+</button>
+
+    <p class="eyebrow">TRAINING / WORKOUT LOG</p>
+    <h2>WORKOUT LOG</h2>
+
+    <p class="muted">
+      Record exercises, sets, reps and weights.
+    </p>
+
+    <p>WORKOUT LOG V1 — UNDER DEVELOPMENT</p>
+
+  </section>
 </div>
   </main>
 
