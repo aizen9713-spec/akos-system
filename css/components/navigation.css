@@ -132,3 +132,22 @@
     z-index: 1000;
   }
 }
+
+
+/* SHADOW PROTOCOL — Mobile HUD buttons */
+
+@media (max-width: 768px) {
+  .system-nav .nav-btn {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 2px;
+    font-size: 0.65rem;
+    text-align: center;
+  }
+
+  .system-nav .nav-icon {
+    font-size: 1.25rem;
+  }
+}
