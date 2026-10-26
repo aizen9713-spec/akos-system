@@ -2,60 +2,12 @@
   box-sizing: border-box;
 }
 
-:root {
-  --bg: #070b14;
-  --panel: #0d1423;
-  --panel-2: #121b2d;
-  --border: #26334d;
-  --text: #f3f7ff;
---muted: #b8c7da;
---accent: #6fd8ff;
---accent-2: #86efac;
-  --danger: #fca5a5;
-}
 
-body {
-  margin: 0;
-  background-image:
-  linear-gradient(rgba(7, 11, 20, 0.44), rgba(7, 11, 20, 0.54)),
-  radial-gradient(circle at top right, rgba(97, 218, 251, 0.09), transparent 30%),
-  url("./system-bg.png");
-
-background-size: cover;
-background-position: center top;
-background-repeat: no-repeat;
-background-attachment: fixed;
-  color: var(--text);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  min-height: 100vh;
-}
-
-button, input {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-.app-shell {
-  width: min(1000px, 100%);
-  margin: 0 auto;
-  padding: 20px 14px 40px;
-}
-
-.system-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 18px;
-}
 
 .system-header h1 {
   margin: 2px 0 0;
   letter-spacing: 0.08em;
-  font-size: clamp(1.55rem, 6vw, 2.3rem);
+  font-size: 0.95rem;
 }
 
 .status-dot {
@@ -649,70 +601,7 @@ footer {
     padding: 14px;
   }
 }
-/* =========================
-   SYSTEM NAVIGATION v1
-   ========================= */
 
-.system-nav {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin: 12px 0 16px;
-  padding: 6px;
-  background: rgba(8, 18, 35, 0.85);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-}
-
-.nav-btn {
-  background: rgba(10, 18, 32, 0.72);
-  border: 1px solid rgba(110, 180, 255, 0.14);
-  color: #dcecff;
-  border-radius: 12px;
-  padding: 10px 16px;
-  transition: all 0.18s ease;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
-}
-
-.nav-btn:hover {
-  transform: translateY(-1px);
-  border-color: rgba(120, 200, 255, 0.26);
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.22),
-    0 0 16px rgba(111, 216, 255, 0.08);
-}
-
-.nav-btn.active {
-  background: linear-gradient(
-    180deg,
-    rgba(32, 89, 163, 0.45),
-    rgba(15, 52, 99, 0.62)
-  );
-  border-color: rgba(120, 210, 255, 0.34);
-  color: #ffffff;
-  box-shadow:
-    0 0 18px rgba(111, 216, 255, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.nav-icon {
-  font-size: 1rem;
-}
-
-@media (max-width: 500px) {
-  .system-nav {
-    position: sticky;
-    bottom: 8px;
-    z-index: 100;
-  }
-
-  .nav-btn {
-    flex-direction: column;
-    gap: 3px;
-    padding: 8px 4px;
-    font-size: 0.65rem;
-  }
-}
 /* =========================
    APP PAGES
    ========================= */
@@ -1643,3 +1532,8 @@ footer {
 .daily-quote {
   margin-top: 14px;
 }
+
+.system-update-panel[hidden] {
+  display: none;
+}
+

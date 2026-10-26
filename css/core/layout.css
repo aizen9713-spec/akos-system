@@ -1,0 +1,173 @@
+.app-shell {
+  width: min(1400px, 100%);
+  margin: 0 auto;
+  padding: 20px 18px 32px;
+
+  display: grid;
+  grid-template-columns: 156px minmax(0, 1fr);
+  grid-template-areas:
+    "header content"
+    "nav    content";
+  gap: 18px 24px;
+  align-items: start;
+}
+
+.system-header {
+  grid-area: header;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.system-nav {
+  grid-area: nav;
+}
+
+.app-page,
+.app-page.active {
+  grid-area: content;
+}
+
+/* SHADOW PROTOCOL — Mobile layout */
+
+@media (max-width: 768px) {
+  .app-shell {
+    display: block;
+    padding: 16px 12px 90px;
+  }
+
+  .system-header {
+    margin-bottom: 16px;
+  }
+}
+
+/* SHADOW OS — Desktop HUD alignment */
+
+@media (min-width: 769px) {
+  .app-shell {
+    grid-template-rows: auto 1fr;
+    align-content: start;
+  }
+
+  .system-header {
+    align-self: start;
+  }
+
+  .system-nav {
+    align-self: start;
+    top: 0;
+  }
+}
+
+/* SHADOW OS — Compact desktop header */
+
+@media (min-width: 769px) {
+  .system-header h1 {
+  font-size: 0.95rem;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  margin: 4px 0;
+}
+
+  .system-header .eyebrow {
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+
+/* SHADOW OS — Premium Brand V1 */
+
+.shadow-os-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  margin: 5px 0 8px;
+}
+
+.shadow-os-word {
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.035em;
+  color: #e8f7ff;
+  text-shadow: 0 0 12px rgba(103, 215, 255, 0.35);
+}
+
+.shadow-os-badge {
+  padding: 3px 5px;
+  border: 1px solid rgba(103, 215, 255, 0.65);
+  border-radius: 5px;
+  background: rgba(18, 64, 96, 0.6);
+  color: #7edfff;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  box-shadow: 0 0 12px rgba(103, 215, 255, 0.13);
+}
+
+/* SHADOW OS — Command Header Layout V1 */
+
+@media (min-width: 769px) {
+  .app-shell {
+    grid-template-areas:
+      "header header"
+      "nav content";
+
+    grid-template-rows: auto 1fr;
+  }
+
+  .system-header {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* SHADOW OS — Command Header Design */
+
+@media (min-width: 769px) {
+  .system-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px 24px;
+    min-height: 94px;
+
+    background: linear-gradient(
+      110deg,
+      rgba(8, 20, 38, 0.95),
+      rgba(13, 37, 62, 0.82)
+    );
+
+    border: 1px solid rgba(103, 215, 255, 0.28);
+    border-radius: 16px;
+
+    box-shadow:
+      0 12px 35px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+}
+
+  .system-header {
+  padding: 26px 32px;
+  min-height: 128px;
+}
+
+.shadow-os-brand {
+  gap: 10px;
+  margin: 8px 0 12px;
+}
+
+.shadow-os-word {
+  font-size: 1.55rem;
+}
+
+.shadow-os-badge {
+  padding: 5px 9px;
+  font-size: 0.82rem;
+}
