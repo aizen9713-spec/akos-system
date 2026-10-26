@@ -643,7 +643,10 @@
   </section>
 
 <div class="modules-grid">
-  <section class="card module-card">
+ <section
+  class="card module-card"
+  onclick="showPage('training')"
+>
     <div class="module-card-icon" aria-hidden="true">
   <svg
   xmlns="http://www.w3.org/2000/svg"
@@ -679,6 +682,104 @@
   </span>
 </section>
 </div> <!-- modules-grid -->
+</div>
+<!-- SHADOW OS — TRAINING SYSTEM -->
+
+<div id="page-training" class="app-page">
+
+  <section class="card">
+
+    <button
+  type="button"
+  class="training-back-btn"
+  onclick="showPage('modules')"
+>
+  ← BACK TO MODULES
+</button>
+
+    <p class="eyebrow">SYSTEM MODULE / 01</p>
+    <h2>TRAINING SYSTEM</h2>
+
+    <p class="muted">
+      Strength · Cardio · Recovery
+    </p>
+
+    <div class="training-sections">
+      <div>
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <rect x="8" y="4" width="8" height="4" rx="1"/>
+    <path d="M9 5H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3"/>
+    <path d="m8 13 1 1 2-2"/>
+    <path d="M13 13h4"/>
+    <path d="m8 18 1 1 2-2"/>
+    <path d="M13 18h4"/>
+  </svg>
+  <span>WORKOUT LOG</span>
+</div>
+      <div>
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="m22 7-8.5 8.5-5-5L2 17"/>
+    <path d="M16 7h6v6"/>
+  </svg>
+  <span>STRENGTH PROGRESS</span>
+</div>
+      <div>
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>
+    <path d="M3.3 12h4l2-3 3 6 2-3h6.3"/>
+  </svg>
+  <span>CARDIO</span>
+</div>
+      <div>
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M20.985 12.486A9 9 0 0 1 11.514 3.015 9 9 0 1 0 20.985 12.486Z"/>
+  </svg>
+  <span>RECOVERY</span>
+</div>
+    </div>
+
+  </section>
+
 </div>
   </main>
 
