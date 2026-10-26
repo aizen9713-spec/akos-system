@@ -7,7 +7,7 @@
 .system-header h1 {
   margin: 2px 0 0;
   letter-spacing: 0.08em;
-  font-size: clamp(1.55rem, 6vw, 2.3rem);
+  font-size: 0.95rem;
 }
 
 .status-dot {
