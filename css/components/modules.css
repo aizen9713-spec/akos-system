@@ -1,0 +1,96 @@
+/* SHADOW OS — MODULES HUB V1 */
+
+.module-card {
+  border: 1px solid rgba(103, 215, 255, 0.3);
+  background: linear-gradient(
+    135deg,
+    rgba(12, 31, 52, 0.95),
+    rgba(7, 18, 33, 0.92)
+  );
+  transition: border-color 0.2s ease;
+}
+
+.module-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.module-number {
+  color: #76c9ed;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.module-status {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 5px 10px;
+  border: 1px solid rgba(218, 179, 100, 0.35);
+  border-radius: 6px;
+  color: #e0bd7e;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+/* SHADOW OS — Responsive Module Grid */
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.modules-grid .module-card {
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .modules-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
+
+/* SHADOW OS — Module Card Layout V1 */
+
+.modules-grid .module-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  gap: 12px;
+  min-height: 230px;
+  padding: 22px 14px;
+}
+
+.module-card-header {
+  align-items: center;
+}
+
+.module-card-icon {
+  width: 76px;
+  height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #8cdeff;
+  background: rgba(18, 58, 88, 0.55);
+  border: 1px solid rgba(103, 215, 255, 0.4);
+  border-radius: 18px;
+}
+
+.module-card-icon svg {
+  width: 44px;
+  height: 44px;
+}
+
+.module-status {
+  margin-top: auto;
+}
