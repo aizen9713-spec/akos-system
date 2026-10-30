@@ -14,16 +14,17 @@ if(typeof document==='undefined')return;
 const key='akos-system-v0.1.0',prefix='shadow-cloud-v1:';
 let session=null,config=null,busy=false,baseline=null,preview=null,epoch=0;
 const connectionKey=prefix+'connection';
+const editingFields=new WeakSet();
 let observedRevision=null,lastRead=null,lastWrite=null,lastApply=null,lastError=null;
 const panel=document.createElement('section');panel.className='card';panel.id='cloud-core-panel';
  const style=document.createElement('style');style.textContent='#cloud-core-panel label{display:grid;gap:6px;margin:12px 0}#cloud-core-panel input{width:100%;min-width:0;box-sizing:border-box}#cloud-core-panel button{min-height:44px;margin:6px;white-space:normal}#cloud-core-panel pre{overflow-wrap:anywhere}';document.head.appendChild(style);
-panel.innerHTML='<h2>CLOUD CORE · BUILD 1.2</h2><p>Fejlesztői teszt. Első kapcsolódáskor az eltérő mentéseket egyeztesd. Utána a kapcsolat automatikusan folytatódik. A megjelenés eszközönként marad.</p><p>Csak külön Supabase tesztprojekttel használd. Éles adatokat ne kapcsolj hozzá.</p><label><input id="cloud-test-project" type="checkbox"> Megerősítem, hogy külön tesztprojektet és tesztadatokat használok.</label><label>Supabase URL<input id="cloud-url" type="url" placeholder="https://project.supabase.co"></label><label>Publishable kulcs<input id="cloud-key" autocomplete="off"></label><label>Email<input id="cloud-email" type="email" autocomplete="username"></label><label>Jelszó<input id="cloud-password" type="password" autocomplete="current-password"></label><button id="cloud-login" type="button">Bejelentkezés</button><button id="cloud-stop" type="button">Kijelentkezés és automatikus kapcsolat törlése</button><p id="cloud-status" role="status">Kikapcsolva · csak helyi mentés</p><pre id="cloud-preview" style="white-space:pre-wrap"></pre><div id="cloud-choices" hidden><button id="cloud-local" type="button">Ez az eszköz legyen a forrás</button><button id="cloud-remote" type="button">A felhő legyen a forrás</button></div>';
+panel.innerHTML='<h2>CLOUD CORE · BUILD 1.3</h2><p>Fejlesztői teszt. Első kapcsolódáskor az eltérő mentéseket egyeztesd. Utána a kapcsolat automatikusan folytatódik. A megjelenés eszközönként marad.</p><p>Csak külön Supabase tesztprojekttel használd. Éles adatokat ne kapcsolj hozzá.</p><label><input id="cloud-test-project" type="checkbox"> Megerősítem, hogy külön tesztprojektet és tesztadatokat használok.</label><label>Supabase URL<input id="cloud-url" type="url" placeholder="https://project.supabase.co"></label><label>Publishable kulcs<input id="cloud-key" autocomplete="off"></label><label>Email<input id="cloud-email" type="email" autocomplete="username"></label><label>Jelszó<input id="cloud-password" type="password" autocomplete="current-password"></label><button id="cloud-login" type="button">Bejelentkezés</button><button id="cloud-stop" type="button">Kijelentkezés és automatikus kapcsolat törlése</button><p id="cloud-status" role="status">Kikapcsolva · csak helyi mentés</p><pre id="cloud-preview" style="white-space:pre-wrap"></pre><div id="cloud-choices" hidden><button id="cloud-local" type="button">Ez az eszköz legyen a forrás</button><button id="cloud-remote" type="button">A felhő legyen a forrás</button></div>';
 (document.getElementById('page-system')||document.querySelector('main')).appendChild(panel);
 const el=id=>document.getElementById('cloud-'+id),status=s=>el('status').textContent=s;
 const diagnostics=document.createElement('pre');diagnostics.id='cloud-diagnostics';panel.appendChild(diagnostics);
 function diagnose(){
  try{const raw=localStorage.getItem(key),x=raw?validate(raw):null;
- diagnostics.textContent=JSON.stringify({build:'Cloud Core 1.2',session:session?'Bejelentkezve · automatikus szinkron':'Nincs session: jelentkezz be',online:navigator.onLine,helyiMentes:x?.lastSavedAt??null,kipipaltQuest:x?.quests.filter(q=>q.completed).length??0,revision:observedRevision,utolsoOlvasas:lastRead,utolsoFeltoltes:lastWrite,utolsoUIFrissites:lastApply,valasztasSzukseges:!!preview,hiba:lastError,serviceWorker:navigator.serviceWorker?.controller?.scriptURL??'Nincs vezérlő'},null,2);
+ diagnostics.textContent=JSON.stringify({build:'Cloud Core 1.3',session:session?'Bejelentkezve · automatikus szinkron':'Nincs session: jelentkezz be',online:navigator.onLine,helyiMentes:x?.lastSavedAt??null,kipipaltQuest:x?.quests.filter(q=>q.completed).length??0,revision:observedRevision,utolsoOlvasas:lastRead,utolsoFeltoltes:lastWrite,utolsoUIFrissites:lastApply,valasztasSzukseges:!!preview,hiba:lastError,serviceWorker:navigator.serviceWorker?.controller?.scriptURL??'Nincs vezérlő'},null,2);
  }catch(e){diagnostics.textContent='Helyi diagnózis: '+e.message;}
 }
 diagnose();status('Nincs bejelentkezés · csak helyi mentés. Bejelentkezés után a kapcsolat ezen az eszközön megmarad.');
@@ -52,7 +53,7 @@ function pull(local,remote){
  const next=migrateState(validate(remote.payload));
  if(next.training===undefined && state.training)next.training=structuredClone(state.training);
  if(localStorage.getItem(key)!==local)throw Error('A helyi mentés megváltozott; új összehasonlítás szükséges.');
- if(document.activeElement?.matches('input,textarea,select'))throw Error('Aktív szerkesztés: felhőbetöltés szünetel.');
+ if(document.activeElement && editingFields.has(document.activeElement))throw Error('Aktív szerkesztés: felhőbetöltés szünetel.');
  checkpoint(local,remote);const previous=state;
  try{localStorage.setItem(key,JSON.stringify(next));state=next;render();baseline=remote.payload;lastApply=new Date().toISOString();persist();status('Felhőmentés betöltve · felhasználói teszt szükséges');}
  catch(e){state=previous;localStorage.setItem(key,local);throw e;}
@@ -94,6 +95,8 @@ el('login').onclick=async()=>{
  await sync();
 };
 el('stop').onclick=()=>{if(busy){status('Folyamatban lévő kérés befejezésére várj, majd állítsd le.');return;}stop();};el('local').onclick=()=>sync('local');el('remote').onclick=()=>sync('remote');
+document.addEventListener('input',event=>{if(event.target?.matches('input,textarea,select,[contenteditable="true"]')&&!panel.contains(event.target))editingFields.add(event.target);},true);
+document.addEventListener('focusout',event=>{editingFields.delete(event.target);return Promise.resolve().then(()=>sync());},true);
 setInterval(()=>{diagnose();return sync();},5000);window.addEventListener('focus',()=>sync());document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')sync();});window.addEventListener('online',()=>sync());window.addEventListener('offline',()=>status('Offline · helyi mentés megőrizve, szinkronizálás később'));
 root.cloudReady=(async()=>{try{const saved=readConnection();if(!saved)return;config=saved.config;session=saved.session;baseline=saved.baseline;el('url').value=config.url;el('key').value=config.key;el('test-project').checked=true;status('Mentett kapcsolat · automatikus összehasonlítás');await sync();}catch(e){session=null;status(e.message);diagnose();}})();
 })(globalThis);
