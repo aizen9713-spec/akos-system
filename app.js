@@ -108,6 +108,13 @@ document
     event.target.value = "";
   });
 
+const unlocked7Day = checkNoZeroDaysAchievement();
+const unlockedMilestones = checkStreakMilestones();
+
+if (unlocked7Day || unlockedMilestones > 0) {
+  saveState();
+}
+
 render();
 
 window.addEventListener("online", renderSystemHealth);
