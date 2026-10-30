@@ -18,6 +18,11 @@ html[data-background="shadow-core"] {
 /* Both cinematic colorways reuse the shipped illustration; original generated assets were unavailable. */
 html[data-background="shadow-gold"] {--wallpaper-filter:sepia(1) saturate(1.4);}
 html[data-background="shadow-blue"] {--wallpaper-filter:sepia(1) saturate(1.8) hue-rotate(165deg);}
+html[data-background="crimson-eclipse"] {--wallpaper:url("../../assets/backgrounds/crimson-eclipse.webp");}
+html[data-background="golden-sanctum"] {--wallpaper:url("../../assets/backgrounds/golden-sanctum.webp");}
+html[data-background="obsidian-gold"] {--wallpaper:url("../../assets/backgrounds/obsidian-gold.webp");}
+html[data-background="misty-mountains"] {--wallpaper:url("../../assets/backgrounds/misty-mountains.webp");}
+html[data-background="crimson-crown"] {--wallpaper:url("../../assets/backgrounds/crimson-crown.webp");}
 /* Local reading surfaces stay dark even at 100% wallpaper visibility. */
 .card,.system-header,.system-nav,.appearance-settings,.system-update-content {
  background:linear-gradient(180deg,rgba(var(--surface-rgb),.93),rgba(var(--surface-rgb),.97));

@@ -11,9 +11,15 @@
 - No player save, backup, XP, quest or progression code changes. No new network asset dependencies.
 - Service worker cache advances to akos-system-background-v1.1; the existing illustration remains precached.
 
-## Artwork provenance and limitation
+## Supplied wallpaper pack (2026-10-30)
 
-The referenced conversation exposed only a screenshot of the previous interface, not the generated gold/blue wallpaper originals. The repository contains system-bg.png. Gold and Blue deliberately reuse that illustration through separate fixed CSS color filters; they are NOT the previously generated new artworks. The UI says this. No screenshot was used as wallpaper. When the original files are supplied, replace the colorway background URLs and remove their filters; add those files to sw.js ASSETS. The rest of the engine needs no change.
+Added all five artworks from the supplied shadow-os-backgrounds-2560x1440.zip as separate Background options: Crimson Eclipse, Golden Sanctum, Obsidian Gold, Misty Mountains, Crimson Crown. Optimized WebP copies retain 2560×1440 resolution at quality 86 (about 1.3 MB total instead of 29.6 MB PNG). The original ZIP remains unchanged. No color filters are applied to these five artworks. Existing preferences, backgrounds and default selection are preserved; the old Shadow Gold/Blue colorways remain available. All five files are precached for offline use, with a new service worker cache version.
+
+Verification: all 30 theme/background combinations, each new image decoded at 2560×1440, correct CSS image URL and filter=none, visibility/reload persistence and unchanged player save, responsive layout, local live-server checks, and offline image decoding.
+
+## Earlier artwork provenance (historical)
+
+The referenced conversation exposed only a screenshot of the previous interface, not the generated gold/blue wallpaper originals. The repository contains system-bg.png. Gold and Blue deliberately reuse that illustration through separate fixed CSS color filters; they are NOT the previously generated new artworks. The UI says this. No screenshot was used as wallpaper. The supplied pack is now integrated above as five additional choices; the earlier colorways are retained for compatibility.
 
 ## Architectural rationale
 

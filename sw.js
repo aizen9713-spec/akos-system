@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-background-v1.1";
+const CACHE_NAME = "akos-system-background-v1.1-wallpapers-1";
 
 const ASSETS = [
   "./",
@@ -8,6 +8,11 @@ const ASSETS = [
   "./manifest.webmanifest",
   "./icon-512-v2.png",
   "./system-bg.png",
+  "./assets/backgrounds/crimson-eclipse.webp",
+  "./assets/backgrounds/golden-sanctum.webp",
+  "./assets/backgrounds/obsidian-gold.webp",
+  "./assets/backgrounds/misty-mountains.webp",
+  "./assets/backgrounds/crimson-crown.webp",
   "./css/components/appearance.css",
   "./css/components/modules.css",
   "./css/components/navigation.css",
