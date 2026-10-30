@@ -20,3 +20,10 @@
  --text:#fff1f5; --text-rgb:255,241,245; --muted:#d8b7c3;
  --accent-soft:#ffbdcc; --accent:#ff8fa8; --accent-rgb:255,143,168;
 }
+
+/* Existing local Imperial Gold palette. */
+:root[data-theme="imperial-gold"] {
+ --bg:#100e0a; --bg-rgb:16,14,10; --panel:#1c1811; --panel-2:#292218; --border:#66502e;
+ --surface-rgb:28,24,17; --surface-raised-rgb:41,34,24;
+ --text:#f8eedb; --text-rgb:248,238,219; --muted:#c4ad88; --accent:#e9c37b; --accent-rgb:233,195,123; --accent-2:#c99a4d; --danger:#e87979;
+}
