@@ -43,3 +43,6 @@ Kötelező következő tesztek külön tesztadatokkal:
 PASS kizárólag a felhasználói teszt és a valódi kapcsolat bizonyítása után mondható ki.
 
 Források: https://supabase.com/docs/guides/database/postgres/row-level-security ; https://supabase.com/docs/guides/getting-started/api-keys ; https://supabase.com/docs/guides/auth/passwords
+
+## Kapcsolatellenőrzés
+A felhasználó megadta a https://uijkqeuuiihldvegkeso.supabase.co projektet és a nyilvános publishable kulcsot; a build kitölti ezeket, de továbbra sem kapcsolódik automatikusan. A csak olvasó próba: Auth settings HTTP 200, email bejelentkezés engedélyezett. A shadow_cloud_saves lekérdezése HTTP 404/PGRST205: a tábla nem található az API sémagyorsítótárában. A migráció még szükséges; RLS nem bizonyított. Auth tesztfiók és a projekt tesztcéljának megerősítése még hiányzik.
