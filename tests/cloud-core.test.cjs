@@ -4,15 +4,15 @@ const raw=n=>JSON.stringify({player:{name:'Test',level:n,streak:n},quests:[],his
 async function run(){
 const elements=new Map(),store=new Map([['akos-system-v0.1.0',raw(1)]]);let remote=null,writes=0,tick,quota=false,fail=false,reloads=0,authFail=false;const events={};
 function el(id){if(!elements.has(id))elements.set(id,{value:'',textContent:'',hidden:false,appendChild(){}});return elements.get(id);}
-const c={structuredClone,console,URL,Date,JSON,Error,AbortSignal,crypto:require('crypto').webcrypto,TrainingData:{validate:x=>x},state:JSON.parse(raw(1)),migrateState:x=>x,render(){},confirm:()=>true,location:{reload(){reloads++;}},navigator:{onLine:true},localStorage:{getItem:k=>store.get(k)??null,setItem(k,v){if(quota&&k.startsWith('shadow-cloud'))throw Error('Quota');store.set(k,v);}},document:{addEventListener(){},head:{appendChild(){}},activeElement:null,createElement:()=>({textContent:'',appendChild(){},set id(v){elements.set(v,this);}}),getElementById:el,querySelector:()=>el('main')},window:{addEventListener(name,fn){events[name]=fn;}},setInterval(fn){tick=fn;},fetch:async(url,o)=>{
+const c={structuredClone,console,URL,Date,JSON,Error,AbortSignal,crypto:require('crypto').webcrypto,TrainingData:{validate:x=>x},state:JSON.parse(raw(1)),migrateState:x=>x,render(){},confirm:()=>true,location:{reload(){reloads++;}},navigator:{onLine:true},localStorage:{removeItem:k=>store.delete(k),getItem:k=>store.get(k)??null,setItem(k,v){if(quota&&k.startsWith('shadow-cloud'))throw Error('Quota');store.set(k,v);}},document:{addEventListener(){},head:{appendChild(){}},activeElement:null,createElement:()=>({textContent:'',appendChild(){},set id(v){elements.set(v,this);}}),getElementById:el,querySelector:()=>el('main')},window:{addEventListener(name,fn){events[name]=fn;}},setInterval(fn){tick=fn;},fetch:async(url,o)=>{
  if(fail)throw Error('Offline');if(authFail)return {ok:false,status:401};let value;
- if(url.includes('/token'))value={access_token:'user-token',refresh_token:'refresh',expires_in:3600};
+ if(url.includes('/token'))value={access_token:'user-token',refresh_token:'refresh',expires_in:3600,user:{id:'test-user'}};
  else if(url.includes('/rpc/')){const b=JSON.parse(o.body);if((remote?.revision||0)!==b.expected_revision)return {ok:false,status:409};remote={revision:(remote?.revision||0)+1,payload:b.new_payload};writes++;value=remote.revision;}
  else value=remote?[{...remote}]:[];
  return {ok:true,status:200,json:async()=>value};
 }};
 vm.createContext(c);vm.runInContext(source,c);
-assert.equal(c.CloudLogic.decide(null,'x','x'),'choose');assert.equal(c.CloudLogic.decide('a','b','c'),'choose');assert.throws(()=>c.CloudLogic.validate('{}'));
+assert.equal(c.CloudLogic.decide(null,'x','x'),'equal');assert.equal(c.CloudLogic.decide('a','b','c'),'choose');assert.throws(()=>c.CloudLogic.validate('{}'));
 el('cloud-url').value='https://test.supabase.co';el('cloud-key').value='sb_publishable_test';el('cloud-email').value='test@example.test';el('cloud-password').value='fake';
 await el('cloud-login').onclick();assert.equal(writes,0);assert.equal(el('cloud-status').textContent,'Külön tesztprojekt megerősítése szükséges.');el('cloud-test-project').checked=true;await el('cloud-login').onclick();assert.equal(writes,0);assert.equal(el('cloud-choices').hidden,false);
 await el('cloud-local').onclick();assert.equal(writes,1);assert.equal(remote.payload,raw(1));assert.equal(el('cloud-password').value,'');
@@ -35,6 +35,19 @@ assert.equal(JSON.parse(el('cloud-diagnostics').textContent).revision,remote.rev
 c.state.training={history:[{id:'keep'}],templates:[]};remote={revision:remote.revision+1,payload:raw(8)};await events.focus();
 assert.equal(JSON.parse(store.get('akos-system-v0.1.0')).training.history[0].id,'keep');
 assert.equal(c.state.training.history[0].id,'keep');
+// Reload reuses remembered session and baseline without choosing a source.
+await tick(); // Upload the preserved Training before simulating a fresh page.
+const remembered=JSON.parse(store.get('shadow-cloud-v1:connection'));assert.equal(remembered.session.user.id,'test-user');
+remote={revision:remote.revision+1,payload:raw(9)};
+vm.runInContext(source,c);await c.cloudReady;
+assert.equal(c.state.player.level,9);assert.equal(el('cloud-choices').hidden,true);
+const offlineEdit=JSON.parse(store.get('akos-system-v0.1.0'));offlineEdit.player.level=10;store.set('akos-system-v0.1.0',JSON.stringify(offlineEdit));
+vm.runInContext(source,c);await c.cloudReady;assert.equal(JSON.parse(remote.payload).player.level,10);
+// Expired remembered token refreshes automatically on startup.
+const expired=JSON.parse(store.get('shadow-cloud-v1:connection'));expired.session.expires_at=0;store.set('shadow-cloud-v1:connection',JSON.stringify(expired));vm.runInContext(source,c);await c.cloudReady;assert.ok(JSON.parse(store.get('shadow-cloud-v1:connection')).session.expires_at>Date.now()/1000);
+// Both sides changed while closed: neither side is silently overwritten.
+const localConflict=JSON.parse(store.get('akos-system-v0.1.0'));localConflict.player.level=11;store.set('akos-system-v0.1.0',JSON.stringify(localConflict));remote={revision:remote.revision+1,payload:raw(12)};
+const countBeforeConflict=writes;vm.runInContext(source,c);await c.cloudReady;assert.equal(writes,countBeforeConflict);assert.equal(c.state.player.level,9);assert.equal(el('cloud-choices').hidden,false);assert.equal(JSON.parse(store.get('akos-system-v0.1.0')).player.level,11);
 // Auth rejection disconnects without replacing either save.
 const preserved=store.get('akos-system-v0.1.0'),cloudPreserved=remote.payload;authFail=true;await tick();
 assert.equal(store.get('akos-system-v0.1.0'),preserved);assert.equal(remote.payload,cloudPreserved);assert.match(el('cloud-diagnostics').textContent,/Nincs session/);authFail=false;
