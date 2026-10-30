@@ -1,6 +1,7 @@
-const CACHE_NAME = "akos-system-training-build1-v1";
+const CACHE_NAME = "akos-system-cloud-core-v1";
 
 const ASSETS = [
+  "./js/core/cloud-core.js",
   "./",
   "./index.html",
   "./styles.css",
@@ -79,6 +80,7 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
+  if (new URL(event.request.url).origin !== self.location.origin) return;
 
   event.respondWith(
     fetch(event.request)
