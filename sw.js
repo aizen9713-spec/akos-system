@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-theme-v1";
+const CACHE_NAME = "akos-system-background-v1.1";
 
 const ASSETS = [
   "./",

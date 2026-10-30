@@ -478,7 +478,7 @@
   </div>
 
   <section class="appearance-settings" aria-labelledby="appearance-title">
-    <p class="eyebrow">PERSONALIZATION · V1</p>
+    <p class="eyebrow">SHADOW OS BACKGROUND ENGINE · V1.1</p>
     <h3 id="appearance-title">Theme &amp; Background</h3>
     <p class="muted">Changes apply and save immediately on this device.</p>
     <div class="appearance-grid">
@@ -494,9 +494,16 @@
           <option value="minimal-hud">Minimal HUD</option>
           <option value="shadow-core">Shadow Core</option>
           <option value="cinematic-transmission">Cinematic Transmission</option>
+          <option value="shadow-gold">Shadow Gold · Cinematic</option>
+          <option value="shadow-blue">Shadow Blue · Cinematic</option>
         </select>
       </label>
     </div>
+    <label class="background-visibility" for="appearance-visibility">
+      <span>Background visibility <output id="appearance-visibility-value" for="appearance-visibility">60%</output></span>
+      <input id="appearance-visibility" type="range" min="0" max="100" step="1" value="60" aria-describedby="background-help">
+    </label>
+    <p id="background-help" class="muted">Independent from Theme. The wallpaper stays visible around content; cards keep a dark reading surface. Gold and Blue recolor the original illustration.</p>
     <div class="appearance-preview" aria-hidden="true">
       <span class="eyebrow">SHADOW OS</span><strong>YOUR SYSTEM. YOUR SIGNAL.</strong>
       <span class="appearance-signal"></span>

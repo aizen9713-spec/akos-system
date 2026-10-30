@@ -1,17 +1,31 @@
-/* Palette and background are independent. */
-html[data-background="minimal-hud"] body {
- background-image:linear-gradient(rgba(var(--accent-rgb),.035) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--accent-rgb),.035) 1px,transparent 1px);
- background-size:48px 48px;
+/* Background Engine V1.1: one decorative viewport layer, independent of palette. */
+body {position:relative;isolation:isolate;}
+body::before {
+ content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background-image:var(--wallpaper, url("../../system-bg.png"));
+ background-size:var(--wallpaper-size, cover);background-position:center;
+ background-repeat:no-repeat;opacity:var(--background-visibility,.6);
+ filter:var(--wallpaper-filter,none);
 }
-html[data-background="shadow-core"] body {
- background-image:radial-gradient(ellipse at 50% 0,rgba(var(--accent-rgb),.22),transparent 55%),radial-gradient(ellipse at 100% 80%,rgba(var(--accent-rgb),.08),transparent 50%);
- background-size:100% 100%;
+html[data-background="minimal-hud"] {
+ --wallpaper:linear-gradient(rgba(var(--accent-rgb),.12) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--accent-rgb),.12) 1px,transparent 1px);
+ --wallpaper-size:48px 48px;
 }
-html[data-background="cinematic-transmission"] body {
- background-image:linear-gradient(rgba(var(--bg-rgb),.78),rgba(var(--bg-rgb),.92)),url("../../system-bg.png");
- background-size:cover;
+html[data-background="minimal-hud"] body::before {background-repeat:repeat;}
+html[data-background="shadow-core"] {
+ --wallpaper:radial-gradient(ellipse at 50% 0,rgba(var(--accent-rgb),.5),transparent 55%),radial-gradient(ellipse at 100% 80%,rgba(var(--accent-rgb),.25),transparent 50%);
 }
-body {background-position:center top;background-repeat:repeat;background-attachment:fixed;}
+/* Both cinematic colorways reuse the shipped illustration; original generated assets were unavailable. */
+html[data-background="shadow-gold"] {--wallpaper-filter:sepia(1) saturate(1.4);}
+html[data-background="shadow-blue"] {--wallpaper-filter:sepia(1) saturate(1.8) hue-rotate(165deg);}
+/* Local reading surfaces stay dark even at 100% wallpaper visibility. */
+.card,.system-header,.system-nav,.appearance-settings,.system-update-content {
+ background:linear-gradient(180deg,rgba(var(--surface-rgb),.93),rgba(var(--surface-rgb),.97));
+}
+.background-visibility {display:grid;gap:8px;margin-top:20px;}
+.background-visibility > span {display:flex;justify-content:space-between;gap:12px;}
+.background-visibility output {font-variant-numeric:tabular-nums;color:var(--accent);}
+.background-visibility input {width:100%;min-height:44px;margin:0;accent-color:var(--accent);cursor:pointer;}
 .appearance-settings {margin:24px 0;padding:20px;border:1px solid var(--border);border-radius:16px;background:rgba(var(--surface-rgb),.85);}
 .appearance-settings h3 {margin:0;}
 .appearance-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
