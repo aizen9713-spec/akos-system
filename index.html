@@ -489,23 +489,93 @@
           <option value="crimson-black">Crimson Black</option>
         </select>
       </label>
-      <label for="appearance-background">Background
-        <select id="appearance-background">
-          <option value="minimal-hud">Minimal HUD</option>
-          <option value="shadow-core">Shadow Core</option>
-          <option value="cinematic-transmission">Cinematic Transmission</option>
-          <option value="shadow-gold">Shadow Gold · Cinematic</option>
-          <option value="shadow-blue">Shadow Blue · Cinematic</option>
-          <optgroup label="Shadow OS Wallpapers">
-            <option value="crimson-eclipse">Crimson Eclipse</option>
-            <option value="golden-sanctum">Golden Sanctum</option>
-            <option value="obsidian-gold">Obsidian Gold</option>
-            <option value="misty-mountains">Misty Mountains</option>
-            <option value="crimson-crown">Crimson Crown</option>
-          </optgroup>
-        </select>
-      </label>
+
     </div>
+    <fieldset id="appearance-background" class="background-gallery" aria-describedby="background-help">
+      <legend>Background</legend>
+      <div class="background-gallery-grid">
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="minimal-hud">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="minimal-hud" aria-hidden="true"></span>
+            <span class="background-card-name">Minimal HUD</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="shadow-core">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="shadow-core" aria-hidden="true"></span>
+            <span class="background-card-name">Shadow Core</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="cinematic-transmission">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="cinematic-transmission" aria-hidden="true"></span>
+            <span class="background-card-name">Cinematic Transmission</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="shadow-gold">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="shadow-gold" aria-hidden="true"></span>
+            <span class="background-card-name">Shadow Gold · Cinematic</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="shadow-blue">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="shadow-blue" aria-hidden="true"></span>
+            <span class="background-card-name">Shadow Blue · Cinematic</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="crimson-eclipse">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="crimson-eclipse" aria-hidden="true"></span>
+            <span class="background-card-name">Crimson Eclipse</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="golden-sanctum">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="golden-sanctum" aria-hidden="true"></span>
+            <span class="background-card-name">Golden Sanctum</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="obsidian-gold">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="obsidian-gold" aria-hidden="true"></span>
+            <span class="background-card-name">Obsidian Gold</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="misty-mountains">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="misty-mountains" aria-hidden="true"></span>
+            <span class="background-card-name">Misty Mountains</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="crimson-crown">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="crimson-crown" aria-hidden="true"></span>
+            <span class="background-card-name">Crimson Crown</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+      </div>
+    </fieldset>
     <label class="background-visibility" for="appearance-visibility">
       <span>Background visibility <output id="appearance-visibility-value" for="appearance-visibility">60%</output></span>
       <input id="appearance-visibility" type="range" min="0" max="100" step="1" value="60" aria-describedby="background-help">

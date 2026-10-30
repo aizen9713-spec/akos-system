@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-background-v1.1-wallpapers-1";
+const CACHE_NAME = "akos-system-background-gallery-v1";
 
 const ASSETS = [
   "./",

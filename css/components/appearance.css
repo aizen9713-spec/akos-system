@@ -7,22 +7,6 @@ body::before {
  background-repeat:no-repeat;opacity:var(--background-visibility,.6);
  filter:var(--wallpaper-filter,none);
 }
-html[data-background="minimal-hud"] {
- --wallpaper:linear-gradient(rgba(var(--accent-rgb),.12) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--accent-rgb),.12) 1px,transparent 1px);
- --wallpaper-size:48px 48px;
-}
-html[data-background="minimal-hud"] body::before {background-repeat:repeat;}
-html[data-background="shadow-core"] {
- --wallpaper:radial-gradient(ellipse at 50% 0,rgba(var(--accent-rgb),.5),transparent 55%),radial-gradient(ellipse at 100% 80%,rgba(var(--accent-rgb),.25),transparent 50%);
-}
-/* Both cinematic colorways reuse the shipped illustration; original generated assets were unavailable. */
-html[data-background="shadow-gold"] {--wallpaper-filter:sepia(1) saturate(1.4);}
-html[data-background="shadow-blue"] {--wallpaper-filter:sepia(1) saturate(1.8) hue-rotate(165deg);}
-html[data-background="crimson-eclipse"] {--wallpaper:url("../../assets/backgrounds/crimson-eclipse.webp");}
-html[data-background="golden-sanctum"] {--wallpaper:url("../../assets/backgrounds/golden-sanctum.webp");}
-html[data-background="obsidian-gold"] {--wallpaper:url("../../assets/backgrounds/obsidian-gold.webp");}
-html[data-background="misty-mountains"] {--wallpaper:url("../../assets/backgrounds/misty-mountains.webp");}
-html[data-background="crimson-crown"] {--wallpaper:url("../../assets/backgrounds/crimson-crown.webp");}
 /* Local reading surfaces stay dark even at 100% wallpaper visibility. */
 .card,.system-header,.system-nav,.appearance-settings,.system-update-content {
  background:linear-gradient(180deg,rgba(var(--surface-rgb),.93),rgba(var(--surface-rgb),.97));
@@ -44,3 +28,40 @@ html[data-background="crimson-crown"] {--wallpaper:url("../../assets/backgrounds
 button:focus-visible,select:focus-visible,input:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}
 @media(max-width:600px){.appearance-settings{padding:14px;}.appearance-grid{grid-template-columns:minmax(0,1fr);}body{background-attachment:scroll;}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+
+/* Each thumbnail resets inherited wallpaper variables before sharing the engine rules. */
+.background-thumbnail {
+ --wallpaper:url("../../system-bg.png");--wallpaper-size:cover;--wallpaper-filter:none;
+ display:block;aspect-ratio:16/9;background-color:var(--panel-2);
+ background-image:var(--wallpaper);background-size:var(--wallpaper-size);
+ background-position:center;filter:var(--wallpaper-filter);
+}
+[data-background="minimal-hud"] {
+ --wallpaper:linear-gradient(rgba(var(--accent-rgb),.12) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--accent-rgb),.12) 1px,transparent 1px);
+ --wallpaper-size:48px 48px;
+}
+[data-background="minimal-hud"] body::before {background-repeat:repeat;}
+[data-background="shadow-core"] {
+ --wallpaper:radial-gradient(ellipse at 50% 0,rgba(var(--accent-rgb),.5),transparent 55%),radial-gradient(ellipse at 100% 80%,rgba(var(--accent-rgb),.25),transparent 50%);
+}
+/* Both cinematic colorways reuse the shipped illustration; original generated assets were unavailable. */
+[data-background="shadow-gold"] {--wallpaper-filter:sepia(1) saturate(1.4);}
+[data-background="shadow-blue"] {--wallpaper-filter:sepia(1) saturate(1.8) hue-rotate(165deg);}
+[data-background="crimson-eclipse"] {--wallpaper:url("../../assets/backgrounds/crimson-eclipse.webp");}
+[data-background="golden-sanctum"] {--wallpaper:url("../../assets/backgrounds/golden-sanctum.webp");}
+[data-background="obsidian-gold"] {--wallpaper:url("../../assets/backgrounds/obsidian-gold.webp");}
+[data-background="misty-mountains"] {--wallpaper:url("../../assets/backgrounds/misty-mountains.webp");}
+[data-background="crimson-crown"] {--wallpaper:url("../../assets/backgrounds/crimson-crown.webp");}
+
+.background-gallery {min-width:0;margin:20px 0 0;padding:0;border:0;}
+.background-gallery legend {margin-bottom:10px;color:var(--text);}
+.background-gallery-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,110px),1fr));gap:12px;}
+.background-card {position:relative;min-width:0;cursor:pointer;}
+.background-card input {position:absolute;width:1px;height:1px;opacity:0;}
+.background-card-face {display:block;height:100%;overflow:hidden;border:2px solid var(--border);border-radius:12px;background:var(--panel-2);}
+.background-card-name {display:block;padding:10px 10px 4px;color:var(--text);font-size:.85rem;overflow-wrap:anywhere;}
+.background-selected {display:block;padding:0 10px 10px;color:var(--accent);font-size:.75rem;visibility:hidden;}
+.background-card input:checked + .background-card-face {border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
+.background-card input:checked + .background-card-face .background-selected {visibility:visible;}
+.background-card input:focus-visible + .background-card-face {outline:2px solid var(--accent);outline-offset:4px;}
+.background-card:hover .background-card-face {border-color:var(--accent);}

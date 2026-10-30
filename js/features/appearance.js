@@ -35,7 +35,9 @@
     const status = document.getElementById("appearance-status");
     function sync() {
       theme.value = appearance.theme;
-      background.value = appearance.background;
+      background.querySelectorAll('input[type="radio"]').forEach(input => {
+        input.checked = input.value === appearance.background;
+      });
       visibility.value = appearance.visibility;
       visibilityValue.value = `${appearance.visibility}%`;
       visibility.setAttribute("aria-valuetext", `${appearance.visibility}%`);
@@ -54,8 +56,9 @@
       appearance = normalize({ ...appearance, theme: theme.value });
       save();
     });
-    background.addEventListener("change", () => {
-      appearance = normalize({ ...appearance, background: background.value });
+    background.addEventListener("change", event => {
+      if (!event.target.matches('input[name="appearance-background"]')) return;
+      appearance = normalize({ ...appearance, background: event.target.value });
       save();
     });
     visibility.addEventListener("input", () => {
