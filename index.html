@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="./css/components/modules.css">
 <link rel="stylesheet" href="./css/components/update-panel.css">
 <link rel="stylesheet" href="./css/components/appearance.css">
+<link rel="stylesheet" href="./css/components/training.css">
 </head>
 <body>
   <main class="app-shell">
@@ -845,7 +846,7 @@
   </svg>
   <span>WORKOUT LOG</span>
 </div>
-      <div>
+      <div role="button" tabindex="0" onclick="showPage('training-history')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('training-history');}" aria-label="Open Training History">
   <svg
   width="28"
   height="28"
@@ -920,10 +921,11 @@
       Record exercises, sets, reps and weights.
     </p>
 
-    <p>WORKOUT LOG V1 — UNDER DEVELOPMENT</p>
+    <div id="training-workspace"></div><p id="training-status" role="status" aria-live="polite">Training Build 1 · No automatic XP</p>
 
   </section>
 </div>
+<div id="page-training-history" class="app-page"><section class="card"><button type="button" onclick="showPage('training')">← BACK TO TRAINING</button><button type="button" onclick="showPage('workout')">WORKOUT LOG</button><p class="eyebrow">TRAINING / BUILD 1</p><h2>HISTORY & PROGRESS</h2><div id="training-history"></div></section></div>
   </main>
 
   <div id="systemUpdatePanel" class="system-update-panel" hidden>
@@ -941,6 +943,7 @@
 <script src="./js/data/transmissions.js"></script>
 <script src="./js/data/quests.js"></script>
 <script src="./js/core/dates.js"></script>
+<script src="./js/features/training-data.js"></script>
 <script src="./js/core/state.js"></script>
 <script src="./js/core/progression.js"></script>
 <script src="./js/core/daily.js"></script>
@@ -961,6 +964,7 @@
 <script src="./js/features/settings.js"></script>
 <script src="./js/features/transmissions.js"></script>
 <script src="./js/features/daily-quests.js"></script>
+<script src="./js/features/training.js"></script>
 <script src="app.js?v=0.4.2"></script>
 </body>
 </html>

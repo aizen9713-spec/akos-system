@@ -31,6 +31,7 @@ function exportSave() {
 
 
 async function importSave(file) {
+  const stateBeforeImport = state;
   try {
     const text = await file.text();
     const imported = JSON.parse(text);
@@ -44,6 +45,8 @@ async function importSave(file) {
       throw new Error("Invalid AKOS SYSTEM save file.");
     }
 
+    if (imported.state.training !== undefined) TrainingData.validate(imported.state.training);
+
     const confirmed = window.confirm(
       "IMPORT SYSTEM SAVE?\n\n" +
       "This will replace your current Player progress with the selected backup."
@@ -53,7 +56,10 @@ async function importSave(file) {
       return;
     }
 
+    const previousState = state;
     state = migrateState(imported.state);
+    // Older system backups have no Training field: retain current workouts.
+    if (imported.state.training === undefined && previousState.training) state.training = structuredClone(previousState.training);
     recalculateStreak();
 
     saveState();
@@ -61,6 +67,7 @@ async function importSave(file) {
 
     alert("SYSTEM SAVE RESTORED");
   } catch (error) {
+    state = stateBeforeImport;
     console.error("Import failed:", error);
 
     alert(

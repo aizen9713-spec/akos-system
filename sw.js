@@ -1,9 +1,12 @@
-const CACHE_NAME = "akos-system-background-gallery-v1";
+const CACHE_NAME = "akos-system-training-build1-v1";
 
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
+  "./css/components/training.css",
+  "./js/features/training-data.js",
+  "./js/features/training.js",
   "./app.js?v=0.4.2",
   "./manifest.webmanifest",
   "./icon-512-v2.png",
