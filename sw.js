@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-release-20261030-1";
+const CACHE_NAME = "akos-system-cloud-diagnostics-20261030-2";
 
 const ASSETS = [
   "./js/core/cloud-core.js",
