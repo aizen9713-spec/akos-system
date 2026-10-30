@@ -31,6 +31,8 @@ el('cloud-password').value='fake';await el('cloud-login').onclick();await el('cl
 const quests=JSON.parse(raw(7));quests.quests=[{id:'phone-1',title:'One',completed:true},{id:'phone-2',title:'Two',completed:true}];
 store.set('akos-system-v0.1.0',JSON.stringify(quests));await tick();assert.equal(JSON.parse(remote.payload).quests.filter(q=>q.completed).length,2);
 assert.equal(JSON.parse(el('cloud-diagnostics').textContent).revision,remote.revision);
+// Undo is a normal saved state change and is uploaded by the same sync path.
+quests.quests[0].completed=false;store.set('akos-system-v0.1.0',JSON.stringify(quests));await tick();assert.equal(JSON.parse(remote.payload).quests[0].completed,false);assert.equal(JSON.parse(remote.payload).quests[1].completed,true);
 // Remote legacy save preserves Training on disk as well as in memory, including reload.
 c.state.training={history:[{id:'keep'}],templates:[]};remote={revision:remote.revision+1,payload:raw(8)};await events.focus();
 assert.equal(JSON.parse(store.get('akos-system-v0.1.0')).training.history[0].id,'keep');

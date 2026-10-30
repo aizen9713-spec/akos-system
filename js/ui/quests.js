@@ -41,7 +41,7 @@ historyList.innerHTML = "";
   if (state.quests.length === 0) {
   activeList.innerHTML = `<p class="muted">No active quests.</p>`;
   completedList.innerHTML = `<p class="muted">No completed quests.</p>`;
-  
+
 }
 
   state.quests.forEach(quest => {
@@ -82,9 +82,10 @@ ${quest.completed ? " · COMPLETED" : " · ACTIVE"}
 
     const complete = document.createElement("button");
     complete.className = "small-btn complete-btn";
-    complete.textContent = quest.completed ? "DONE" : "COMPLETE";
-    complete.disabled = quest.completed;
-    complete.onclick = () => completeQuest(quest.id);
+    complete.textContent = quest.completed ? "VISSZAVONÁS" : "COMPLETE";
+    complete.type = "button";
+    complete.title = quest.completed ? "A teljesítés és jutalmai visszavonása" : "Quest teljesítése";
+    complete.onclick = () => quest.completed ? undoQuestCompletion(quest.id) : completeQuest(quest.id);
 
     const remove = document.createElement("button");
     remove.className = "small-btn delete-btn";
@@ -99,7 +100,7 @@ ${quest.completed ? " · COMPLETED" : " · ACTIVE"}
   activeList.appendChild(row);
 }
   });
-  
+
   if (activeList.children.length === 0) {
   activeList.innerHTML = `<p class="muted">No active quests.</p>`;
 }
