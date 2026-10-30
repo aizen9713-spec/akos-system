@@ -6,13 +6,15 @@
   <meta name="theme-color" content="#0b1020" />
   <title>ÁKOS SYSTEM // CORE</title>
   <link rel="manifest" href="manifest.webmanifest?v=2">
+  <script src="./js/features/appearance.js"></script>
   <link rel="stylesheet" href="./css/core/variables.css">
 <link rel="stylesheet" href="./css/core/base.css">
 <link rel="stylesheet" href="./css/core/layout.css">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="./css/components/navigation.css">
 <link rel="stylesheet" href="./css/components/modules.css">
-<link rel="stylesheet" href="./css/components/update-panel.css"> 
+<link rel="stylesheet" href="./css/components/update-panel.css">
+<link rel="stylesheet" href="./css/components/appearance.css">
 </head>
 <body>
   <main class="app-shell">
@@ -237,7 +239,7 @@
   <div class="kaizen-motto">1% BETTER EVERY DAY.</div>
 </div>
     </div>
-    
+
 <div id="page-skills" class="app-page">
     <section class="card">
   <div class="section-head">
@@ -475,6 +477,33 @@
     </div>
   </div>
 
+  <section class="appearance-settings" aria-labelledby="appearance-title">
+    <p class="eyebrow">PERSONALIZATION · V1</p>
+    <h3 id="appearance-title">Theme &amp; Background</h3>
+    <p class="muted">Changes apply and save immediately on this device.</p>
+    <div class="appearance-grid">
+      <label for="appearance-theme">Theme
+        <select id="appearance-theme">
+          <option value="shadow-blue">Shadow Blue</option>
+          <option value="imperial-gold">Imperial Gold</option>
+          <option value="crimson-black">Crimson Black</option>
+        </select>
+      </label>
+      <label for="appearance-background">Background
+        <select id="appearance-background">
+          <option value="minimal-hud">Minimal HUD</option>
+          <option value="shadow-core">Shadow Core</option>
+          <option value="cinematic-transmission">Cinematic Transmission</option>
+        </select>
+      </label>
+    </div>
+    <div class="appearance-preview" aria-hidden="true">
+      <span class="eyebrow">SHADOW OS</span><strong>YOUR SYSTEM. YOUR SIGNAL.</strong>
+      <span class="appearance-signal"></span>
+    </div>
+    <p id="appearance-status" class="muted" role="status" aria-live="polite"></p>
+    <button id="appearance-reset" type="button">RESET APPEARANCE</button>
+  </section>
   <div class="settings-grid">
     <label>
       <span>Guidance Mode</span>
@@ -579,7 +608,7 @@
     </div>
   </div>
 </section>
- 
+
         <div class="save-controls premium-controls">
 
           <button

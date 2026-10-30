@@ -1,11 +1,11 @@
 /* SHADOW OS — MODULES HUB V1 */
 
 .module-card {
-  border: 1px solid rgba(103, 215, 255, 0.3);
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
   background: linear-gradient(
     135deg,
-    rgba(12, 31, 52, 0.95),
-    rgba(7, 18, 33, 0.92)
+    rgba(var(--surface-rgb), 0.95),
+    rgba(var(--surface-rgb), 0.92)
   );
   transition: border-color 0.2s ease;
 }
@@ -17,7 +17,7 @@
 }
 
 .module-number {
-  color: #76c9ed;
+  color: var(--muted);
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -80,9 +80,9 @@
   align-items: center;
   justify-content: center;
 
-  color: #8cdeff;
-  background: rgba(18, 58, 88, 0.55);
-  border: 1px solid rgba(103, 215, 255, 0.4);
+  color: var(--muted);
+  background: rgba(var(--surface-raised-rgb), 0.55);
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
   border-radius: 18px;
 }
 
@@ -115,24 +115,24 @@
   gap: 8px;
   text-align: center;
 
-  background: rgba(12, 31, 52, 0.9);
-  border: 1px solid rgba(103, 215, 255, 0.25);
+  background: rgba(var(--surface-rgb), 0.9);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
   border-radius: 12px;
 
   font-size: 0.85rem;
   font-weight: 700;
-  color: #8cdeff;
+  color: var(--muted);
 }
 
 .training-sections > div svg {
   width: 26px;
   height: 26px;
-  color: #67d7ff;
+  color: var(--accent);
   flex-shrink: 0;
 }
 
 .training-sections > div span {
-  color: #8cdeff;
+  color: var(--muted);
 }
 
 @media (max-width: 480px) {

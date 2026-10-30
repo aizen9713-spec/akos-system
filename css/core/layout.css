@@ -93,20 +93,20 @@
   font-size: 1.05rem;
   font-weight: 900;
   letter-spacing: 0.035em;
-  color: #e8f7ff;
-  text-shadow: 0 0 12px rgba(103, 215, 255, 0.35);
+  color: var(--text);
+  text-shadow: 0 0 12px rgba(var(--accent-rgb), 0.35);
 }
 
 .shadow-os-badge {
   padding: 3px 5px;
-  border: 1px solid rgba(103, 215, 255, 0.65);
+  border: 1px solid rgba(var(--accent-rgb), 0.65);
   border-radius: 5px;
-  background: rgba(18, 64, 96, 0.6);
-  color: #7edfff;
+  background: rgba(var(--surface-raised-rgb), 0.6);
+  color: var(--accent);
   font-size: 0.65rem;
   font-weight: 900;
   letter-spacing: 0.04em;
-  box-shadow: 0 0 12px rgba(103, 215, 255, 0.13);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.13);
 }
 
 /* SHADOW OS — Command Header Layout V1 */
@@ -140,11 +140,11 @@
 
     background: linear-gradient(
       110deg,
-      rgba(8, 20, 38, 0.95),
-      rgba(13, 37, 62, 0.82)
+      rgba(var(--surface-rgb), 0.95),
+      rgba(var(--surface-rgb), 0.82)
     );
 
-    border: 1px solid rgba(103, 215, 255, 0.28);
+    border: 1px solid rgba(var(--accent-rgb), 0.28);
     border-radius: 16px;
 
     box-shadow:
