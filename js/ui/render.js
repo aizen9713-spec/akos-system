@@ -8,4 +8,5 @@ function render() {
   renderSettings();
   renderSystemHealth();
   renderLog();
+  Training.render();
 }

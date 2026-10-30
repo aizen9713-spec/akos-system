@@ -10,23 +10,23 @@
 
   background: linear-gradient(
     135deg,
-    #67d7ff,
-    #245b85,
-    #67d7ff
+    var(--accent),
+    var(--panel-2),
+    var(--accent)
   );
 
-  box-shadow: 0 0 30px rgba(103, 215, 255, 0.18);
+  box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.18);
 }
 
 .system-update-content {
   padding: 20px;
   border-radius: 14px;
-  background: #071426;
-  color: #e8f5ff;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .system-update-content strong {
-  color: #67d7ff;
+  color: var(--accent);
   font-size: 0.85rem;
   letter-spacing: 0.08em;
 }
@@ -39,8 +39,8 @@
 
 #systemUpdateBtn {
   width: 100%;
-  background: #67d7ff;
-  color: #041019;
+  background: var(--accent);
+  color: var(--bg);
   font-weight: 900;
 }
 

@@ -6,13 +6,16 @@
   <meta name="theme-color" content="#0b1020" />
   <title>ÁKOS SYSTEM // CORE</title>
   <link rel="manifest" href="manifest.webmanifest?v=2">
+  <script src="./js/features/appearance.js"></script>
   <link rel="stylesheet" href="./css/core/variables.css">
 <link rel="stylesheet" href="./css/core/base.css">
 <link rel="stylesheet" href="./css/core/layout.css">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="./css/components/navigation.css">
 <link rel="stylesheet" href="./css/components/modules.css">
-<link rel="stylesheet" href="./css/components/update-panel.css"> 
+<link rel="stylesheet" href="./css/components/update-panel.css">
+<link rel="stylesheet" href="./css/components/appearance.css">
+<link rel="stylesheet" href="./css/components/training.css">
 </head>
 <body>
   <main class="app-shell">
@@ -237,7 +240,7 @@
   <div class="kaizen-motto">1% BETTER EVERY DAY.</div>
 </div>
     </div>
-    
+
 <div id="page-skills" class="app-page">
     <section class="card">
   <div class="section-head">
@@ -475,6 +478,117 @@
     </div>
   </div>
 
+  <section class="appearance-settings" aria-labelledby="appearance-title">
+    <p class="eyebrow">SHADOW OS BACKGROUND ENGINE · V1.1</p>
+    <h3 id="appearance-title">Theme &amp; Background</h3>
+    <p class="muted">Changes apply and save immediately on this device.</p>
+    <div class="appearance-grid">
+      <label for="appearance-theme">Theme
+        <select id="appearance-theme">
+          <option value="shadow-blue">Shadow Blue</option>
+          <option value="imperial-gold">Imperial Gold</option>
+          <option value="crimson-black">Crimson Black</option>
+        </select>
+      </label>
+
+    </div>
+    <fieldset id="appearance-background" class="background-gallery" aria-describedby="background-help">
+      <legend>Background</legend>
+      <div class="background-gallery-grid">
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="minimal-hud">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="minimal-hud" aria-hidden="true"></span>
+            <span class="background-card-name">Minimal HUD</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="shadow-core">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="shadow-core" aria-hidden="true"></span>
+            <span class="background-card-name">Shadow Core</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="cinematic-transmission">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="cinematic-transmission" aria-hidden="true"></span>
+            <span class="background-card-name">Cinematic Transmission</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="shadow-gold">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="shadow-gold" aria-hidden="true"></span>
+            <span class="background-card-name">Shadow Gold · Cinematic</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="shadow-blue">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="shadow-blue" aria-hidden="true"></span>
+            <span class="background-card-name">Shadow Blue · Cinematic</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="crimson-eclipse">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="crimson-eclipse" aria-hidden="true"></span>
+            <span class="background-card-name">Crimson Eclipse</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="golden-sanctum">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="golden-sanctum" aria-hidden="true"></span>
+            <span class="background-card-name">Golden Sanctum</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="obsidian-gold">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="obsidian-gold" aria-hidden="true"></span>
+            <span class="background-card-name">Obsidian Gold</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="misty-mountains">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="misty-mountains" aria-hidden="true"></span>
+            <span class="background-card-name">Misty Mountains</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+        <label class="background-card">
+          <input type="radio" name="appearance-background" value="crimson-crown">
+          <span class="background-card-face">
+            <span class="background-thumbnail" data-background="crimson-crown" aria-hidden="true"></span>
+            <span class="background-card-name">Crimson Crown</span>
+            <span class="background-selected" aria-hidden="true">✓ Selected</span>
+          </span>
+        </label>
+      </div>
+    </fieldset>
+    <label class="background-visibility" for="appearance-visibility">
+      <span>Background visibility <output id="appearance-visibility-value" for="appearance-visibility">60%</output></span>
+      <input id="appearance-visibility" type="range" min="0" max="100" step="1" value="60" aria-describedby="background-help">
+    </label>
+    <p id="background-help" class="muted">Independent from Theme. The wallpaper stays visible around content; cards keep a dark reading surface. The five Shadow OS wallpapers use your supplied artwork. Shadow Gold and Shadow Blue recolor the original illustration.</p>
+    <div class="appearance-preview" aria-hidden="true">
+      <span class="eyebrow">SHADOW OS</span><strong>YOUR SYSTEM. YOUR SIGNAL.</strong>
+      <span class="appearance-signal"></span>
+    </div>
+    <p id="appearance-status" class="muted" role="status" aria-live="polite"></p>
+    <button id="appearance-reset" type="button">RESET APPEARANCE</button>
+  </section>
   <div class="settings-grid">
     <label>
       <span>Guidance Mode</span>
@@ -579,7 +693,7 @@
     </div>
   </div>
 </section>
- 
+
         <div class="save-controls premium-controls">
 
           <button
@@ -732,7 +846,7 @@
   </svg>
   <span>WORKOUT LOG</span>
 </div>
-      <div>
+      <div role="button" tabindex="0" onclick="showPage('training-history')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('training-history');}" aria-label="Open Training History">
   <svg
   width="28"
   height="28"
@@ -765,7 +879,7 @@
     <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>
     <path d="M3.3 12h4l2-3 3 6 2-3h6.3"/>
   </svg>
-  <span>CARDIO</span>
+  <span>CARDIO</span><small>COMING LATER</small>
 </div>
       <div>
   <svg
@@ -781,7 +895,7 @@
   >
     <path d="M20.985 12.486A9 9 0 0 1 11.514 3.015 9 9 0 1 0 20.985 12.486Z"/>
   </svg>
-  <span>RECOVERY</span>
+  <span>RECOVERY</span><small>COMING LATER</small>
 </div>
     </div>
 
@@ -807,10 +921,11 @@
       Record exercises, sets, reps and weights.
     </p>
 
-    <p>WORKOUT LOG V1 — UNDER DEVELOPMENT</p>
+    <div id="training-workspace"></div><p id="training-status" role="status" aria-live="polite">Saved on this device · No automatic XP</p>
 
   </section>
 </div>
+<div id="page-training-history" class="app-page"><section class="card"><button type="button" onclick="showPage('training')">← BACK TO TRAINING</button><button type="button" onclick="showPage('workout')">WORKOUT LOG</button><p class="eyebrow">TRAINING / HISTORY</p><h2>HISTORY & PROGRESS</h2><div id="training-history"></div></section></div>
   </main>
 
   <div id="systemUpdatePanel" class="system-update-panel" hidden>
@@ -828,6 +943,7 @@
 <script src="./js/data/transmissions.js"></script>
 <script src="./js/data/quests.js"></script>
 <script src="./js/core/dates.js"></script>
+<script src="./js/features/training-data.js"></script>
 <script src="./js/core/state.js"></script>
 <script src="./js/core/progression.js"></script>
 <script src="./js/core/daily.js"></script>
@@ -848,6 +964,8 @@
 <script src="./js/features/settings.js"></script>
 <script src="./js/features/transmissions.js"></script>
 <script src="./js/features/daily-quests.js"></script>
+<script src="./js/features/training.js"></script>
 <script src="app.js?v=0.4.2"></script>
+<script src="./js/core/cloud-core.js"></script>
 </body>
 </html>

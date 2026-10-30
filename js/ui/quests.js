@@ -70,9 +70,9 @@ historyList.innerHTML = "";
 left.innerHTML = `
   <div class="quest-name">${escapeHtml(quest.title)}</div>
   <div class="quest-meta">
-   ${quest.xp} XP
-${statRewardText ? ` · ${statRewardText}` : ""}
-${skillRewardText ? ` · ${skillRewardText}` : ""}
+   ${escapeHtml(String(quest.xp))} XP
+${statRewardText ? ` · ${escapeHtml(statRewardText)}` : ""}
+${skillRewardText ? ` · ${escapeHtml(skillRewardText)}` : ""}
 ${quest.completed ? " · COMPLETED" : " · ACTIVE"}
   </div>
 `;

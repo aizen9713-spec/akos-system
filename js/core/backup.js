@@ -31,18 +31,25 @@ function exportSave() {
 
 
 async function importSave(file) {
+  const stateBeforeImport = state;
+  const storedBeforeImport = localStorage.getItem(STORAGE_KEY);
+  let wroteImport = false;
   try {
     const text = await file.text();
     const imported = JSON.parse(text);
 
     if (
       !imported ||
+      imported.saveVersion !== 1 ||
+      Array.isArray(imported.state) ||
       imported.app !== "AKOS SYSTEM" ||
       !imported.state ||
       typeof imported.state !== "object"
     ) {
       throw new Error("Invalid AKOS SYSTEM save file.");
     }
+
+    if (imported.state.training !== undefined) TrainingData.validate(imported.state.training);
 
     const confirmed = window.confirm(
       "IMPORT SYSTEM SAVE?\n\n" +
@@ -53,14 +60,25 @@ async function importSave(file) {
       return;
     }
 
+    const previousState = state;
     state = migrateState(imported.state);
+    // Older system backups have no Training field: retain current workouts.
+    if (imported.state.training === undefined && previousState.training) state.training = structuredClone(previousState.training);
     recalculateStreak();
 
     saveState();
+    wroteImport = true;
     render();
 
     alert("SYSTEM SAVE RESTORED");
   } catch (error) {
+    state = stateBeforeImport;
+    if (wroteImport) {
+      try {
+        if (storedBeforeImport === null) localStorage.removeItem(STORAGE_KEY);
+        else localStorage.setItem(STORAGE_KEY, storedBeforeImport);
+      } catch (restoreError) { console.error("Storage rollback failed", restoreError); }
+    }
     console.error("Import failed:", error);
 
     alert(

@@ -1,0 +1,59 @@
+/* Training uses the shared Shadow OS palette and card/button foundations. */
+.training-actions, .training-toolbar, .training-session-actions {display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0;}
+.training-toolbar {justify-content:space-between;margin-top:24px;}
+.training-badge {display:inline-block;padding:6px 10px;border:1px solid rgba(var(--accent-rgb),.3);border-radius:6px;color:var(--accent);font-size:.7rem;font-weight:800;letter-spacing:.08em;white-space:nowrap;}
+.training-session-heading {padding-top:20px;margin:24px 0 18px;border-top:1px solid rgba(var(--accent-rgb),.18);}
+.training-session-heading h3 {font-size:1.35rem;overflow-wrap:anywhere;}
+.training-help, #training-status {font-size:.82rem;line-height:1.65;}
+#training-workspace label {display:grid;gap:8px;margin:14px 0;font-size:.8rem;color:var(--muted);font-weight:600;min-width:0;}
+#training-workspace input:not([type=checkbox]), #training-workspace select, #training-backup-copy {width:100%;min-width:0;box-sizing:border-box;min-height:48px;padding:12px;color:var(--text);background:var(--panel-2);border:1px solid var(--border);border-radius:10px;font:inherit;}
+#training-workspace input[aria-invalid=true] {border-color:var(--danger);}
+#training-workspace button, #page-training-history button, .training-back-btn {min-height:44px;white-space:normal;}
+#training-workspace button:not([data-action=start]):not([data-action=finish]), #page-training-history button, .training-back-btn {background:rgba(var(--surface-raised-rgb),.55);color:var(--muted);border:1px solid rgba(var(--accent-rgb),.22);font-size:.78rem;font-weight:700;}
+#training-workspace button:hover, #page-training-history button:hover, .training-back-btn:hover {border-color:var(--accent);color:var(--text);}
+#training-workspace button[data-action=start], #training-workspace button[data-action=finish] {padding-inline:24px;}
+#training-workspace button[data-action=remove-exercise], #training-workspace button[data-action=discard], #training-workspace button[data-action=remove-set] {color:var(--danger);background:transparent;border-color:var(--border);}
+.training-exercise {border:1px solid rgba(var(--accent-rgb),.2);border-radius:16px;padding:20px;margin:18px 0;background:linear-gradient(135deg,rgba(var(--surface-raised-rgb),.35),rgba(var(--surface-rgb),.9));overflow-wrap:anywhere;min-width:0;}
+.training-exercise > label {margin-bottom:10px;}
+#training-workspace .training-exercise > label input {font-size:1.05rem;font-weight:700;}
+#training-workspace button[data-action=remove-exercise] {margin-bottom:12px;min-height:44px;padding:8px 12px;font-size:.72rem;}
+.training-set, .training-set-head {display:grid;grid-template-columns:32px minmax(64px,1fr) minmax(56px,1fr) 44px 44px;gap:10px;align-items:center;margin:10px 0;}
+.training-set-head {padding-top:12px;border-top:1px solid rgba(var(--accent-rgb),.16);font-size:.7rem;color:var(--muted);}
+.training-set > span:first-child, .training-set-number {color:var(--accent);font-size:.8rem;font-weight:800;font-variant-numeric:tabular-nums;}
+#training-workspace .training-set input[type=number] {text-align:center;font-size:1.1rem;font-weight:700;font-variant-numeric:tabular-nums;padding:10px 4px;}
+.training-set input[type=checkbox] {width:28px;height:28px;margin:8px;accent-color:var(--accent);cursor:pointer;}
+.training-set:has(input:checked) {background:rgba(var(--accent-rgb),.07);border-radius:10px;}
+.training-set button {padding:0;}
+#training-workspace button[data-action=add-set] {width:100%;margin-top:8px;border-style:dashed;}
+.training-preview {display:grid;gap:8px;margin:22px 0;}
+.training-preview-row {display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;padding:16px;border:1px solid rgba(var(--accent-rgb),.16);border-radius:12px;background:rgba(var(--surface-raised-rgb),.25);}
+.training-preview-row strong {font-size:.9rem;overflow-wrap:anywhere;}
+.training-session-actions {padding:20px 0;border-top:1px solid rgba(var(--accent-rgb),.18);}
+.training-backup {margin:28px 0 12px;padding-top:16px;border-top:1px solid rgba(var(--accent-rgb),.18);}
+.training-backup summary {color:var(--muted);font-size:.8rem;cursor:pointer;min-height:44px;display:list-item;align-content:center;}
+.training-import {max-width:100%;overflow:hidden;}
+#training-workspace .training-import {margin:0;}
+.training-import input {max-width:100%;}
+#training-status {position:static;padding:12px 14px;background:rgba(var(--surface-raised-rgb),.35);border:1px solid rgba(var(--accent-rgb),.18);border-radius:10px;color:var(--muted);}
+#training-backup-copy {min-height:140px;margin:16px 0;}
+.training-metrics {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:24px 0;}
+.training-metrics > div {padding:18px;background:rgba(var(--surface-raised-rgb),.35);border:1px solid rgba(var(--accent-rgb),.2);border-radius:14px;min-width:0;}
+.training-metrics strong {display:block;font-size:clamp(1.4rem,4vw,2rem);margin-top:8px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums;}
+.training-exercise summary {cursor:pointer;min-height:44px;line-height:1.65;color:var(--text);font-weight:700;}
+#page-training .training-sections > div[role=button] {cursor:pointer;transition:border-color .2s,background .2s;}
+#page-training .training-sections > div[role=button]:hover {border-color:var(--accent);background:rgba(var(--surface-raised-rgb),.65);}
+#page-training .training-sections > div[role=button]:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}
+#page-training .training-sections small {font-size:.6rem;letter-spacing:.1em;color:var(--muted);}
+#page-training .training-sections > div:not([role]) {opacity:.6;}
+#page-workout, #page-training-history {padding-bottom:24px;}
+#training-workspace button, #training-workspace input {scroll-margin-bottom:120px;}
+@media(max-width:600px) {
+ .training-exercise {padding:14px 10px;}
+ .training-set, .training-set-head {grid-template-columns:22px minmax(54px,1fr) minmax(46px,1fr) 44px 44px;gap:4px;}
+ .training-session-actions {display:grid;grid-template-columns:minmax(0,1fr);}
+ .training-actions > button {flex:1 1 auto;}
+ .training-metrics {gap:8px;}
+ .training-metrics > div {padding:12px;}
+ .training-preview-row {padding:12px;gap:8px;}
+}
+@media(prefers-reduced-motion:reduce) {#page-training .training-sections > div[role=button] {transition:none;}}
