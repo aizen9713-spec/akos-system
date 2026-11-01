@@ -1,0 +1,54 @@
+/* Character art is independent of the live, theme-aware status panels. */
+.ascension { padding: 24px; background: radial-gradient(ellipse at 50% 38%, rgba(var(--accent-rgb), .1), transparent 55%), linear-gradient(160deg, var(--panel), var(--bg)); }
+.ascension-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.ascension-heading h2 { margin: 0; font-size: clamp(1.4rem, 2.5vw, 2rem); letter-spacing: .04em; }
+.ascension-seal { color: var(--accent); font-size: 2.4rem; }
+.ascension-layout { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.25fr) minmax(0, 1.1fr); align-items: center; gap: 22px; padding: 28px 0; }
+.ascension-layout > * { min-width: 0; }
+.ascension-profile h3 { margin: 8px 0 24px; font-size: clamp(1.8rem, 3vw, 2.8rem); overflow-wrap: anywhere; }
+.ascension dt { color: var(--muted); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
+.ascension dd { margin: 5px 0 0; color: var(--text); font-weight: 700; overflow-wrap: anywhere; }
+.ascension-identity { display: grid; gap: 18px; border-left: 2px solid var(--accent); padding-left: 14px; }
+.ascension-level { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 12px; padding: 20px 0 0; margin-bottom: 0; border-top: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+.ascension-level-number { grid-row: span 3; align-self: center; }
+.ascension-level-number dd { font-size: clamp(3.4rem, 6vw, 5rem); line-height: 1; color: var(--accent); }
+.ascension-character { position: relative; isolation: isolate; align-self: stretch; display: flex; flex-direction: column; justify-content: center; margin: 0; min-height: 480px; }
+.ascension-character img { display: block; width: 100%; height: 500px; object-fit: contain; position: relative; filter: drop-shadow(0 8px 24px rgba(0,0,0,.7)); }
+.ascension-halo { position: absolute; z-index: -1; inset: 15% -8%; border: 1px solid rgba(var(--accent-rgb), .3); border-radius: 50%; background: radial-gradient(ellipse, rgba(var(--accent-rgb), .17), transparent 68%); box-shadow: inset 0 0 50px rgba(var(--accent-rgb), .07), 0 0 50px rgba(var(--accent-rgb), .07); }
+.ascension-halo::after { content: ''; position: absolute; inset: 12px; border: 1px dashed rgba(var(--accent-rgb), .2); border-radius: inherit; }
+.ascension-character figcaption { text-align: center; color: var(--muted); font-size: .6rem; letter-spacing: .16em; padding-top: 12px; }
+.ascension-character figcaption span { color: var(--accent); margin: 0 8px; }
+.ascension-stats { display: grid; gap: 8px; margin-top: 16px; }
+.ascension-stat { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 11px 10px; border: 1px solid rgba(var(--accent-rgb), .17); border-radius: 10px; background: rgba(var(--surface-rgb), .7); }
+.ascension-stat-icon { font-size: 1.3rem; }
+.ascension small { display: block; color: var(--muted); font-size: .68rem; margin-top: 4px; overflow-wrap: anywhere; }
+.ascension-stat strong { font-size: .85rem; }
+.ascension-stat-value { text-align: right; font-variant-numeric: tabular-nums; }
+.ascension-stat-value strong { color: var(--accent); }
+.ascension-mastery { padding-top: 22px; border-top: 1px solid var(--border); }
+.ascension-skills { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+.ascension-skill { display: flex; align-items: center; gap: 10px; padding: 13px; border: 1px solid var(--border); border-radius: 10px; background: rgba(var(--surface-rgb), .6); min-width: 0; }
+.ascension-skill > div { min-width: 0; }
+.ascension-skill strong { font-size: .8rem; overflow-wrap: anywhere; }
+@media (max-width: 1150px) {
+ .ascension-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); }
+ .ascension-attributes { grid-column: 1 / -1; }
+ .ascension-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ .ascension-skills { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+ .ascension { padding: 18px 14px; }
+ .ascension-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-top: 18px; }
+ .ascension-character { grid-row: 1; min-height: 320px; }
+ .ascension-character img { height: 340px; }
+ .ascension-halo { inset: 5% 12%; }
+ .ascension-profile h3 { font-size: 2rem; }
+ .ascension-identity { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ .ascension-level { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ .ascension-level-number { grid-row: span 3; }
+ .ascension-stats, .ascension-skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ .ascension-stat { grid-template-columns: 24px minmax(0, 1fr); }
+ .ascension-stat-value { grid-column: 2; text-align: left; }
+ .ascension-heading .eyebrow { font-size: .6rem; }
+}
+@media (max-width: 360px) { .ascension-skills { grid-template-columns: minmax(0, 1fr); } }

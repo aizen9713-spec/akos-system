@@ -1,19 +1,26 @@
+// Presentation only: progression and persistence remain in the existing core.
 function renderPlayer() {
   const p = state.player;
   const needed = xpNeededForLevel(p.level);
-  const percent = Math.min(100, Math.round((p.xp / needed) * 100));
-
   document.getElementById("playerName").textContent = p.name;
   document.getElementById("playerTitle").textContent = p.title;
+  document.getElementById("playerClass").textContent = p.class || "Unassigned";
   document.getElementById("playerArc").textContent = p.arc;
   document.getElementById("levelValue").textContent = p.level;
-  document.getElementById("xpText").textContent = `${p.xp} / ${needed} XP`;
-  document.getElementById("xpPercent").textContent = `${percent}%`;
-  document.getElementById("xpFill").style.width = `${percent}%`;
-  const nextStreakMilestone = getNextStreakMilestone(p.streak);
-
-document.getElementById("streakValue").textContent =
-  `${p.streak} / ${nextStreakMilestone}`;
+  document.getElementById("xpText").textContent = p.xp + " XP";
+  document.getElementById("playerNextXp").textContent = needed + " XP";
+  document.getElementById("playerRemainingXp").textContent = Math.max(0, needed - p.xp) + " XP";
+  document.getElementById("streakValue").textContent = p.streak + " / " + getNextStreakMilestone(p.streak);
+  const stats = document.getElementById("playerCoreStats");
+  if (stats) stats.innerHTML = Object.entries(STAT_CONFIG).map(([key, config]) => {
+    const level = state.statLevels?.[key] ?? 1;
+    const xp = state.stats[key] ?? 0;
+    return '<div class="ascension-stat"><span class="ascension-stat-icon" aria-hidden="true">' + escapeHtml(config.icon) + '</span><div><strong>' + escapeHtml(key.toUpperCase()) + '</strong><small>' + escapeHtml(config.name) + '</small></div><div class="ascension-stat-value"><strong>Lv.' + escapeHtml(String(level)) + '</strong><small>' + escapeHtml(String(xp)) + ' / ' + statXpNeededForLevel(level) + ' XP</small></div></div>';
+  }).join("");
+  const skills = document.getElementById("playerSkillMastery");
+  if (skills) skills.innerHTML = Object.entries(state.skills || {}).map(([key, skill]) =>
+    '<div class="ascension-skill"><span class="skill-icon" aria-hidden="true">' + skillIcon(key) + '</span><div><strong>' + escapeHtml(skill.name) + '</strong><small>' + escapeHtml(skill.rank) + ' · ' + escapeHtml(String(skill.xp)) + ' XP</small></div></div>'
+  ).join("") || '<p class="muted">No skills recorded yet.</p>';
 }
 
 function renderStats() {

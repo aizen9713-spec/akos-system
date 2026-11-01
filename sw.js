@@ -1,6 +1,7 @@
-const CACHE_NAME = "akos-system-quest-inbox-fresh-update-20261101";
+const CACHE_NAME = "akos-system-player-ascension-v1-20261101";
 
 const ASSETS = [
+ "./css/components/player-ascension.css", "./assets/characters/shadow-warrior-v1.webp",
  "./js/config/skills.js", "./js/ui/quest-skill-select.js",
  "./js/ui/quest-stat-select.js",
  "./js/features/quest-v2.js", "./js/ui/quest-v2.js", "./css/components/quest-v2.css",

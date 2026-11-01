@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="./css/components/appearance.css">
 <link rel="stylesheet" href="./css/components/training.css">
 <link rel="stylesheet" href="./css/components/quest-v2.css">
+<link rel="stylesheet" href="./css/components/player-ascension.css">
 </head>
 <body>
   <main class="app-shell">
@@ -137,29 +138,6 @@
 
 <div id="page-dashboard" class="app-page active">
 
-    <section class="card player-card">
-      <div class="player-top">
-        <div>
-          <p class="eyebrow">PLAYER</p>
-          <h2 id="playerName">Ákos</h2>
-          <p class="muted">Title: <span id="playerTitle">THE MAIN CHARACTER</span></p>
-          <p class="muted">Class: <span id="playerClass">???</span></p>
-          <p class="muted">Arc: <span id="playerArc">VILLAIN ORIGIN</span></p>
-        </div>
-        <div class="level-box">
-          <span>LEVEL</span>
-          <strong id="levelValue">1</strong>
-        </div>
-      </div>
-
-      <div class="xp-row">
-        <span id="xpText">50 / 100 XP</span>
-        <span id="xpPercent">50%</span>
-      </div>
-      <div class="xp-bar">
-        <div id="xpFill" class="xp-fill"></div>
-      </div>
-    </section>
     <section class="card">
   <div class="section-head">
     <div>
@@ -243,107 +221,39 @@
     </div>
 
 <div id="page-skills" class="app-page">
-    <section class="card">
-  <div class="section-head">
-    <div>
-      <p class="eyebrow">PLAYER STATS</p>
-      <h2>Character attributes</h2>
-    </div>
-  </div>
+    <section class="card player-card ascension" aria-labelledby="ascensionHeading">
+      <header class="ascension-heading"><div><p class="eyebrow">SHADOW OS · PLAYER ASCENSION V1.0</p><h2 id="ascensionHeading">Character status</h2></div><span class="ascension-seal" aria-hidden="true">✦</span></header>
+      <div class="ascension-layout">
+        <div class="ascension-profile">
+          <p class="eyebrow">PLAYER PROFILE</p><h3 id="playerName">—</h3>
+          <dl class="ascension-identity">
+            <div><dt>Title</dt><dd id="playerTitle">—</dd></div>
+            <div><dt>Class</dt><dd id="playerClass">—</dd></div>
+            <div><dt>Arc</dt><dd id="playerArc">—</dd></div>
+          </dl>
+          <dl class="ascension-level">
+            <div class="ascension-level-number"><dt>LEVEL</dt><dd id="levelValue">—</dd></div>
+            <div><dt>Current XP</dt><dd id="xpText">—</dd></div>
+            <div><dt>Next level requires</dt><dd id="playerNextXp">—</dd></div>
+            <div><dt>XP remaining</dt><dd id="playerRemainingXp">—</dd></div>
+          </dl>
+        </div>
+        <figure class="ascension-character" aria-label="Shadow warrior character illustration">
+          <div class="ascension-halo" aria-hidden="true"></div>
+          <img src="./assets/characters/shadow-warrior-v1.webp" alt="Anime fantasy warrior in black armor with gold trim, holding a sword" width="1024" height="1536" decoding="async">
+          <figcaption>PLAYER ASCENSION <span aria-hidden="true">✦</span> SHADOW OS</figcaption>
+        </figure>
+        <section class="ascension-attributes" aria-labelledby="ascensionStatsHeading">
+          <p class="eyebrow">CHARACTER ATTRIBUTES</p><h3 id="ascensionStatsHeading">Core stats</h3>
+          <div id="playerCoreStats" class="ascension-stats"></div>
+        </section>
+      </div>
+      <section class="ascension-mastery" aria-labelledby="ascensionSkillsHeading">
+        <p class="eyebrow">YOUR DISCIPLINES</p><h3 id="ascensionSkillsHeading">Skill mastery</h3>
+        <div id="playerSkillMastery" class="ascension-skills"></div>
+      </section>
+    </section>
 
-  <div class="stats-grid">
-
-    <div class="stat-item">
-      <div class="stat-top">
-        <span>💪 STR</span>
-        <span id="strValue">0 XP</span>
-      </div>
-      <div class="stat-bar">
-        <div id="strFill" class="stat-fill"></div>
-      </div>
-      <small>Strength</small>
-    </div>
-
-    <div class="stat-item">
-      <div class="stat-top">
-        <span>🫀 END</span>
-        <span id="endValue">0 XP</span>
-      </div>
-      <div class="stat-bar">
-        <div id="endFill" class="stat-fill"></div>
-      </div>
-      <small>Endurance</small>
-    </div>
-
-    <div class="stat-item">
-      <div class="stat-top">
-        <span>🧠 INT</span>
-        <span id="intValue">0 XP</span>
-      </div>
-      <div class="stat-bar">
-        <div id="intFill" class="stat-fill"></div>
-      </div>
-      <small>Knowledge</small>
-    </div>
-
-    <div class="stat-item">
-      <div class="stat-top">
-        <span>⚔️ DIS</span>
-        <span id="disValue">0 XP</span>
-      </div>
-      <div class="stat-bar">
-        <div id="disFill" class="stat-fill"></div>
-      </div>
-      <small>Discipline</small>
-    </div>
-
-    <div class="stat-item">
-      <div class="stat-top">
-        <span>🗣️ CHA</span>
-        <span id="chaValue">0 XP</span>
-      </div>
-      <div class="stat-bar">
-        <div id="chaFill" class="stat-fill"></div>
-      </div>
-      <small>Social</small>
-    </div>
-
-    <div class="stat-item">
-      <div class="stat-top">
-        <span>💰 WIS</span>
-        <span id="wisValue">0 XP</span>
-      </div>
-      <div class="stat-bar">
-        <div id="wisFill" class="stat-fill"></div>
-      </div>
-      <small>Financial Wisdom</small>
-    </div>
-
-    <div class="stat-item">
-      <div class="stat-top">
-        <span>❤️ VIRTUE</span>
-        <span id="virtueValue">0 XP</span>
-      </div>
-      <div class="stat-bar">
-        <div id="virtueFill" class="stat-fill"></div>
-      </div>
-      <small>Character</small>
-    </div>
-
-  </div>
-</section>
-    <section class="card">
-  <div class="section-head">
-    <div>
-      <p class="eyebrow">PLAYER SKILLS</p>
-      <h2>Skill development</h2>
-    </div>
-  </div>
-
-  <div id="skillsGrid" class="skills-grid">
-    <!-- Skills are rendered by app.js -->
-  </div>
-</section>
 </div> <!-- page-skills -->
 <div id="page-quests" class="app-page">
   <section class="card">
