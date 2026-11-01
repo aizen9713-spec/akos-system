@@ -3,6 +3,7 @@ function render() {
   renderStats();
   renderSkills();
   renderQuests();
+  if (typeof QuestV2UI !== "undefined") QuestV2UI.render();
   renderDashboard();
   renderAchievements();
   renderSettings();

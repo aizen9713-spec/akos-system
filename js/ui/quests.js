@@ -90,9 +90,13 @@ ${quest.completed ? " · COMPLETED" : " · ACTIVE"}
     const remove = document.createElement("button");
     remove.className = "small-btn delete-btn";
     remove.textContent = "DELETE";
+    remove.disabled = quest.completed;
     remove.onclick = () => deleteQuest(quest.id);
 
-    actions.append(complete, remove);
+    if (quest.kind === "custom") {
+      const edit = document.createElement("button"); edit.type = "button"; edit.className = "small-btn"; edit.textContent = "EDIT"; edit.disabled = quest.completed; edit.onclick = () => QuestV2UI.edit(quest.id);
+      actions.append(complete, edit, remove);
+    } else { actions.append(complete); }
     row.append(left, actions);
     if (quest.completed) {
   completedList.appendChild(row);

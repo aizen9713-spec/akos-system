@@ -15,15 +15,17 @@ const skillXp = Number(skillXpInput.value);
 const title = input.value.trim();
 const xp = Number(xpInput.value);
 
-  if (!title) return;
+  if (!title || title.length > 80) return;
+  if (state.quests.some(q => q.title.trim().toLowerCase() === title.toLowerCase())) { alert("A quest with this title already exists."); return; }
 
-  if (!Number.isFinite(xp) || xp < 1 || xp > 100) {
+  if (!Number.isInteger(xp) || xp < 1 || xp > 100) {
     alert("Quest XP must be between 1 and 100.");
     return;
   }
 
  state.quests.push({
   id: crypto.randomUUID(),
+  kind: "custom",
   title,
   xp,
   completed: false,
@@ -94,7 +96,7 @@ applyQuestRewards(quest);
 
 function deleteQuest(id) {
   const quest = state.quests.find(q => q.id === id);
-  if (!quest) return;
+  if (!quest || quest.kind !== "custom" || quest.completed) return;
 
   state.quests = state.quests.filter(q => q.id !== id);
   addLog(`[QUEST REMOVED] ${quest.title}`);

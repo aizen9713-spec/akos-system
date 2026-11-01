@@ -192,7 +192,7 @@ function startNewDay() {
 state.dailyMessageIndex =
   (state.dailyMessageIndex + 1) % transmissionCount;
   
-  state.quests = createDailyQuests();
+  state.quests = [...createDailyQuests(), ...state.quests.filter(q => q.kind === "custom")];
 
   saveState();
 

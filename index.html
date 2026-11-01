@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="./css/components/update-panel.css">
 <link rel="stylesheet" href="./css/components/appearance.css">
 <link rel="stylesheet" href="./css/components/training.css">
+<link rel="stylesheet" href="./css/components/quest-v2.css">
 </head>
 <body>
   <main class="app-shell">
@@ -349,9 +350,10 @@
       <div class="section-head">
         <div>
           <p class="eyebrow">DAILY QUESTS</p>
-          <h2>Today's objectives</h2>
+          <h2>Quest Control</h2>
+          <p class="muted">CORE MISSIONS · CUSTOM QUESTS · AI INBOX</p>
         </div>
-        <span id="questCounter" class="pill">0/0</span>
+        <div class="quest-toolbar"><span id="questCounter" class="pill">0/0</span><button type="button" class="quest-icon" id="questExport" title="Download quests" aria-label="Download quests"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg></button><button type="button" class="quest-icon" id="questImport" title="Upload quests" aria-label="Upload quests"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M4 16v5h16v-5"/></svg></button><input id="questFile" type="file" accept=".json,application/json" hidden></div>
       </div>
 
      <div class="quest-create">
@@ -420,6 +422,7 @@
 </div>
 
       <p class="eyebrow">ACTIVE QUESTS</p>
+<section class="quest-inbox"><h3>AI Quest Inbox</h3><p class="muted">Suggestions become quests only after approval. Import never awards XP.</p><div id="questInbox"></div></section><p id="questV2Status" role="status" aria-live="polite"></p>
 <div id="activeQuestList" class="quest-list"></div>
 
 <p class="eyebrow">COMPLETED QUESTS</p>
@@ -944,6 +947,7 @@
 <script src="./js/data/quests.js"></script>
 <script src="./js/core/dates.js"></script>
 <script src="./js/features/training-data.js"></script>
+<script src="./js/features/quest-v2.js"></script>
 <script src="./js/core/state.js"></script>
 <script src="./js/core/progression.js"></script>
 <script src="./js/core/daily.js"></script>
@@ -966,6 +970,7 @@
 <script src="./js/features/daily-quests.js"></script>
 <script src="./js/features/training.js"></script>
 <script src="./js/features/training-build2.js"></script>
+<script src="./js/ui/quest-v2.js"></script>
 <script src="app.js?v=0.4.2"></script>
 <script src="./js/core/cloud-core.js"></script>
 </body>

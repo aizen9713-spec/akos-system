@@ -1,0 +1,9 @@
+const assert=require('node:assert/strict'),Q=require('../js/features/quest-v2.js');
+const s={quests:[{id:'core',title:'Core',xp:10,completed:true}],player:{xp:45,streak:8},history:[{completedQuests:1}],training:{cardio:[1]}};
+const file={format:'shadow-quests',version:1,quests:[{id:'custom-1',title:'Read 20 minutes',xp:10,source:'custom',completed:true,statRewards:{str:999},player:{xp:999}},{id:'ai-1',title:'Plan next week',xp:5,source:'ai'}]};
+const before=JSON.stringify(s),n=Q.apply(s,file);assert.equal(JSON.stringify(s),before);assert.equal(n.quests[1].completed,false);assert.deepEqual(n.quests[1].statRewards,{});assert.deepEqual(n.player,s.player);assert.deepEqual(n.history,s.history);assert.deepEqual(n.training,s.training);assert.equal(n.questInbox.length,1);
+assert.deepEqual(Q.apply(n,file),n);const a=Q.approve(n,'ai-1');assert.equal(a.questInbox.length,0);assert.equal(a.quests.length,3);assert.deepEqual(a.player,s.player);assert.throws(()=>Q.approve(a,'ai-1'));
+const dup={...file,quests:[{id:'core',title:'Changed',xp:100,source:'custom'},{id:'other',title:' CORE ',xp:1,source:'custom'},file.quests[0],file.quests[0]]};assert.equal(Q.preview(s,dup).skipped.length,3);assert.equal(Q.preview(s,dup).added.length,1);
+for(const bad of [{...file,version:2},{...file,quests:[{...file.quests[0],xp:Infinity}]},{...file,quests:[{...file.quests[0],source:'core'}]},{...file,quests:[{...file.quests[0],id:'__proto__.x'}]},{...file,quests:Array(201).fill(file.quests[0])}])assert.throws(()=>Q.apply(s,bad));
+const exported=Q.exportFile(a);assert.equal(exported.quests.length,2);assert.ok(exported.quests.every(q=>!('completed' in q)));assert.equal(Q.preview(a,JSON.parse(JSON.stringify(exported))).added.length,0);
+console.log('Quest V2: validation, protected progress/core, AI approval, duplicate/ID defence, atomic malformed import and export round-trip PASS');
