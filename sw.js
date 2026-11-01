@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-skill-icons-v1-layout-fix-20261101";
+const CACHE_NAME = "akos-system-quest-inbox-green-approve-20261101";
 
 const ASSETS = [
  "./js/config/skills.js", "./js/ui/quest-skill-select.js",

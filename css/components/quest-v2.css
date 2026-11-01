@@ -107,3 +107,32 @@
 @media(max-width:400px) {
  #page-quests .quest-create { grid-template-columns:minmax(0,1fr) 72px; }
 }
+
+/* Native disclosure: view state stays outside quest/save/cloud data. */
+#page-quests .quest-inbox { padding:0; overflow:hidden; }
+#page-quests .quest-inbox > summary {
+ display:flex; align-items:center; gap:.65rem; padding:16px 18px;
+ min-height:52px; box-sizing:border-box; cursor:pointer; list-style:none;
+ font-weight:800; color:var(--text); background:linear-gradient(120deg,var(--panel),var(--panel-2));
+}
+#page-quests .quest-inbox > summary::-webkit-details-marker { display:none; }
+#page-quests .quest-inbox > summary:hover { color:var(--accent); }
+#page-quests .quest-inbox > summary:focus-visible,
+#questInbox:focus-visible { outline:2px solid var(--accent); outline-offset:-3px; }
+.quest-inbox-count { display:inline-grid; place-items:center; min-width:1.8em; padding:.15em .45em; box-sizing:border-box; border:1px solid var(--border); border-radius:999px; color:var(--accent); background:var(--panel-2); font-size:.8rem; }
+.quest-inbox-chevron { margin-left:auto; color:var(--accent); }
+.quest-inbox[open] .quest-inbox-chevron { transform:rotate(180deg); }
+#page-quests .quest-inbox > p { margin:0; padding:0 18px 12px; font-size:.8rem; }
+#questInbox { max-height: min(360px, 50vh); overflow-y:auto; overscroll-behavior-y:contain; scrollbar-gutter:stable; padding:0 12px 12px; }
+#page-quests #questInbox .quest-inbox-row { display:flex; flex-direction:row; align-items:center; justify-content:flex-start; flex-wrap:nowrap; gap:12px; margin:0 0 8px; padding:10px 12px; border-radius:10px; }
+.quest-inbox-title { flex:1; min-width:0; overflow-wrap:anywhere; font-size:.85rem; line-height:1.45; }
+.quest-inbox-actions { display:flex; flex:0 0 auto; align-items:center; justify-content:flex-end; gap:6px; margin-left:auto; }
+#questInbox .quest-inbox-actions button { flex:0 0 auto; margin:0; min-height:36px; white-space:nowrap; }
+@media(max-width:560px) {
+ #page-quests .quest-inbox > summary { padding:12px; }
+ #page-quests .quest-inbox > p { padding-inline:12px; }
+ #questInbox { padding-inline:8px; }
+ #page-quests #questInbox .quest-inbox-row { flex-wrap:wrap; gap:8px; padding:10px; }
+ .quest-inbox-title { flex-basis:100%; }
+ #questInbox .quest-inbox-actions button { min-height:44px; }
+}

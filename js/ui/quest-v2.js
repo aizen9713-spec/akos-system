@@ -20,9 +20,9 @@ const QuestV2UI = (() => {
   }
   function renderInbox(){
     const root=el('questInbox');root.replaceChildren();
-    const rows=state.questInbox||[];if(!rows.length){root.textContent='No pending suggestions. Import an AI quest file to review it here.';return;}
-    for(const q of rows){const row=document.createElement('div');row.className='quest-row';const title=document.createElement('span');title.textContent=q.title+' · '+q.xp+' XP';row.append(title);
-      for(const [label,action] of [['APPROVE',()=>commit(QuestV2.approve(state,q.id))],['DISMISS',()=>{const next=structuredClone(state);next.questInbox=next.questInbox.filter(x=>x.id!==q.id);commit(next);}]]){const b=document.createElement('button');b.type='button';b.className='small-btn';b.textContent=label;b.onclick=()=>run(action);row.append(b);}root.append(row);}
+    const rows=state.questInbox||[];const count=el('questInboxCount');count.textContent=String(rows.length);count.setAttribute('aria-label',`${rows.length} pending suggestions`);if(!rows.length){root.textContent='No pending suggestions. Import an AI quest file to review it here.';return;}
+    for(const q of rows){const row=document.createElement('div');row.className='quest-row quest-inbox-row';const title=document.createElement('span');title.textContent=q.title+' · '+q.xp+' XP';title.className='quest-inbox-title';row.append(title);const actions=document.createElement('div');actions.className='quest-inbox-actions';
+      for(const [label,action] of [['APPROVE',()=>commit(QuestV2.approve(state,q.id))],['DISMISS',()=>{const next=structuredClone(state);next.questInbox=next.questInbox.filter(x=>x.id!==q.id);commit(next);}]]){const b=document.createElement('button');b.type='button';b.className=label==='APPROVE'?'small-btn complete-btn':'small-btn';b.textContent=label;b.onclick=()=>run(action);actions.append(b);}row.append(actions);root.append(row);}
   }
   el('questExport').onclick=()=>run(()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(QuestV2.exportFile(state),null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='shadow-quests.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
   el('questImport').onclick=()=>el('questFile').click();
