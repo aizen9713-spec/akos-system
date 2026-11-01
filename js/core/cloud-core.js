@@ -13,21 +13,35 @@ root.CloudLogic={decide,validate};
 if(typeof document==='undefined')return;
 const key='akos-system-v0.1.0',prefix='shadow-cloud-v1:';
 let session=null,config=null,busy=false,baseline=null,preview=null,epoch=0;
-const connectionKey=prefix+'connection';
+const connectionKey=prefix+'connection',preferencesKey=prefix+'preferences';
 const editingFields=new WeakSet();
 let observedRevision=null,lastRead=null,lastWrite=null,lastApply=null,lastError=null;
 const panel=document.createElement('section');panel.className='card';panel.id='cloud-core-panel';
  const style=document.createElement('style');style.textContent='#cloud-core-panel label{display:grid;gap:6px;margin:12px 0}#cloud-core-panel input{width:100%;min-width:0;box-sizing:border-box}#cloud-core-panel button{min-height:44px;margin:6px;white-space:normal}#cloud-core-panel pre{overflow-wrap:anywhere}';document.head.appendChild(style);
-panel.innerHTML='<h2>CLOUD CORE · BUILD 1.3</h2><p>Fejlesztői teszt. Első kapcsolódáskor az eltérő mentéseket egyeztesd. Utána a kapcsolat automatikusan folytatódik. A megjelenés eszközönként marad.</p><p>Csak külön Supabase tesztprojekttel használd. Éles adatokat ne kapcsolj hozzá.</p><label><input id="cloud-test-project" type="checkbox"> Megerősítem, hogy külön tesztprojektet és tesztadatokat használok.</label><label>Supabase URL<input id="cloud-url" type="url" placeholder="https://project.supabase.co"></label><label>Publishable kulcs<input id="cloud-key" autocomplete="off"></label><label>Email<input id="cloud-email" type="email" autocomplete="username"></label><label>Jelszó<input id="cloud-password" type="password" autocomplete="current-password"></label><button id="cloud-login" type="button">Bejelentkezés</button><button id="cloud-stop" type="button">Kijelentkezés és automatikus kapcsolat törlése</button><p id="cloud-status" role="status">Kikapcsolva · csak helyi mentés</p><pre id="cloud-preview" style="white-space:pre-wrap"></pre><div id="cloud-choices" hidden><button id="cloud-local" type="button">Ez az eszköz legyen a forrás</button><button id="cloud-remote" type="button">A felhő legyen a forrás</button></div>';
+panel.innerHTML='<h2>CLOUD CORE · BUILD 1.3</h2><details id="cloud-details"><summary>Részletek / Diagnosztika</summary><p>Fejlesztői teszt. Első kapcsolódáskor az eltérő mentéseket egyeztesd. Utána a kapcsolat automatikusan folytatódik. A megjelenés eszközönként marad.</p><p>Csak külön Supabase tesztprojekttel használd. Éles adatokat ne kapcsolj hozzá.</p></details><label><input id="cloud-test-project" type="checkbox"> Megerősítem, hogy külön tesztprojektet és tesztadatokat használok.</label><label>Supabase URL<input id="cloud-url" type="url" placeholder="https://project.supabase.co"></label><label>Publishable kulcs<input id="cloud-key" autocomplete="off"></label><label>Email<input id="cloud-email" type="email" autocomplete="username"></label><label>Jelszó<input id="cloud-password" type="password" autocomplete="current-password"></label><button id="cloud-login" type="button">Bejelentkezés</button><button id="cloud-stop" type="button">Kijelentkezés és automatikus kapcsolat törlése</button><p id="cloud-status" role="status">Kikapcsolva · csak helyi mentés</p><pre id="cloud-preview" style="white-space:pre-wrap"></pre><div id="cloud-choices" hidden><button id="cloud-local" type="button">Ez az eszköz legyen a forrás</button><button id="cloud-remote" type="button">A felhő legyen a forrás</button></div>';
 (document.getElementById('page-system')||document.querySelector('main')).appendChild(panel);
 const el=id=>document.getElementById('cloud-'+id),status=s=>el('status').textContent=s;
-const diagnostics=document.createElement('pre');diagnostics.id='cloud-diagnostics';panel.appendChild(diagnostics);
+const diagnostics=document.createElement('pre');diagnostics.id='cloud-diagnostics';el('details').appendChild(diagnostics);el('details').appendChild(el('preview'));
 function diagnose(){
  try{const raw=localStorage.getItem(key),x=raw?validate(raw):null;
  diagnostics.textContent=JSON.stringify({build:'Cloud Core 1.3',session:session?'Bejelentkezve · automatikus szinkron':'Nincs session: jelentkezz be',online:navigator.onLine,helyiMentes:x?.lastSavedAt??null,kipipaltQuest:x?.quests.filter(q=>q.completed).length??0,revision:observedRevision,utolsoOlvasas:lastRead,utolsoFeltoltes:lastWrite,utolsoUIFrissites:lastApply,valasztasSzukseges:!!preview,hiba:lastError,serviceWorker:navigator.serviceWorker?.controller?.scriptURL??'Nincs vezérlő'},null,2);
  }catch(e){diagnostics.textContent='Helyi diagnózis: '+e.message;}
 }
 diagnose();status('Nincs bejelentkezés · csak helyi mentés. Bejelentkezés után a kapcsolat ezen az eszközön megmarad.');
+// Preferences contain only public fields and email, never a password.
+function rememberPreferences(){
+ try{let url='';try{const u=new URL(el('url').value.trim());if(u.protocol==='https:'&&/^[-a-z0-9]+\.supabase\.co$/.test(u.hostname)&&!u.username&&!u.password&&!u.port)url=u.origin;}catch{}
+ const publicKey=el('key').value.trim();
+ localStorage.setItem(preferencesKey,JSON.stringify({url,key:/^sb_publishable_[A-Za-z0-9_-]+$/.test(publicKey)?publicKey:'',email:el('email').value.trim()}));}
+ catch{status('A böngésző nem engedi a beállítások megjegyzését.');}
+}
+function restorePreferences(){
+ try{const saved=JSON.parse(localStorage.getItem(preferencesKey)||'null');
+ if(saved)for(const field of ['url','key','email'])if(typeof saved[field]==='string')el(field).value=saved[field];
+ }catch{status('A mentett beállítások nem olvashatók; add meg újra.');}
+}
+restorePreferences();
+for(const field of ['url','key','email'])el(field).oninput=rememberPreferences;
 function persist(){
  if(!session||!config)return;
  if(!session.user?.id)throw Error('Hiányzó felhasználóazonosító; automatikus kapcsolat nem menthető.');
@@ -46,7 +60,7 @@ async function request(path,body,token=true){
 }
 async function refresh(){if(Date.now()/1000>session.expires_at-60){const s=await request('/auth/v1/token?grant_type=refresh_token',{refresh_token:session.refresh_token},false);if(s.user?.id!==session.user.id)throw Error('Megváltozott felhasználó; új bejelentkezés szükséges.');session={...s,expires_at:Date.now()/1000+s.expires_in};persist();}}
 function summary(raw){if(raw===null)return 'Nincs mentés';const x=validate(raw);return JSON.stringify({nev:x.player.name,szint:x.player.level,streak:x.player.streak,quests:x.quests.length,kipipaltQuest:x.quests.filter(q=>q.completed).map(q=>({id:q.id,title:q.title})),napok:x.history.length,edzesek:x.training?.history.length||0,tervek:x.training?.templates.length||0,utolsoMentes:x.lastSavedAt},null,2);}
-function choose(local,remote){preview={local,remote};el('preview').textContent='HELYI\n'+summary(local)+'\nFELHŐ · rev '+(remote?.revision||0)+'\n'+summary(remote?.payload??null);el('choices').hidden=false;el('remote').disabled=!remote;status('Adatforrás-választás szükséges. Nincs automatikus felülírás.');}
+function choose(local,remote){el('details').open=true;preview={local,remote};el('preview').textContent='HELYI\n'+summary(local)+'\nFELHŐ · rev '+(remote?.revision||0)+'\n'+summary(remote?.payload??null);el('choices').hidden=false;el('remote').disabled=!remote;status('Adatforrás-választás szükséges. Nincs automatikus felülírás.');}
 function checkpoint(local,remote){localStorage.setItem(prefix+'backup:'+crypto.randomUUID(),JSON.stringify({at:new Date().toISOString(),local,remote}));}
 async function push(local,remote){validate(local);checkpoint(local,remote);const revision=await request('/rest/v1/rpc/shadow_cloud_write',{expected_revision:remote?.revision||0,new_payload:local});baseline=local;observedRevision=revision;lastWrite=new Date().toISOString();persist();status('Felhő visszaigazolta · rev '+revision+' · felhasználói teszt még szükséges');}
 function pull(local,remote){
@@ -83,7 +97,7 @@ async function sync(source){
  }catch(e){lastError=e.message;status(e.message+' Új összehasonlítás szükséges.');}finally{busy=false;diagnose();}
 }
 el('login').onclick=async()=>{
- if(busy)return;if(!el('test-project').checked){status('Külön tesztprojekt megerősítése szükséges.');return;}let remembered=null;try{remembered=readConnection();}catch{}epoch++;session=null;baseline=null;preview=null;el('choices').hidden=true;busy=true;
+ if(busy)return;rememberPreferences();if(!el('test-project').checked){status('Külön tesztprojekt megerősítése szükséges.');return;}let remembered=null;try{remembered=readConnection();}catch{}epoch++;session=null;baseline=null;preview=null;el('choices').hidden=true;busy=true;
  try{
   const u=new URL(el('url').value);if(u.protocol!=='https:'||!/^[-a-z0-9]+\.supabase\.co$/.test(u.hostname)||u.username||u.password||u.port)throw Error('Érvényes Supabase HTTPS projekt URL szükséges');
   const k=el('key').value.trim();if(!/^sb_publishable_[A-Za-z0-9_-]+$/.test(k))throw Error('Kizárólag nyilvános sb_publishable_ kulcs használható');
@@ -98,5 +112,5 @@ el('stop').onclick=()=>{if(busy){status('Folyamatban lévő kérés befejezésé
 document.addEventListener('input',event=>{if(event.target?.matches('input,textarea,select,[contenteditable="true"]')&&!panel.contains(event.target))editingFields.add(event.target);},true);
 document.addEventListener('focusout',event=>{editingFields.delete(event.target);return Promise.resolve().then(()=>sync());},true);
 setInterval(()=>{diagnose();return sync();},5000);window.addEventListener('focus',()=>sync());document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')sync();});window.addEventListener('online',()=>sync());window.addEventListener('offline',()=>status('Offline · helyi mentés megőrizve, szinkronizálás később'));
-root.cloudReady=(async()=>{try{const saved=readConnection();if(!saved)return;config=saved.config;session=saved.session;baseline=saved.baseline;el('url').value=config.url;el('key').value=config.key;el('test-project').checked=true;status('Mentett kapcsolat · automatikus összehasonlítás');await sync();}catch(e){session=null;status(e.message);diagnose();}})();
+root.cloudReady=(async()=>{try{const saved=readConnection();if(!saved)return;config=saved.config;session=saved.session;baseline=saved.baseline;el('url').value=config.url;el('key').value=config.key;if(!el('email').value)el('email').value=session.user.email||'';rememberPreferences();el('test-project').checked=true;status('Mentett kapcsolat · automatikus összehasonlítás');await sync();}catch(e){session=null;status(e.message);diagnose();}})();
 })(globalThis);
