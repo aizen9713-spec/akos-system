@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-player-ascension-v1-20261101";
+const CACHE_NAME = "akos-system-player-ascension-core-v1-20261101";
 
 const ASSETS = [
  "./css/components/player-ascension.css", "./assets/characters/shadow-warrior-v1.webp",

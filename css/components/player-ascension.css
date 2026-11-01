@@ -52,3 +52,20 @@
  .ascension-heading .eyebrow { font-size: .6rem; }
 }
 @media (max-width: 360px) { .ascension-skills { grid-template-columns: minmax(0, 1fr); } }
+
+/* CORE keeps its familiar small summary; PLAYER owns the full character sheet. */
+.core-player { display: grid; grid-template-columns: 80px minmax(0, 1fr) auto; align-items: center; gap: 6px 16px; }
+.core-player-character { width: 80px; height: 120px; object-fit: contain; filter: drop-shadow(0 3px 10px rgba(var(--accent-rgb), .18)); }
+.core-player-profile { min-width: 0; }
+.core-player-profile h2 { margin: 0 0 6px; font-size: 1.35rem; overflow-wrap: anywhere; }
+.core-player-profile p:not(.eyebrow) { margin: 3px 0; font-size: .75rem; color: var(--muted); overflow-wrap: anywhere; }
+.core-player-profile p span { color: var(--text); }
+.core-player-xp { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 12px; font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums; margin-top: 6px; }
+.core-player-bar { grid-column: 1 / -1; }
+@media (max-width: 480px) {
+ .core-player { grid-template-columns: 54px minmax(0, 1fr) 56px; gap: 6px 9px; padding: 14px; }
+ .core-player-character { width: 54px; height: 104px; }
+ .core-player-level { min-width: 0; padding: 9px 4px; }
+ .core-player-level strong { font-size: 1.9rem; }
+ .core-player-level span { font-size: .55rem; }
+}

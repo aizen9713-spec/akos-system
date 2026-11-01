@@ -2,6 +2,18 @@
 function renderPlayer() {
   const p = state.player;
   const needed = xpNeededForLevel(p.level);
+  const coreValues = {
+    corePlayerName: p.name, corePlayerTitle: p.title,
+    corePlayerClass: p.class || "Unassigned", corePlayerArc: p.arc,
+    corePlayerLevel: p.level, corePlayerXp: p.xp + " / " + needed + " XP",
+    corePlayerPercent: Math.min(100, Math.round(p.xp / needed * 100)) + "%"
+  };
+  for (const [id, value] of Object.entries(coreValues)) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = value;
+  }
+  const coreFill = document.getElementById("corePlayerXpFill");
+  if (coreFill) coreFill.style.width = Math.min(100, Math.max(0, p.xp / needed * 100)) + "%";
   document.getElementById("playerName").textContent = p.name;
   document.getElementById("playerTitle").textContent = p.title;
   document.getElementById("playerClass").textContent = p.class || "Unassigned";
