@@ -45,6 +45,7 @@ input.value = "";
 
 // Reset stat reward
 statInput.value = "";
+statInput.dispatchEvent(new Event("change", { bubbles: true }));
 statXpInput.value = 0;
 updateStatXpInput();
 

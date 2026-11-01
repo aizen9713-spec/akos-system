@@ -1,1 +1,57 @@
 #page-quests .quest-toolbar{display:flex;align-items:center;gap:.5rem}#page-quests .quest-icon{display:grid;place-items:center;width:36px;height:36px;padding:8px;border:1px solid var(--border);background:var(--panel-2);color:var(--accent);border-radius:10px} .quest-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7}#page-quests .quest-row{border:1px solid var(--border);background:linear-gradient(120deg,var(--panel),var(--panel-2));border-radius:14px;padding:18px;margin-block:10px;gap:12px;flex-wrap:wrap}#page-quests .quest-inbox{padding:18px;border:1px solid var(--border);border-radius:16px;margin-block:24px;background:var(--panel)}#page-quests .quest-create{padding-block:20px;border-block:1px solid var(--border)}.quest-dialog{background:var(--panel);color:var(--text);border:1px solid var(--accent);border-radius:18px;padding:24px;max-width:min(620px,90vw);max-height:85vh;overflow:auto}.quest-dialog::backdrop{background:rgb(0 0 0/.7)}.quest-dialog label{display:grid;gap:8px;margin-block:16px}.quest-dialog button{margin:6px}.quest-dialog input{max-width:100%;color:var(--text);background:var(--panel-2)}#page-quests button:focus-visible,.quest-dialog button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}@media(max-width:560px){#page-quests .section-head{flex-wrap:wrap;gap:12px}#page-quests .quest-create{display:flex;flex-wrap:wrap}#page-quests .quest-create>*{max-width:100%}}
+
+/* Opaque theme surfaces also fix the remaining native quest dropdown/fallback. */
+.quest-create select, .quest-create select option {
+  background-color: var(--panel-2);
+  color: var(--text);
+  color-scheme: dark;
+}
+#page-quests .quest-create #questStatTrigger {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  grid-column: auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 11px 12px;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  text-align: left;
+  letter-spacing: normal;
+  font: inherit;
+  transform: none;
+}
+#questStatTrigger::after { content: '▾'; margin-left: auto; color: var(--accent); }
+.quest-stat-list {
+  position: fixed;
+  z-index: 1000;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 4px;
+  background: var(--panel);
+  color: var(--text);
+}
+.quest-stat-list[hidden] { display: none; }
+.quest-stat-list [role=option] {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  min-height: 44px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.quest-stat-list [role=option]:hover,
+.quest-stat-list .is-active { background: var(--panel-2); outline: 1px solid var(--accent); outline-offset: -1px; }
+.quest-stat-list [aria-selected=true] { color: var(--accent); font-weight: 700; }
+.quest-stat-check { margin-left: auto; visibility: hidden; }
+.quest-stat-list [aria-selected=true] .quest-stat-check { visibility: visible; }
+@media(max-width:560px) {
+  #page-quests .quest-create #questStatTrigger { flex: 1 1 130px; }
+}

@@ -1,6 +1,7 @@
-const CACHE_NAME = "akos-system-quest-v2-build1-20261101";
+const CACHE_NAME = "akos-system-quest-stat-ui-20261101";
 
 const ASSETS = [
+ "./js/ui/quest-stat-select.js",
  "./js/features/quest-v2.js", "./js/ui/quest-v2.js", "./css/components/quest-v2.css",
   "./js/features/training-build2.js",
   "./js/core/cloud-core.js",
