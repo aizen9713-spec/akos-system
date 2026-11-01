@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-cloud-settings-20261101-1";
+const CACHE_NAME = "akos-system-quest-undo-20261101-2";
 
 const ASSETS = [
   "./js/core/cloud-core.js",

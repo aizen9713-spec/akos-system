@@ -18,3 +18,11 @@ Automatikus ellenőrzés: cloud-core, cloud-two-device, quest-undo Node szimulá
 7. Offline módosíts eltérően mindkét eszközön, majd csatlakozz újra: konfliktusjelzés és választás jelenjen meg, ne legyen csendes felülírás. A diagnosztika nyíljon ki.
 
 Main kiadás csak a felhasználó PASS jelzése után. Ebben a körben egyik ágra sem történt push.
+
+## Folytatás — 2026-11-01
+A felhasználó a Cloud Settings F5 / megjegyzett mezők UI tesztjére PASS-t adott. A Quest gomb Undo, az akció tooltipjei angolok; új service worker cache készül.
+Audit: helyi develop 8e375cdf268888233c943723c096a1e89994da7e; origin/develop 48526818c2b9722f95fe83fdf7ef5596264b42b6; origin/main 9c1b1d5f0322a7e5e502c5b4917c020ceb195fd8; helyi main 5c333cdd97806aca06feb0d0bb5c64f0034b5bb4. A munkapéldány tiszta volt; develop 13 megőrzött helyi előzménycommittal előrébb, tartalma origin/develop-pal azonos a sorvégek figyelmen kívül hagyásával. Nincs reset, force push vagy adatfájl-módosítás.
+Ellenőrzések: quest-undo, cloud-core, bővített cloud-two-device Node szimulációk PASS; JavaScript szintaxis és git diff --check PASS. Új lefedés: telefon Undo -> PC XP/stat/skill/streak/localStorage, offline complete -> reconnect revision +1, mindkét oldalon eltérő offline változtatás -> nincs írás, mindkét payload megmarad és választás szükséges.
+Valódi Supabase/RLS, telefon-PC és offline felhasználói teszt még NINCS lefuttatva. A tesztek elkülönített memóriabeli mentéseket használnak; a valódi böngésző localStorage és felhőadat nem lett módosítva. Sync implementációs javítást a szimulációk nem indokoltak.
+Következő felhasználói teszt a develop builden: Undo felirat ellenőrzése; PC complete -> telefon -> PC Undo -> telefon, majd fordítva; minden lépésnél revision, XP/stat/skill/streak és Training ellenőrzése. Offline complete egy eszközön, reconnect és automatikus átadás; külön tesztadatokkal eltérő offline módosítás két eszközön, reconnect után konfliktusjelzés és csendes felülírás hiánya. Konfliktusnál ne válassz forrást a mentések ellenőrzése nélkül.
+Main ebben a folytatásban változatlan: az új Undo/sync/offline csomaghoz még felhasználói PASS szükséges.

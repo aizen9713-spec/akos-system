@@ -82,9 +82,9 @@ ${quest.completed ? " · COMPLETED" : " · ACTIVE"}
 
     const complete = document.createElement("button");
     complete.className = "small-btn complete-btn";
-    complete.textContent = quest.completed ? "VISSZAVONÁS" : "COMPLETE";
+    complete.textContent = quest.completed ? "Undo" : "COMPLETE";
     complete.type = "button";
-    complete.title = quest.completed ? "A teljesítés és jutalmai visszavonása" : "Quest teljesítése";
+    complete.title = quest.completed ? "Undo completion and its rewards" : "Complete quest";
     complete.onclick = () => quest.completed ? undoQuestCompletion(quest.id) : completeQuest(quest.id);
 
     const remove = document.createElement("button");

@@ -8,4 +8,18 @@ console.log('Focused untouched input does not block remote completion.');
 phone.c.undoQuestCompletion('quest');await phone.tick();pc.documentEvents.input({target:field});await pc.tick();assert.equal(pc.c.state.quests[0].completed,true);assert.match(pc.el('cloud-status').textContent,/Aktív szerkesztés/);
 await pc.documentEvents.focusout({target:field});assert.equal(pc.c.state.quests[0].completed,false);assert.equal(pc.c.state.player.xp,10);console.log('Unsaved active editor remains protected; leaving it automatically applies pending remote undo.');
 phone.c.completeQuest('quest');await phone.tick();const authField={matches:()=>true,isCloud:true};pc.c.document.activeElement=authField;pc.documentEvents.input({target:authField});await pc.tick();assert.equal(pc.c.state.quests[0].completed,true);console.log('Cloud login fields do not block save downloads. Real user device diagnosis remains pending.');
+phone.c.undoQuestCompletion('quest');await phone.tick();await pc.tick();
+for(const d of [pc,phone]){assert.equal(d.c.state.quests[0].completed,false);assert.equal(d.c.state.player.xp,10);assert.equal(d.c.state.player.streak,39);assert.equal(d.c.state.stats.str,5);assert.equal(d.c.state.skills.work.xp,7);assert.equal(JSON.parse(d.store.get(d.c.STORAGE_KEY)).quests[0].completed,false);}
+const revisionBeforeOffline=remote.revision;
+phone.c.navigator.onLine=false;phone.c.completeQuest('quest');await phone.tick();
+assert.equal(remote.revision,revisionBeforeOffline);assert.equal(phone.c.state.quests[0].completed,true);
+phone.c.navigator.onLine=true;await phone.tick();await pc.tick();
+assert.equal(remote.revision,revisionBeforeOffline+1);assert.equal(pc.c.state.quests[0].completed,true);assert.equal(pc.c.state.player.xp,20);
+pc.c.navigator.onLine=false;phone.c.navigator.onLine=false;
+pc.c.undoQuestCompletion('quest');phone.c.undoQuestCompletion('quest');phone.c.state.player.name='Phone offline edit';phone.c.saveState();
+const pcOffline=pc.store.get(pc.c.STORAGE_KEY);
+phone.c.navigator.onLine=true;await phone.tick();const remoteBeforeConflict={...remote},writesBeforeConflict=writes;
+pc.c.navigator.onLine=true;await pc.tick();
+assert.equal(writes,writesBeforeConflict);assert.deepEqual(remote,remoteBeforeConflict);assert.equal(pc.store.get(pc.c.STORAGE_KEY),pcOffline);assert.equal(pc.el('cloud-choices').hidden,false);
+console.log('Phone -> PC undo rewards/streak/storage, offline reconnect revision, divergent offline edits preserving both payloads: PASS (simulation).');
 })().catch(e=>{console.error(e);process.exitCode=1;});
