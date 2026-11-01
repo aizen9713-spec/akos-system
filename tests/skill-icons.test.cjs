@@ -13,7 +13,11 @@ const grid=new El(),doc=new El();doc.body=new El();doc.createElement=()=>new El(
 const c={document:doc,window:new El(),innerWidth:320,innerHeight:568,queueMicrotask,Event:class{constructor(type){this.type=type}},Option:class{constructor(text,value){this.textContent=text;this.value=value}},escapeHtml:s=>s,structuredClone,crypto:{randomUUID:()=> 'test'},getDateKey:()=> '2026-11-01'};vm.createContext(c);
 vm.runInContext(fs.readFileSync('js/core/state.js','utf8').split('const STORAGE_KEY')[0]+'\nthis.state=structuredClone(defaultState);',c);
 const before=JSON.stringify(c.state);
+const loadedState=c.state;delete c.state;
 for(const p of ['js/config/skills.js','js/ui/skills.js','js/ui/quest-skill-select.js'])vm.runInContext(fs.readFileSync(p,'utf8'),c);
+assert.equal(select.afterElement,undefined,'picker must wait until app state is initialized');
+c.state=loadedState; // app.js loads state after the selector script, before DOMContentLoaded.
+doc.dispatchEvent({type:'DOMContentLoaded'});
 const trigger=select.afterElement,list=doc.body.children[0],key=k=>{trigger.dispatchEvent({type:'keydown',key:k,preventDefault(){}})};
 assert.equal(select.options.length,13);assert.equal(list.children.length,13);assert.equal(select.hidden,true);
 const icons=vm.runInContext('SKILL_ICONS',c);assert.deepEqual(Object.keys(icons),Object.keys(c.state.skills));assert.equal(new Set(Object.values(icons)).size,12);
