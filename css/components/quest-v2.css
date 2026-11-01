@@ -81,3 +81,29 @@
 .skill-icon { flex:0 0 1.5em; text-align:center; color:var(--accent); }
 #questSkillTrigger > span:nth-child(2) { overflow-wrap:anywhere; min-width:0; }
 @media(max-width:560px) { #page-quests .quest-create #questSkillTrigger { flex:1 1 130px; } }
+
+/* Explicit reward rows: selectors must never fall into the narrow XP column. */
+#page-quests .quest-create {
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) 90px;
+  align-items:start;
+}
+#page-quests .quest-create > [hidden] { display:none !important; }
+#page-quests .quest-create > input,
+#page-quests .quest-create > button { min-width:0; box-sizing:border-box; }
+#page-quests .quest-create #questInput { grid-column:1; grid-row:1; }
+#page-quests .quest-create #questXpInput { grid-column:2; grid-row:1; }
+#page-quests .quest-create #questStatTrigger { grid-column:1; grid-row:2; }
+#page-quests .quest-create #questStatXpInput { grid-column:2; grid-row:2; }
+#page-quests .quest-create #questSkillTrigger { grid-column:1; grid-row:3; }
+#page-quests .quest-create #questSkillXpInput { grid-column:2; grid-row:3; }
+#page-quests .quest-create > button:not([role=combobox]) { grid-column:1 / -1; grid-row:4; }
+#questSkillTrigger > span:first-child { flex:0 0 auto; }
+#questSkillTrigger > span:nth-child(2) { flex:1; white-space:normal; overflow-wrap:normal; }
+#questSkillList { overflow-x:hidden; }
+#questSkillList [role=option] > span:first-child,
+#questSkillList .quest-stat-check { flex:0 0 auto; }
+#questSkillList [role=option] > span:nth-child(2) { flex:1; min-width:0; overflow-wrap:break-word; }
+@media(max-width:400px) {
+ #page-quests .quest-create { grid-template-columns:minmax(0,1fr) 72px; }
+}
