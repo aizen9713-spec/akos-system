@@ -1,0 +1,9 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+const source=fs.readFileSync(require('path').join(__dirname,'../sw.js'),'utf8');
+(async()=>{const handlers={},sent=[],deleted=[];let skipped=0,claimed=0,fail=false;
+const cache={async addAll(requests){for(const req of requests){assert.equal(req.cache,'reload');assert.equal(new URL(req.url).origin,'https://example.test');}sent.push(...requests);if(fail)throw Error('offline');},async match(){return 'cached-offline-shell';}};
+const context={URL,Request,Set,Promise,self:{registration:{scope:'https://example.test/akos-system/'},location:{origin:'https://example.test'},addEventListener:(name,fn)=>handlers[name]=fn,skipWaiting(){skipped++},clients:{claim(){claimed++}}},caches:{open:async()=>cache,keys:async()=>['akos-system-old','other-app'],delete:async key=>deleted.push(key)},fetch:()=>{throw Error('Unexpected network fallback')}};
+vm.runInNewContext(source,context);let pending;handlers.install({waitUntil:p=>pending=p});await pending;assert.ok(sent.some(r=>r.url.endsWith('/index.html')));assert.ok(sent.some(r=>r.url.endsWith('/js/ui/quest-v2.js')));assert.ok(sent.some(r=>r.url.endsWith('/css/components/quest-v2.css')));assert.equal(skipped,0);
+fail=true;handlers.install({waitUntil:p=>pending=p});await assert.rejects(pending,/offline/);assert.equal(skipped,0);
+handlers.message({data:{type:'SKIP_WAITING'}});assert.equal(skipped,1);handlers.activate({waitUntil:p=>pending=p});await pending;assert.deepEqual(deleted,['akos-system-old']);assert.equal(claimed,1);
+let response;handlers.fetch({request:{url:'https://example.test/akos-system/',method:'GET',mode:'navigate'},respondWith:p=>response=p});assert.equal(await response,'cached-offline-shell');console.log('PASS: fresh HTTP requests for offline assets; failed install rejects; manual update activation retained; other caches retained; offline shell works.');})().catch(e=>{console.error(e);process.exitCode=1});

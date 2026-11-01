@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-quest-inbox-green-approve-20261101";
+const CACHE_NAME = "akos-system-quest-inbox-fresh-update-20261101";
 
 const ASSETS = [
  "./js/config/skills.js", "./js/ui/quest-skill-select.js",
@@ -58,7 +58,10 @@ const ASSETS = [
 
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    // Bypass the HTTP cache so a new offline release cannot reuse the old UI.
+    caches.open(CACHE_NAME).then(cache => cache.addAll(
+      ASSETS.map(path => new Request(new URL(path, self.registration.scope), { cache: "reload" }))
+    ))
   );
 });
 
