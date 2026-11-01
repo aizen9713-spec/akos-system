@@ -54,6 +54,18 @@ const countBeforeConflict=writes;vm.runInContext(source,c);await c.cloudReady;as
 const preserved=store.get('akos-system-v0.1.0'),cloudPreserved=remote.payload;authFail=true;await tick();
 assert.equal(store.get('akos-system-v0.1.0'),preserved);assert.equal(remote.payload,cloudPreserved);assert.match(el('cloud-diagnostics').textContent,/Nincs session/);authFail=false;
 
+// Preferences survive rejected auth and a fresh page without retaining a password.
+const preferences=JSON.parse(store.get('shadow-cloud-v1:preferences'));
+assert.deepEqual(preferences,{url:'https://test.supabase.co',key:'sb_publishable_test',email:'test@example.test'});
+assert.equal(store.has('shadow-cloud-v1:connection'),false);
+for(const id of ['url','key','email'])el('cloud-'+id).value='';
+vm.runInContext(source,c);await c.cloudReady;
+for(const id of ['url','key','email'])assert.equal(el('cloud-'+id).value,preferences[id]);
+assert.equal(el('cloud-password').value,'');
+el('cloud-key').value='service_role_secret';el('cloud-key').oninput();
+assert.equal(JSON.parse(store.get('shadow-cloud-v1:preferences')).key,'');
+el('cloud-key').value=preferences.key;el('cloud-key').oninput();
+assert.match(source,/<details id="cloud-details"><summary>Részletek \/ Diagnosztika<\/summary>/);
 assert.ok([...store.keys()].some(k=>k.startsWith('shadow-cloud-v1:backup:')));
 console.log('Automated simulation completed (including two Quests, Training persistence, focus resume, revision diagnostics and auth rejection): explicit enrollment, upload, local change, remote apply, memory refresh, conflict, stale preview, quota abort, offline preservation, stop, credential clearing, validation. Supabase/RLS and PC-phone tests NOT RUN.');
 }
