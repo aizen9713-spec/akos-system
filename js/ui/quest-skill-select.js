@@ -1,5 +1,6 @@
 // Presentation-only enhancement: the original select remains the reward value source.
-(() => {
+// app.js initializes state after this script; wait for all classic scripts.
+document.addEventListener('DOMContentLoaded', () => {
   const select = document.getElementById('questSkillInput');
   if (!select) return;
   select.replaceChildren(new Option('No skill', ''), ...Object.entries(state.skills).map(([key, skill]) => new Option(skill.name, key)));
@@ -119,4 +120,4 @@
   document.body.append(list);
   sync();
   select.hidden = true;
-})();
+}, { once: true });
