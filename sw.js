@@ -1,6 +1,7 @@
-const CACHE_NAME = "akos-system-quest-undo-20261101-2";
+const CACHE_NAME = "akos-system-training-build2-20261101-1";
 
 const ASSETS = [
+  "./js/features/training-build2.js",
   "./js/core/cloud-core.js",
   "./",
   "./index.html",

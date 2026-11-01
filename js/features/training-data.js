@@ -8,7 +8,17 @@ const TrainingData = (() => {
   const exercises=xs=>Array.isArray(xs)&&xs.length>0&&xs.length<=100&&new Set(xs.map(x=>x?.id)).size===xs.length&&xs.every(x=>x&&text(x.id)&&text(x.name)&&sets(x.sets));
   const session=(s,completed)=>s&&text(s.id)&&text(s.templateId)&&text(s.name)&&date(s.date)&&exercises(s.exercises)&&typeof s.startedAt==='string'&&Number.isFinite(Date.parse(s.startedAt))&&(!completed||(typeof s.completedAt==='string'&&Number.isFinite(Date.parse(s.completedAt))&&s.exercises.some(e=>e.sets.some(x=>x.done&&x.reps>0))));
   if(!v||v.version!==1||!Array.isArray(v.templates)||v.templates.length>50||!v.templates.every(t=>t&&text(t.id)&&text(t.name)&&exercises(t.exercises))||new Set(v.templates.map(t=>t.id)).size!==v.templates.length||!Array.isArray(v.history)||v.history.length>10000||!v.history.every(s=>session(s,true))||new Set(v.history.map(s=>s.id)).size!==v.history.length||(v.draft!==null&&!session(v.draft,false))||v.history.some(s=>s.id===v.draft?.id))throw new Error('Invalid Training V1 data. Nothing was imported.');
-  return clone(v);
+  const result=clone(v);
+ for(const kind of ['cardio','recovery']){
+ const rows=result[kind]??[];
+ if(!Array.isArray(rows)||rows.length>10000||new Set(rows.map(r=>r?.id)).size!==rows.length)throw Error('Invalid '+kind+' history');
+ const range=(x,a,b)=>Number.isFinite(x)&&x>=a&&x<=b;
+ for(const r of rows){
+ if(!r||!text(r.id)||!date(r.date)||typeof r.createdAt!=='string'||!Number.isFinite(Date.parse(r.createdAt))||typeof r.notes!=='string'||r.notes.length>2000)throw Error('Invalid '+kind+' entry');
+ if(kind==='cardio'&&(!['running','walking','rope','other'].includes(r.activity)||!range(r.minutes,.01,10080)||!range(r.km,0,10000)||(r.heartRate!==null&&!range(r.heartRate,20,250))||(r.intensity!==null&&(!Number.isInteger(r.intensity)||!range(r.intensity,1,10)))))throw Error('Invalid cardio values');
+ if(kind==='recovery'&&(!range(r.sleep,0,24)||!['energy','fatigue','soreness'].every(k=>Number.isInteger(r[k])&&range(r[k],1,5))))throw Error('Invalid recovery values');
+ }result[kind]=rows;
+ }return result;
  }
  // A creation request has one stable ID, even when submitted repeatedly.
  function createPlan(d,requestId,name,sourceId){
@@ -30,7 +40,8 @@ const TrainingData = (() => {
  function finish(d){if(!d.draft||!d.draft.exercises.some(e=>e.sets.some(s=>s.done&&s.reps>0)))throw new Error('Check at least one completed set with reps above zero.');d.history.unshift({...clone(d.draft),completedAt:new Date().toISOString()});d.draft=null;}
  function merge(current,incoming){
   const d=validate(current),s=validate(incoming);
-  for(const h of s.history){const old=d.history.find(x=>x.id===h.id);if(old&&JSON.stringify(old)!==JSON.stringify(h))throw new Error('Conflicting history ID. Import cancelled.');if(!old)d.history.push(clone(h));}
+  for(const kind of ['cardio','recovery'])for(const row of s[kind]){const old=d[kind].find(x=>x.id===row.id);if(old&&JSON.stringify(old)!==JSON.stringify(row))throw Error('Conflicting '+kind+' ID. Import cancelled.');if(!old)d[kind].push(clone(row));}
+ for(const h of s.history){const old=d.history.find(x=>x.id===h.id);if(old&&JSON.stringify(old)!==JSON.stringify(h))throw new Error('Conflicting history ID. Import cancelled.');if(!old)d.history.push(clone(h));}
   if(s.draft&&d.history.some(h=>h.id===s.draft.id))s.draft=null;
   if(d.draft&&d.history.some(h=>h.id===d.draft.id))throw new Error('Backup conflicts with the current draft.');
   if(d.draft&&s.draft&&JSON.stringify(d.draft)!==JSON.stringify(s.draft))throw new Error('Two different drafts. Finish or discard the current draft first.');
@@ -39,5 +50,8 @@ const TrainingData = (() => {
   return validate(d);
  }
  const volume=s=>s.exercises.reduce((n,e)=>n+e.sets.filter(x=>x.done).reduce((m,x)=>m+x.weight*x.reps,0),0);
- return {defaults,validate,createPlan,deletePlan,start,finish,merge,volume,blankSet,id};
+ const pace=r=>r.km>0?r.minutes/r.km:null;
+ function records(rows){return ['running','walking','rope','other'].map(activity=>{const a=rows.filter(r=>r.activity===activity);return {activity,count:a.length,longestKm:Math.max(0,...a.map(r=>r.km)),longestMinutes:Math.max(0,...a.map(r=>r.minutes)),bestPace:a.some(r=>r.km>0)?Math.min(...a.filter(r=>r.km>0).map(pace)):null};});}
+ function trend(rows,today){const end=Date.parse(today+'T00:00:00Z');const window=(lo,hi)=>rows.filter(r=>{const age=(end-Date.parse(r.date+'T00:00:00Z'))/86400000;return age>=lo&&age<hi;});const current=window(0,7),previous=window(7,14),avg=(a,k)=>a.length?a.reduce((n,r)=>n+r[k],0)/a.length:null;return {count:current.length,previousCount:previous.length,values:Object.fromEntries(['sleep','energy','fatigue','soreness'].map(k=>[k,{mean:avg(current,k),delta:current.length>=3&&previous.length>=3?avg(current,k)-avg(previous,k):null}]))};}
+ return {pace,records,trend,defaults,validate,createPlan,deletePlan,start,finish,merge,volume,blankSet,id};
 })();

@@ -66,6 +66,7 @@ async function push(local,remote){validate(local);checkpoint(local,remote);const
 function pull(local,remote){
  const next=migrateState(validate(remote.payload));
  if(next.training===undefined && state.training)next.training=structuredClone(state.training);
+ if(next.training&&state.training)for(const k of ['cardio','recovery'])if(JSON.parse(remote.payload).training?.[k]===undefined)next.training[k]=structuredClone(state.training[k]||[]);
  if(localStorage.getItem(key)!==local)throw Error('A helyi mentés megváltozott; új összehasonlítás szükséges.');
  if(document.activeElement && editingFields.has(document.activeElement))throw Error('Aktív szerkesztés: felhőbetöltés szünetel.');
  checkpoint(local,remote);const previous=state;

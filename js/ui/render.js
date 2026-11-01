@@ -9,4 +9,5 @@ function render() {
   renderSystemHealth();
   renderLog();
   Training.render();
+  TrainingBuild2.render();
 }

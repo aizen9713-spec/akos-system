@@ -64,6 +64,7 @@ async function importSave(file) {
     state = migrateState(imported.state);
     // Older system backups have no Training field: retain current workouts.
     if (imported.state.training === undefined && previousState.training) state.training = structuredClone(previousState.training);
+    if(state.training&&previousState.training)for(const k of ['cardio','recovery'])if(imported.state.training?.[k]===undefined)state.training[k]=structuredClone(previousState.training[k]||[]);
     recalculateStreak();
 
     saveState();

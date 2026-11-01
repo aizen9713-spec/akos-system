@@ -731,241 +731,59 @@
 </div>
 
 <div class="section-head">
-  <div>
-    <p class="eyebrow">SYSTEM LOG</p>
-    <h2>Recent events</h2>
-  </div>
-</div>
-
-      <div id="logList" class="log-list"></div>
-    </section>
-    </div> <!-- page-system -->
-
-<!-- SHADOW PROTOCOL — MODULES HUB -->
-
-<div id="page-modules" class="app-page">
-  <section class="card">
-    <div class="section-head">
-      <div>
-        <p class="eyebrow">SYSTEM MODULES</p>
-        <h2>Module Selection</h2>
-        <p class="muted">
-          Choose a system to develop.
-        </p>
-      </div>
-    </div>
-  </section>
-
-<div class="modules-grid">
- <section
-  class="card module-card"
-  onclick="showPage('training')"
->
-    <div class="module-card-icon" aria-hidden="true">
-  <svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="56"
-  height="56"
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="m6.5 6.5 11 11"/>
-  <path d="m21 21-1-1"/>
-  <path d="m3 3 1 1"/>
-  <path d="m18 22 4-4"/>
-  <path d="m2 6 4-4"/>
-  <path d="m3 10 7-7"/>
-  <path d="m14 21 7-7"/>
-</svg>
-</div>
-    <div class="module-card-header">
-    <span class="module-number">MODULE 01</span>
-    <h3>TRAINING</h3>
-  </div>
-
-  <p class="muted">
-    Strength · Cardio · Recovery
-  </p>
-
-  <span class="module-status">
-    PLANNED
-  </span>
-</section>
-</div> <!-- modules-grid -->
-</div>
-<!-- SHADOW OS — TRAINING SYSTEM -->
-
-<div id="page-training" class="app-page">
-
-  <section class="card">
-
-    <button
-  type="button"
-  class="training-back-btn"
-  onclick="showPage('modules')"
->
-  ← BACK TO MODULES
-</button>
-
-    <p class="eyebrow">SYSTEM MODULE / 01</p>
-    <h2>TRAINING SYSTEM</h2>
-
-    <p class="muted">
-      Strength · Cardio · Recovery
-    </p>
-
-    <div class="training-sections">
-      <div
-  role="button"
-  tabindex="0"
-  aria-label="Open Workout Log"
-  onclick="showPage('workout')"
-  onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); showPage('workout'); }"
->
-  <svg
-    width="28"
-    height="28"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.8"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    aria-hidden="true"
-  >
-    <rect x="8" y="4" width="8" height="4" rx="1"/>
-    <path d="M9 5H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3"/>
-    <path d="m8 13 1 1 2-2"/>
-    <path d="M13 13h4"/>
-    <path d="m8 18 1 1 2-2"/>
-    <path d="M13 18h4"/>
-  </svg>
-  <span>WORKOUT LOG</span>
-</div>
-      <div role="button" tabindex="0" onclick="showPage('training-history')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('training-history');}" aria-label="Open Training History">
-  <svg
-  width="28"
-  height="28"
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="1.8"
-  stroke-linecap="round"
-  stroke-linejoin="round"
-  aria-hidden="true"
->
-  <path d="M3 12a9 9 0 1 0 2.6-6.4"/>
-  <path d="M3 3v5h5"/>
-  <path d="M12 7v5l3 2"/>
-</svg>
-  <span>HISTORY</span>
-</div>
-      <div>
-  <svg
-    width="28"
-    height="28"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.8"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>
-    <path d="M3.3 12h4l2-3 3 6 2-3h6.3"/>
-  </svg>
-  <span>CARDIO</span><small>COMING LATER</small>
-</div>
-      <div>
-  <svg
-    width="28"
-    height="28"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.8"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M20.985 12.486A9 9 0 0 1 11.514 3.015 9 9 0 1 0 20.985 12.486Z"/>
-  </svg>
-  <span>RECOVERY</span><small>COMING LATER</small>
-</div>
-    </div>
-
-  </section>
-
-</div>
-<!-- SHADOW OS — WORKOUT LOG -->
-
-<div id="page-workout" class="app-page">
-  <section class="card">
-    <button
-  type="button"
-  class="training-back-btn"
-  onclick="showPage('training')"
->
-  ← BACK TO TRAINING
-</button>
-
-    <p class="eyebrow">TRAINING / WORKOUT LOG</p>
-    <h2>WORKOUT LOG</h2>
-
-    <p class="muted">
-      Record exercises, sets, reps and weights.
-    </p>
-
-    <div id="training-workspace"></div><p id="training-status" role="status" aria-live="polite">Saved on this device · No automatic XP</p>
-
-  </section>
-</div>
-<div id="page-training-history" class="app-page"><section class="card"><button type="button" onclick="showPage('training')">← BACK TO TRAINING</button><button type="button" onclick="showPage('workout')">WORKOUT LOG</button><p class="eyebrow">TRAINING / HISTORY</p><h2>HISTORY & PROGRESS</h2><div id="training-history"></div></section></div>
-  </main>
-
-  <div id="systemUpdatePanel" class="system-update-panel" hidden>
-  <div class="system-update-content">
-    <strong>⚡ SYSTEM UPDATE AVAILABLE</strong>
-    <p>A new version of the SYSTEM is ready.</p>
-
-    <button id="systemUpdateBtn" type="button">
-      UPDATE NOW
-    </button>
-  </div>
-</div>
-
-<script src="./js/config/stats.js"></script>
-<script src="./js/data/transmissions.js"></script>
-<script src="./js/data/quests.js"></script>
-<script src="./js/core/dates.js"></script>
-<script src="./js/features/training-data.js"></script>
-<script src="./js/core/state.js"></script>
-<script src="./js/core/progression.js"></script>
-<script src="./js/core/daily.js"></script>
-<script src="./js/features/quests.js"></script>
-<script src="./js/features/achievements.js"></script>
-<script src="./js/ui/player.js"></script>
-<script src="./js/ui/stats.js"></script>
-<script src="./js/ui/skills.js"></script>
-<script src="./js/ui/quests.js"></script>
-<script src="./js/ui/dashboard.js"></script>
-<script src="./js/ui/achievements.js"></script>
-<script src="./js/ui/system.js"></script>
-<script src="./js/ui/render.js"></script>
-<script src="./js/ui/navigation.js"></script>
-<script src="./js/ui/settings.js"></script>
-<script src="./js/ui/log.js"></script>
-<script src="./js/core/backup.js"></script>
-<script src="./js/features/settings.js"></script>
-<script src="./js/features/transmissions.js"></script>
-<script src="./js/features/daily-quests.js"></script>
-<script src="./js/features/training.js"></script>
-<script src="app.js?v=0.4.2"></script>
-<script src="./js/core/cloud-core.js"></script>
-</body>
-</html>
+  …4763 tokens truncated…level,streak:x.player.streak,quests:x.quests.length,kipipaltQuest:x.quests.filter(q=>q.completed).map(q=>({id:q.id,title:q.title})),napok:x.history.length,edzesek:x.training?.history.length||0,tervek:x.training?.templates.length||0,utolsoMentes:x.lastSavedAt},null,2);}
+function choose(local,remote){el('details').open=true;preview={local,remote};el('preview').textContent='HELYI\n'+summary(local)+'\nFELHŐ · rev '+(remote?.revision||0)+'\n'+summary(remote?.payload??null);el('choices').hidden=false;el('remote').disabled=!remote;status('Adatforrás-választás szükséges. Nincs automatikus felülírás.');}
+function checkpoint(local,remote){localStorage.setItem(prefix+'backup:'+crypto.randomUUID(),JSON.stringify({at:new Date().toISOString(),local,remote}));}
+async function push(local,remote){validate(local);checkpoint(local,remote);const revision=await request('/rest/v1/rpc/shadow_cloud_write',{expected_revision:remote?.revision||0,new_payload:local});baseline=local;observedRevision=revision;lastWrite=new Date().toISOString();persist();status('Felhő visszaigazolta · rev '+revision+' · felhasználói teszt még szükséges');}
+function pull(local,remote){
+ const next=migrateState(validate(remote.payload));
+ if(next.training===undefined && state.training)next.training=structuredClone(state.training);
+ if(next.training&&state.training)for(const k of ['cardio','recovery'])if(JSON.parse(remote.payload).training?.[k]===undefined)next.training[k]=structuredClone(state.training[k]||[]);
+ if(localStorage.getItem(key)!==local)throw Error('A helyi mentés megváltozott; új összehasonlítás szükséges.');
+ if(document.activeElement && editingFields.has(document.activeElement))throw Error('Aktív szerkesztés: felhőbetöltés szünetel.');
+ checkpoint(local,remote);const previous=state;
+ try{localStorage.setItem(key,JSON.stringify(next));state=next;render();baseline=remote.payload;lastApply=new Date().toISOString();persist();status('Felhőmentés betöltve · felhasználói teszt szükséges');}
+ catch(e){state=previous;localStorage.setItem(key,local);throw e;}
+}
+async function sync(source){
+ if(!session||busy||!navigator.onLine)return;
+ busy=true;const generation=epoch;
+ try{
+  await refresh();const rows=await request('/rest/v1/shadow_cloud_saves?select=revision,payload');
+  if(generation!==epoch)return;
+  if(rows.length>1)throw Error('Unexpected cloud rows');
+  const remote=rows[0]||null,local=localStorage.getItem(key);validate(local);if(remote)validate(remote.payload);
+  observedRevision=remote?.revision??0;lastRead=new Date().toISOString();lastError=null;
+  if(source){
+   if(!preview||preview.local!==local||JSON.stringify(preview.remote)!==JSON.stringify(remote)){choose(local,remote);return;}
+   if(!confirm(source==='local'?'A helyi mentés váltsa fel a felhőpéldányt? Mindkettőről helyi biztonsági másolat készül.':'A felhőmentés váltsa fel az eszköz mentését? Mindkettőről helyi biztonsági másolat készül.'))return;
+   el('choices').hidden=true;preview=null;
+   if(source==='local')await push(local,remote);else if(remote)pull(local,remote);
+   return;
+  }
+  if(preview){choose(local,remote);return;}
+  const action=decide(baseline,local,remote?.payload??null);
+  if(action==='choose')choose(local,remote);
+  if(action==='equal'){baseline=local;persist();status('Azonos helyi és felhőmentés · felhasználói teszt még szükséges');}
+  if(action==='push')await push(local,remote);
+  if(action==='pull')pull(local,remote);
+ }catch(e){lastError=e.message;status(e.message+' Új összehasonlítás szükséges.');}finally{busy=false;diagnose();}
+}
+el('login').onclick=async()=>{
+ if(busy)return;rememberPreferences();if(!el('test-project').checked){status('Külön tesztprojekt megerősítése szükséges.');return;}let remembered=null;try{remembered=readConnection();}catch{}epoch++;session=null;baseline=null;preview=null;el('choices').hidden=true;busy=true;
+ try{
+  const u=new URL(el('url').value);if(u.protocol!=='https:'||!/^[-a-z0-9]+\.supabase\.co$/.test(u.hostname)||u.username||u.password||u.port)throw Error('Érvényes Supabase HTTPS projekt URL szükséges');
+  const k=el('key').value.trim();if(!/^sb_publishable_[A-Za-z0-9_-]+$/.test(k))throw Error('Kizárólag nyilvános sb_publishable_ kulcs használható');
+  config={url:u.origin,key:k};const s=await request('/auth/v1/token?grant_type=password',{email:el('email').value.trim(),password:el('password').value},false);
+  session={...s,expires_at:Date.now()/1000+s.expires_in};
+  if(remembered&&remembered.config.url===config.url&&remembered.session.user.id===session.user?.id)baseline=remembered.baseline;
+  persist();status('Bejelentkezve · automatikus összehasonlítás');
+ }catch(e){session=null;status(e.message);}finally{el('password').value='';busy=false;}
+ await sync();
+};
+el('stop').onclick=()=>{if(busy){status('Folyamatban lévő kérés befejezésére várj, majd állítsd le.');return;}stop();};el('local').onclick=()=>sync('local');el('remote').onclick=()=>sync('remote');
+document.addEventListener('input',event=>{if(event.target?.matches('input,textarea,select,[contenteditable="true"]')&&!panel.contains(event.target))editingFields.add(event.target);},true);
+document.addEventListener('focusout',event=>{editingFields.delete(event.target);return Promise.resolve().then(()=>sync());},true);
+setInterval(()=>{diagnose();return sync();},5000);window.addEventListener('focus',()=>sync());document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')sync();});window.addEventListener('online',()=>sync());window.addEventListener('offline',()=>status('Offline · helyi mentés megőrizve, szinkronizálás később'));
+root.cloudReady=(async()=>{try{const saved=readConnection();if(!saved)return;config=saved.config;session=saved.session;baseline=saved.baseline;el('url').value=config.url;el('key').value=config.key;if(!el('email').value)el('email').value=session.user.email||'';rememberPreferences();el('test-project').checked=true;status('Mentett kapcsolat · automatikus összehasonlítás');await sync();}catch(e){session=null;status(e.message);diagnose();}})();
+})(globalThis);
