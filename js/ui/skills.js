@@ -1,4 +1,5 @@
 function renderSkills() {
+  window.syncQuestSkillSelector?.();
   const grid = document.getElementById("skillsGrid");
 
   if (!grid) return;
@@ -11,7 +12,7 @@ function renderSkills() {
 
     card.innerHTML = `
       <div class="skill-top">
-        <strong>${escapeHtml(skill.name)}</strong>
+        <strong class="skill-name"><span class="skill-icon" aria-hidden="true">${skillIcon(skillKey)}</span><span>${escapeHtml(skill.name)}</span></strong>
         <span class="skill-rank">${escapeHtml(skill.rank)}</span>
       </div>
 

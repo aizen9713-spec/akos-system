@@ -55,3 +55,29 @@
 @media(max-width:560px) {
   #page-quests .quest-create #questStatTrigger { flex: 1 1 130px; }
 }
+
+/* Skill presentation follows the verified stat picker. */
+#page-quests .quest-create #questSkillTrigger {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  grid-column: auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 11px 12px;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  text-align: left;
+  letter-spacing: normal;
+  font: inherit;
+  transform: none;
+}
+#questSkillTrigger::after { content: '▾'; margin-left: auto; color: var(--accent); }
+
+.skill-name { display:inline-flex; align-items:center; gap:.5rem; min-width:0; }
+.skill-name > span:last-child { overflow-wrap:anywhere; }
+.skill-icon { flex:0 0 1.5em; text-align:center; color:var(--accent); }
+#questSkillTrigger > span:nth-child(2) { overflow-wrap:anywhere; min-width:0; }
+@media(max-width:560px) { #page-quests .quest-create #questSkillTrigger { flex:1 1 130px; } }
