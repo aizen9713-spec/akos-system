@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const width = viewport?.width || innerWidth, height = viewport?.height || innerHeight;
     const below = top + height - rect.bottom - 8, above = rect.top - top - 8;
     const upwards = below < Math.min(list.scrollHeight, 360) && above > below;
-    list.style.width = `${Math.min(Math.max(rect.width, 180), width - 16)}px`;
+    list.style.width = `${Math.min(Math.max(rect.width, 320), width - 16)}px`;
     list.style.maxHeight = `${Math.max(44, Math.min(360, upwards ? above : below))}px`;
     list.style.left = `${Math.max(left + 8, Math.min(rect.left, left + width - list.getBoundingClientRect().width - 8))}px`;
     list.style.top = `${upwards ? rect.top - list.getBoundingClientRect().height - 4 : rect.bottom + 4}px`;
