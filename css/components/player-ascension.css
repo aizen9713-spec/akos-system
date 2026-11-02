@@ -115,7 +115,7 @@
 :root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch progress::-moz-progress-bar {background:var(--accent);}
 
 /* Monarch frames V2: layered armor edges and compact icon seals, no motion. */
-.monarch :is(.ascension-stat,.ascension-skill) {
+.monarch :is(.ascension-stat,.ascension-skill,.core-metric,.growth-stat,.core-panel) {
  position:relative; isolation:isolate; border:1px solid rgba(var(--accent-rgb),.5);
  border-radius:0; padding:17px 20px;
  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
@@ -126,13 +126,13 @@
  radial-gradient(ellipse at 0 50%,rgba(var(--accent-rgb),.14),transparent 65%),linear-gradient(125deg,rgba(var(--surface-rgb),.85),rgba(0,0,0,.45));
  box-shadow:inset 3px 0 rgba(var(--accent-rgb),.24),inset 0 1px rgba(var(--accent-rgb),.12),inset 0 -16px 24px rgba(0,0,0,.18);
 }
-.monarch :is(.ascension-stat,.ascension-skill)::before {
+.monarch :is(.ascension-stat,.ascension-skill,.core-metric,.growth-stat,.core-panel)::before {
  content:''; position:absolute; inset:4px; z-index:-1; pointer-events:none;
  border:1px solid rgba(var(--accent-rgb),.15);
  clip-path:polygon(11px 0,100% 0,100% calc(100% - 11px),calc(100% - 11px) 100%,0 100%,0 11px);
  background:linear-gradient(180deg,rgba(var(--accent-rgb),.04),transparent 45%);
 }
-.monarch :is(.ascension-stat,.ascension-skill)::after {
+.monarch :is(.ascension-stat,.ascension-skill,.core-metric,.growth-stat,.core-panel)::after {
  content:''; position:absolute; top:7px; right:8px; width:4px; height:4px;
  transform:rotate(45deg); border:1px solid rgba(var(--accent-rgb),.7);
  background:rgba(var(--accent-rgb),.16); pointer-events:none;
@@ -151,10 +151,10 @@
  background:linear-gradient(90deg,rgba(var(--accent-rgb),.6),transparent);
 }
 @media(max-width:600px){
- .monarch :is(.ascension-stat,.ascension-skill){padding:14px;}
+ .monarch :is(.ascension-stat,.ascension-skill,.core-metric,.growth-stat,.core-panel){padding:14px;}
  .monarch .ascension-stat{grid-template-columns:30px minmax(0,1fr);gap:8px;}
 }
 @media(forced-colors:active){
- .monarch :is(.ascension-stat,.ascension-skill){clip-path:none;border-color:CanvasText;}
+ .monarch :is(.ascension-stat,.ascension-skill,.core-metric,.growth-stat,.core-panel){clip-path:none;border-color:CanvasText;}
  .monarch :is(.ascension-stat-icon,.skill-icon){clip-path:none;border-color:CanvasText;}
 }

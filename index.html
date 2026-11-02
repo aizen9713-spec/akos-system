@@ -18,32 +18,30 @@
 <link rel="stylesheet" href="./css/components/training.css">
 <link rel="stylesheet" href="./css/components/quest-v2.css">
 <link rel="stylesheet" href="./css/components/player-ascension.css">
+<link rel="stylesheet" href="./css/components/core-monarch.css">
+<link rel="stylesheet" href="./css/components/quest-monarch.css">
+<link rel="stylesheet" href="./css/components/training-monarch.css">
+<link rel="stylesheet" href="./css/components/header-monarch.css">
+<link rel="stylesheet" href="./css/components/premium-light.css">
 </head>
 <body>
   <main class="app-shell">
-    <header class="system-header">
-      <div>
-      <p class="eyebrow">AWAKENING INTERFACE</p>
-
-<div class="shadow-os-brand">
-  <span class="shadow-os-word">SHADOW</span>
-  <span class="shadow-os-badge">OS</span>
-</div>
-</h1>
+    <header class="system-header monarch-header premium-surface"><span class="premium-glint" aria-hidden="true"></span>
+      <div class="header-identity">
+        <div class="header-emblem" aria-hidden="true"><svg viewBox="0 0 64 72" fill="none" stroke="currentColor" stroke-linejoin="miter">
+          <circle class="monarch-eclipse" cx="32" cy="35" r="26" stroke-width="1" stroke-dasharray="108 56" transform="rotate(-38 32 35)"/>
+          <path class="monarch-crest-shadow" d="M3 14 19 24 23 9 32 20 41 9 45 24 61 14 54 47 32 68 10 47Z"/>
+          <path class="monarch-crest-shell" d="M8 20 21 29 25 15 32 25 39 15 43 29 56 20 49 45 32 61 15 45Z" stroke-width="1.2"/>
+          <path class="monarch-crest-facet" d="m8 20 13 9 11 7v25L15 45Zm48 0-13 9-11 7 17 9Z" stroke="none"/>
+          <path class="monarch-crest-edge" d="m8 20 7 25 10 9m31-34-7 25-10 9M25 15l7 10 7-10" stroke-width="1.4"/>
+          <path class="monarch-crest-rune" d="m32 29 4 7-4 5-4-5Zm-2 15h4v8l-2 4-2-4Z" stroke="none"/>
+        </svg></div>
+        <div class="header-brand-copy"><p class="eyebrow">AWAKENING INTERFACE</p><h1 class="shadow-os-brand"><span class="shadow-os-word">SHADOW</span><span class="shadow-os-badge">OS</span></h1><p class="header-subtitle">ÁKOS SYSTEM <span aria-hidden="true">/</span> MONARCH PROTOCOL</p></div>
       </div>
-      <div class="header-actions">
-  <div class="status-dot">● SYSTEM ONLINE</div>
-
-  <button
-    class="nav-btn header-config-btn"
-    data-page="system"
-    type="button"
-    aria-label="Open system settings"
-    title="System Settings"
-  >
-    <span class="nav-icon" aria-hidden="true">⚙</span>
-  </button>
-</div>
+      <div class="header-sigil" aria-hidden="true"><span>影</span><small>THE SYSTEM AWAKENS</small></div>
+      <div class="header-actions"><div class="header-telemetry"><div class="status-dot"><span class="header-pulse" aria-hidden="true"></span>SYSTEM ACTIVE</div><span id="headerNetwork" class="header-network" role="status" aria-live="polite"></span></div>
+        <button class="nav-btn header-config-btn" data-page="system" type="button" aria-label="Open system settings" title="System Settings"><span class="nav-icon" aria-hidden="true">⚙</span></button>
+      </div>
     </header>
 
     <nav class="system-nav" aria-label="System navigation">
@@ -137,104 +135,41 @@
 </nav>
 
 <div id="page-dashboard" class="app-page active">
-    <section class="card core-player" aria-labelledby="corePlayerName">
-      <img class="core-player-character" src="./assets/characters/akos-monarch-v1.webp" alt="Ákos karaktere" width="80" height="120" decoding="async">
-      <div class="core-player-profile">
-        <p class="eyebrow">PLAYER</p><h2 id="corePlayerName">—</h2>
-        <p>Title: <span id="corePlayerTitle">—</span></p>
-        <p>Class: <span id="corePlayerClass">—</span></p>
-        <p>Arc: <span id="corePlayerArc">—</span></p>
-      </div>
-      <div class="level-box core-player-level"><span>LEVEL</span><strong id="corePlayerLevel">—</strong></div>
-      <div class="core-player-xp"><span id="corePlayerXp">—</span><span id="corePlayerPercent">—</span></div>
-      <div class="xp-bar core-player-bar" aria-hidden="true"><div id="corePlayerXpFill" class="xp-fill"></div></div>
-    </section>
-
-    <section class="card">
-  <div class="section-head">
-    <div>
-      <p class="eyebrow">TODAY</p>
-      <h2>Quick status</h2>
+  <div class="monarch core-console">
+    <header class="core-heading premium-surface"><span class="premium-glint" aria-hidden="true"></span><div><p class="eyebrow">SHADOW OS · CORE</p><h2>Command center</h2><p class="muted">Your progress. Your discipline. Your next step.</p></div><span class="core-seal" aria-hidden="true">影</span></header>
+    <div class="core-layout">
+      <section class="card core-player core-panel" aria-labelledby="corePlayerName">
+        <div class="core-portrait"><span class="core-portrait-ring" aria-hidden="true"></span><img class="core-player-character" src="./assets/characters/akos-monarch-v1.webp" alt="Ákos karaktere" width="512" height="768" decoding="async"></div>
+        <div class="core-player-profile"><p class="eyebrow">PLAYER PROFILE</p><h2 id="corePlayerName">—</h2><p>Title: <span id="corePlayerTitle">—</span></p><p>Class: <span id="corePlayerClass">—</span></p><p>Arc: <span id="corePlayerArc">—</span></p></div>
+        <div class="level-box core-player-level"><span>LEVEL</span><strong id="corePlayerLevel">—</strong></div>
+        <div class="core-player-xp"><span id="corePlayerXp">—</span><span id="corePlayerPercent">—</span></div>
+        <div class="xp-bar core-player-bar" aria-hidden="true"><div id="corePlayerXpFill" class="xp-fill"></div></div>
+      </section>
+      <section class="card core-panel core-today" aria-labelledby="coreTodayHeading">
+        <div class="section-head"><div><p class="eyebrow">DAILY PROTOCOL</p><h2 id="coreTodayHeading">Today's momentum</h2></div></div>
+        <div class="core-metrics">
+          <div class="core-metric"><p class="eyebrow">DAILY QUESTS</p><h3 id="dashboardQuestProgress">—</h3><p class="muted">Completed today</p></div>
+          <div class="core-metric"><p class="eyebrow">STREAK</p><h3 id="dashboardStreak">—</h3><p class="muted">NO ZERO DAYS</p></div>
+        </div>
+        <div class="streak-meta core-streak"><span>BEST STREAK <strong id="dashboardBestStreak">—</strong></span><span>ACTIVE DAYS <strong id="dashboardActiveDays">—</strong></span></div>
+      </section>
+      <section class="card core-panel core-growth" aria-labelledby="coreGrowthHeading">
+        <div class="section-head"><div><p class="eyebrow">GROWTH SNAPSHOT</p><h2 id="coreGrowthHeading">Current development</h2><p class="muted">Live progress from your core stats</p></div></div>
+        <div id="growthSnapshot" class="growth-snapshot"><p class="muted">Loading stats...</p></div>
+      </section>
+      <section class="card core-panel daily-transmission" aria-labelledby="coreTransmissionHeading">
+        <div class="transmission-head"><h2 id="coreTransmissionHeading" class="eyebrow">DAILY TRANSMISSION</h2><span id="dailyTransmissionCategory" class="transmission-category">SYSTEM</span></div>
+        <div class="transmission-content"><p id="dailyQuote" class="daily-quote">Loading transmission...</p><p class="daily-quote-author">— SYSTEM</p></div>
+      </section>
+      <section class="card core-panel core-main-quest" aria-labelledby="coreMainQuestHeading"><p class="eyebrow">MAIN QUEST</p><h2 id="coreMainQuestHeading">BUILD THE SYSTEM</h2><p class="muted">PHASE I · ACTIVE</p><div class="core-oath" aria-hidden="true">継続</div></section>
     </div>
+    <div class="kaizen-signature"><div class="kaizen-jp">改善</div><div class="kaizen-motto">1% BETTER EVERY DAY.</div></div>
   </div>
-
-  <div class="grid-two">
-    <div>
-      <p class="eyebrow">DAILY QUESTS</p>
-      <h3 id="dashboardQuestProgress">0 / 0</h3>
-      <p class="muted">Completed today</p>
-    </div>
-
-    <div>
-      <p class="eyebrow">STREAK</p>
-      <h3 id="dashboardStreak">1 / 7</h3>
-      <p class="muted">NO ZERO DAYS</p>
-       <div class="streak-meta">
-    <span>
-      BEST
-      <strong id="dashboardBestStreak">0</strong>
-    </span>
-
-    <span>
-      ACTIVE
-      <strong id="dashboardActiveDays">0</strong>
-    </span>
-    </div>
-  </div>
-</section>
-
-<section class="card daily-transmission">
-  <div class="transmission-head">
-    <p class="eyebrow">DAILY TRANSMISSION</p>
-
-    <span
-      id="dailyTransmissionCategory"
-      class="transmission-category"
-    >
-      SYSTEM
-    </span>
-  </div>
-
-  <div class="transmission-content">
-    <p id="dailyQuote" class="daily-quote">
-      Loading transmission...
-    </p>
-    <p class="daily-quote-author">— SYSTEM</p>
-  </div>
-</section>
-
-<section class="card">
-  <div class="section-head">
-    <div>
-      <p class="eyebrow">GROWTH SNAPSHOT</p>
-      <h2>Current development</h2>
-      <p class="muted">Live progress from your core stats</p>
-    </div>
-  </div>
-
-  <div id="growthSnapshot" class="growth-snapshot">
-    <p class="muted">Loading stats...</p>
-  </div>
-</section>
-
-<section class="card">
-  <div class="section-head">
-    <div>
-      <p class="eyebrow">MAIN QUEST</p>
-      <h2>BUILD THE SYSTEM</h2>
-      <p class="muted">PHASE I · ACTIVE</p>
-    </div>
-  </div>
-</section>
-<div class="kaizen-signature">
-  <div class="kaizen-jp">改善</div>
-  <div class="kaizen-motto">1% BETTER EVERY DAY.</div>
 </div>
-    </div>
 
 <div id="page-skills" class="app-page">
     <section class="card player-card ascension monarch" aria-labelledby="ascensionHeading">
-      <header class="ascension-heading"><div><p class="eyebrow">SHADOW OS · PLAYER V1.2 · SHADOW MONARCH</p><h2 id="ascensionHeading">Character status</h2></div><span class="ascension-seal" aria-hidden="true">影</span></header>
+      <header class="ascension-heading premium-surface"><span class="premium-glint" aria-hidden="true"></span><div><p class="eyebrow">SHADOW OS · PLAYER V1.2 · SHADOW MONARCH</p><h2 id="ascensionHeading">Character status</h2></div><span class="ascension-seal" aria-hidden="true">影</span></header>
       <div class="ascension-layout">
         <div class="ascension-profile">
           <p class="eyebrow">PLAYER PROFILE</p><h3 id="playerName">—</h3>
@@ -269,11 +204,12 @@
 
 </div> <!-- page-skills -->
 <div id="page-quests" class="app-page">
-  <section class="card">
+ <div class="monarch quest-console">
+  <section class="card premium-surface quest-command" aria-labelledby="questControlHeading"><span class="premium-glint" aria-hidden="true"></span>
       <div class="section-head">
         <div>
-          <p class="eyebrow">DAILY QUESTS</p>
-          <h2>Quest Control</h2>
+          <p class="eyebrow">SHADOW OS · QUEST PROTOCOL</p>
+          <h2 id="questControlHeading">Quest Control</h2>
           <p class="muted">CORE MISSIONS · CUSTOM QUESTS · AI INBOX</p>
         </div>
         <div class="quest-toolbar"><span id="questCounter" class="pill">0/0</span><button type="button" class="quest-icon" id="questExport" title="Download quests" aria-label="Download quests"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg></button><button type="button" class="quest-icon" id="questImport" title="Upload quests" aria-label="Upload quests"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M4 16v5h16v-5"/></svg></button><input id="questFile" type="file" accept=".json,application/json" hidden></div>
@@ -285,6 +221,7 @@
     type="text"
     maxlength="80"
     placeholder="New quest..."
+    aria-label="Quest title"
   />
 
   <input
@@ -344,14 +281,14 @@
   <button id="addQuestBtn">ADD</button>
 </div>
 
-      <p class="eyebrow">ACTIVE QUESTS</p>
+      <h3 class="eyebrow quest-section-title">ACTIVE QUESTS</h3>
 <details class="quest-inbox"><summary><span>AI Quest Inbox</span><span id="questInboxCount" class="quest-inbox-count" aria-label="0 pending suggestions">0</span><span class="quest-inbox-chevron" aria-hidden="true">⌄</span></summary><p class="muted">Suggestions become quests only after approval. Import never awards XP.</p><div id="questInbox" tabindex="0" role="region" aria-label="Pending AI quest suggestions"></div></details><p id="questV2Status" role="status" aria-live="polite"></p>
 <div id="activeQuestList" class="quest-list"></div>
 
-<p class="eyebrow">COMPLETED QUESTS</p>
+<h3 class="eyebrow quest-section-title">COMPLETED QUESTS</h3>
 <div id="completedQuestList" class="quest-list"></div>
 
-<p class="eyebrow">HISTORY</p>
+<h3 class="eyebrow quest-section-title">HISTORY</h3>
 
 <div class="history-week-nav">
   <button id="historyPrevWeek" type="button">
@@ -370,7 +307,7 @@
 <div id="historyList" class="quest-list"></div>
 </section>
 
-    <section class="card grid-two">
+    <section class="card grid-two quest-support">
       <div>
         <p class="eyebrow">STREAK</p>
         <h3>NO ZERO DAYS</h3>
@@ -382,6 +319,7 @@
         <p class="muted">PHASE I · ACTIVE</p>
       </div>
     </section>
+ </div>
 </div> <!-- page-quests -->
 
 <div id="page-system" class="app-page">
@@ -670,11 +608,11 @@
 
 <!-- SHADOW PROTOCOL — MODULES HUB -->
 
-<div id="page-modules" class="app-page">
-  <section class="card">
+<div id="page-modules" class="app-page monarch training-monarch">
+  <section class="card premium-surface"><span class="premium-glint" aria-hidden="true"></span>
     <div class="section-head">
       <div>
-        <p class="eyebrow">SYSTEM MODULES</p>
+        <p class="eyebrow">SHADOW OS · MODULES</p>
         <h2>Module Selection</h2>
         <p class="muted">
           Choose a system to develop.
@@ -686,6 +624,8 @@
 <div class="modules-grid">
  <section
   class="card module-card"
+  role="button" tabindex="0" aria-label="Open Training module"
+  onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('training');}"
   onclick="showPage('training')"
 >
     <div class="module-card-icon" aria-hidden="true">
@@ -719,16 +659,16 @@
   </p>
 
   <span class="module-status">
-    PLANNED
+    ACTIVE
   </span>
 </section>
 </div> <!-- modules-grid -->
 </div>
 <!-- SHADOW OS — TRAINING SYSTEM -->
 
-<div id="page-training" class="app-page">
+<div id="page-training" class="app-page monarch training-monarch">
 
-  <section class="card">
+  <section class="card premium-surface"><span class="premium-glint" aria-hidden="true"></span>
 
     <button
   type="button"
@@ -829,10 +769,10 @@
   </section>
 
 </div>
-<div id="page-cardio" class="app-page"><section class="card"><button type="button" class="training-back-btn" onclick="showPage('training')">← BACK TO TRAINING</button><p class="eyebrow">TRAINING / BUILD 2</p><h2>CARDIO</h2><div id="cardio-workspace" class="training-build2"></div><p id="cardio-status" role="status" aria-live="polite"></p></section></div><div id="page-recovery" class="app-page"><section class="card"><button type="button" class="training-back-btn" onclick="showPage('training')">← BACK TO TRAINING</button><p class="eyebrow">TRAINING / BUILD 2</p><h2>RECOVERY</h2><div id="recovery-workspace" class="training-build2"></div><p id="recovery-status" role="status" aria-live="polite"></p></section></div><!-- SHADOW OS — WORKOUT LOG -->
+<div id="page-cardio" class="app-page monarch training-monarch"><section class="card premium-surface"><span class="premium-glint" aria-hidden="true"></span><button type="button" class="training-back-btn" onclick="showPage('training')">← BACK TO TRAINING</button><p class="eyebrow">TRAINING / BUILD 2</p><h2>CARDIO</h2><div id="cardio-workspace" class="training-build2"></div><p id="cardio-status" role="status" aria-live="polite"></p></section></div><div id="page-recovery" class="app-page monarch training-monarch"><section class="card premium-surface"><span class="premium-glint" aria-hidden="true"></span><button type="button" class="training-back-btn" onclick="showPage('training')">← BACK TO TRAINING</button><p class="eyebrow">TRAINING / BUILD 2</p><h2>RECOVERY</h2><div id="recovery-workspace" class="training-build2"></div><p id="recovery-status" role="status" aria-live="polite"></p></section></div><!-- SHADOW OS — WORKOUT LOG -->
 
-<div id="page-workout" class="app-page">
-  <section class="card">
+<div id="page-workout" class="app-page monarch training-monarch">
+  <section class="card premium-surface"><span class="premium-glint" aria-hidden="true"></span>
     <button
   type="button"
   class="training-back-btn"
@@ -852,7 +792,7 @@
 
   </section>
 </div>
-<div id="page-training-history" class="app-page"><section class="card"><button type="button" onclick="showPage('training')">← BACK TO TRAINING</button><button type="button" onclick="showPage('workout')">WORKOUT LOG</button><p class="eyebrow">TRAINING / HISTORY</p><h2>HISTORY & PROGRESS</h2><div id="training-history"></div></section></div>
+<div id="page-training-history" class="app-page monarch training-monarch"><section class="card premium-surface"><span class="premium-glint" aria-hidden="true"></span><button type="button" onclick="showPage('training')">← BACK TO TRAINING</button><button type="button" onclick="showPage('workout')">WORKOUT LOG</button><p class="eyebrow">TRAINING / HISTORY</p><h2>HISTORY & PROGRESS</h2><div id="training-history"></div></section></div>
   </main>
 
   <div id="systemUpdatePanel" class="system-update-panel" hidden>
@@ -900,5 +840,6 @@
 <script src="./js/ui/quest-skill-select.js"></script>
 <script src="app.js?v=0.4.2"></script>
 <script src="./js/core/cloud-core.js"></script>
+<script src="./js/ui/header-monarch.js"></script>
 </body>
 </html>

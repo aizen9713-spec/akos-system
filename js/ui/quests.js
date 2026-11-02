@@ -81,7 +81,7 @@ ${quest.completed ? " · COMPLETED" : " · ACTIVE"}
     actions.className = "quest-actions";
 
     const complete = document.createElement("button");
-    complete.className = "small-btn complete-btn";
+    complete.className = quest.completed ? "small-btn undo-btn" : "small-btn complete-btn";
     complete.textContent = quest.completed ? "Undo" : "COMPLETE";
     complete.type = "button";
     complete.title = quest.completed ? "Undo completion and its rewards" : "Complete quest";

@@ -1,6 +1,11 @@
-const CACHE_NAME = "akos-system-player-monarch-v12-monarch-frames-v2-20261102";
+const CACHE_NAME = "akos-system-player-monarch-premium-light-v1-20261102";
 
 const ASSETS = [
+ "./css/components/premium-light.css",
+ "./css/components/header-monarch.css", "./js/ui/header-monarch.js",
+ "./css/components/training-monarch.css",
+ "./css/components/quest-monarch.css",
+ "./css/components/core-monarch.css",
  "./css/components/player-ascension.css", "./assets/characters/akos-monarch-v1.webp",
  "./js/config/skills.js", "./js/ui/quest-skill-select.js",
  "./js/ui/quest-stat-select.js",
