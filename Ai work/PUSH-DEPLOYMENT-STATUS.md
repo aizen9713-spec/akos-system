@@ -16,7 +16,7 @@ Deployment date: 2026-11-02. Project: aizen9713-spec's Project (`uijkqeuuiihldve
 - Test notification, scheduled event while app closed, correct event click, edits/deletion, disable/logout and same-account multi-device delivery.
 - No physical push subscription or phone delivery has been verified. The live GitHub Pages main client is unchanged and may not yet contain Notifications UI. Develop source publication does not automatically replace main's hosted client.
 - One proposed extra live Auth test was blocked by automatic approval review because it would retrieve a service-role credential to create an admin test account. It was not executed; use the normal signed-in app to test user API instead.
-- Allowed browser origin: `https://aizen9713-spec.github.io`. Local app origins must be explicitly added to PUSH_ALLOWED_ORIGINS for live local testing.
+- Allowed browser origins: `https://aizen9713-spec.github.io` and local `127.0.0.1` / `localhost` on ports 5500 and 5173. Supabase authentication is required for each device.
 
 ## Operations
 Do not rotate VAPID keys on redeployment. Do not rerun the initial migration blindly. Cron and functions are installed and active, but only explicit synced Calendar reminder settings with registered devices can send. Unsynced offline edits cannot update server scheduling.
