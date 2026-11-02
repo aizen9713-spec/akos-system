@@ -27,3 +27,11 @@
  --surface-rgb:28,24,17; --surface-raised-rgb:41,34,24;
  --text:#f8eedb; --text-rgb:248,238,219; --muted:#c4ad88; --accent:#e9c37b; --accent-rgb:233,195,123; --accent-2:#c99a4d; --danger:#e87979;
 }
+
+/* Opt-in palette: device appearance only, compatible with Background Engine. */
+:root[data-theme="shadow-monarch-gold"] {
+ --bg:#090909; --bg-rgb:9,9,9; --panel:#121211; --panel-2:#1c1b17;
+ --surface-rgb:18,18,17; --surface-raised-rgb:28,27,23; --border:#665332;
+ --text:#faf4e8; --text-rgb:250,244,232; --muted:#c6baa3;
+ --accent:#edc777; --accent-rgb:237,199,119; --accent-soft:#ffe6ad; --accent-2:#e3bb68;
+}

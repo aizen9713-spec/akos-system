@@ -9,6 +9,8 @@ const before=JSON.stringify(context.state);
 context.renderPlayer(); context.renderStats();
 assert.equal(nodes.get('levelValue').textContent,5);
 assert.equal(nodes.get('xpText').textContent,'125 XP');
+assert.equal(nodes.get('playerXpProgress').value,125/300*100);
+assert.equal(nodes.get('playerXpLabel').textContent,'125 / 300 XP');
 assert.equal(nodes.get('corePlayerName').textContent,'Test <player>');
 assert.equal(nodes.get('corePlayerTitle').textContent,'A title');
 assert.equal(nodes.get('corePlayerClass').textContent,'Warrior');
@@ -42,5 +44,5 @@ const html=fs.readFileSync('index.html','utf8');
 assert.ok(!html.includes('id="xpFill"')&&!html.includes('id="xpPercent"'));
 for(const id of ['playerName','playerCoreStats','playerSkillMastery','levelValue']) assert.equal(html.split('id="'+id+'"').length-1,1);
 const sw=fs.readFileSync('sw.js','utf8');
-for(const asset of ['css/components/player-ascension.css','assets/characters/shadow-warrior-v1.webp']) {assert.ok(sw.includes('./'+asset));assert.ok(fs.existsSync(asset));}
+for(const asset of ['css/components/player-ascension.css','assets/characters/akos-monarch-v1.webp']) {assert.ok(sw.includes('./'+asset));assert.ok(fs.existsSync(asset));}
 console.log('PASS: live saved values, level thresholds, shared icons, escaping, missing class, empty skills, refresh and state immutability; offline assets included.');

@@ -2,10 +2,10 @@
 (() => {
   "use strict";
   const KEY = "shadow-os-appearance-v1";
-  const themes = ["shadow-blue", "imperial-gold", "crimson-black"];
+  const themes = ["shadow-blue", "imperial-gold", "crimson-black", "shadow-monarch-gold"];
   const backgrounds = ["minimal-hud", "shadow-core", "cinematic-transmission", "shadow-gold", "shadow-blue", "crimson-eclipse", "golden-sanctum", "obsidian-gold", "misty-mountains", "crimson-crown"];
   const defaults = { theme: "shadow-blue", background: "cinematic-transmission", visibility: 60 };
-  const colors = { "shadow-blue": "#070b14", "imperial-gold": "#100d07", "crimson-black": "#10080b" };
+  const colors = { "shadow-monarch-gold": "#090909", "shadow-blue": "#070b14", "imperial-gold": "#100d07", "crimson-black": "#10080b" };
   function normalize(value) {
     return {
       theme: themes.includes(value?.theme) ? value.theme : defaults.theme,

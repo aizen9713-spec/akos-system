@@ -138,7 +138,7 @@
 
 <div id="page-dashboard" class="app-page active">
     <section class="card core-player" aria-labelledby="corePlayerName">
-      <img class="core-player-character" src="./assets/characters/shadow-warrior-v1.webp" alt="Shadow warrior" width="80" height="120" decoding="async">
+      <img class="core-player-character" src="./assets/characters/akos-monarch-v1.webp" alt="Ákos karaktere" width="80" height="120" decoding="async">
       <div class="core-player-profile">
         <p class="eyebrow">PLAYER</p><h2 id="corePlayerName">—</h2>
         <p>Title: <span id="corePlayerTitle">—</span></p>
@@ -233,8 +233,8 @@
     </div>
 
 <div id="page-skills" class="app-page">
-    <section class="card player-card ascension" aria-labelledby="ascensionHeading">
-      <header class="ascension-heading"><div><p class="eyebrow">SHADOW OS · PLAYER ASCENSION V1.0</p><h2 id="ascensionHeading">Character status</h2></div><span class="ascension-seal" aria-hidden="true">✦</span></header>
+    <section class="card player-card ascension monarch" aria-labelledby="ascensionHeading">
+      <header class="ascension-heading"><div><p class="eyebrow">SHADOW OS · PLAYER V1.2 · SHADOW MONARCH</p><h2 id="ascensionHeading">Character status</h2></div><span class="ascension-seal" aria-hidden="true">影</span></header>
       <div class="ascension-layout">
         <div class="ascension-profile">
           <p class="eyebrow">PLAYER PROFILE</p><h3 id="playerName">—</h3>
@@ -248,12 +248,13 @@
             <div><dt>Current XP</dt><dd id="xpText">—</dd></div>
             <div><dt>Next level requires</dt><dd id="playerNextXp">—</dd></div>
             <div><dt>XP remaining</dt><dd id="playerRemainingXp">—</dd></div>
+            <div class="monarch-progress"><label for="playerXpProgress">Level progress <span id="playerXpLabel">—</span></label><progress id="playerXpProgress" max="100" value="0">0%</progress></div>
           </dl>
         </div>
-        <figure class="ascension-character" aria-label="Shadow warrior character illustration">
-          <div class="ascension-halo" aria-hidden="true"></div>
-          <img src="./assets/characters/shadow-warrior-v1.webp" alt="Anime fantasy warrior in black armor with gold trim, holding a sword" width="1024" height="1536" decoding="async">
-          <figcaption>PLAYER ASCENSION <span aria-hidden="true">✦</span> SHADOW OS</figcaption>
+        <figure class="ascension-character" aria-label="Player character illustration">
+          <div class="monarch-moon" aria-hidden="true"></div><div class="monarch-torii" aria-hidden="true"></div><div class="ascension-halo" aria-hidden="true"></div>
+          <img src="./assets/characters/akos-monarch-v1.webp" alt="Ákos: rövid barna haj, szakáll, fekete póló és jogger, ezüst-kék medál, fegyver és tetoválás nélkül" width="1024" height="1536" decoding="async">
+          <figcaption>SHADOW MONARCH <span aria-hidden="true">✦</span> SHADOW OS</figcaption>
         </figure>
         <section class="ascension-attributes" aria-labelledby="ascensionStatsHeading">
           <p class="eyebrow">CHARACTER ATTRIBUTES</p><h3 id="ascensionStatsHeading">Core stats</h3>
@@ -411,6 +412,7 @@
       <label for="appearance-theme">Theme
         <select id="appearance-theme">
           <option value="shadow-blue">Shadow Blue</option>
+          <option value="shadow-monarch-gold">Shadow Monarch Gold</option>
           <option value="imperial-gold">Imperial Gold</option>
           <option value="crimson-black">Crimson Black</option>
         </select>

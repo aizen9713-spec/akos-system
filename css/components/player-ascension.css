@@ -69,3 +69,49 @@
  .core-player-level strong { font-size: 1.9rem; }
  .core-player-level span { font-size: .55rem; }
 }
+
+/* Player V1.2 owns its palette; wallpaper remains under Background Engine control. */
+.monarch { --accent:#edc777; --accent-rgb:237,199,119; --panel:#111110; --bg:#090909; --text:#faf4e8; --muted:#c6baa3; --border:#665332; --surface-rgb:17,17,16; color:var(--text); border-color:var(--border); background:radial-gradient(ellipse at 25% 35%,#30271b66,transparent 55%),linear-gradient(145deg,#121211ed,#070808f5); }
+.monarch .ascension-heading h2,.monarch h3 {font-family:Georgia,'Times New Roman',serif;font-weight:500;}
+.monarch .ascension-heading {border-bottom-color:#80602f;}
+.monarch .ascension-layout {grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr) minmax(0,1.3fr);gap:24px;}
+.monarch .ascension-character {grid-column:1;grid-row:1;min-height:540px;overflow:hidden;}
+.monarch .ascension-profile {grid-column:2;grid-row:1;}
+.monarch .ascension-character img {height:540px;z-index:2;}
+.monarch .ascension-halo {inset:12% 5% 28%;border:2px solid #bc8d3c80;border-radius:48%;transform:rotate(-18deg);box-shadow:0 0 35px #cea65412;}
+.monarch .ascension-halo::after {border-style:solid;inset:8px;}
+.monarch-moon {position:absolute;width:130px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#e8d2a34d,#a9946b08 70%);top:8%;left:12%;z-index:-1;}
+.monarch-torii {position:absolute;inset:30% 16% 15%;border-left:12px solid #a17b3624;border-right:12px solid #a17b3624;transform:perspective(400px) rotateY(-8deg);z-index:-1;}
+.monarch-torii::before,.monarch-torii::after {content:'';position:absolute;left:-26%;width:152%;height:12px;background:#a17b362e;top:-18px;transform:rotate(-3deg);}
+.monarch-torii::after {top:30px;left:-15%;width:130%;height:8px;}
+.monarch .ascension-stat,.monarch .ascension-skill {border-radius:2px;border-color:#84633080;background:linear-gradient(130deg,#28231988,#080909cc);box-shadow:inset 0 1px #dfbb6320;}
+.monarch .ascension-stat-icon,.monarch .skill-icon {color:var(--accent);}
+.monarch .ascension-skills {grid-template-columns:repeat(3,minmax(0,1fr));}
+.monarch-progress {grid-column:1/-1;}
+.monarch-progress label {display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;font-size:.75rem;color:var(--muted);}
+.monarch-progress progress {display:block;width:100%;height:10px;margin-top:10px;accent-color:var(--accent);border:0;border-radius:6px;overflow:hidden;background:#292822;}
+.monarch-progress progress::-webkit-progress-bar {background:#292822;}
+.monarch-progress progress::-webkit-progress-value {background:linear-gradient(90deg,#a7792b,#f4ce7a);}
+.monarch-progress progress::-moz-progress-bar {background:#edc777;}
+@media(max-width:1150px){.monarch .ascension-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}.monarch .ascension-attributes{grid-column:1/-1;}.monarch .ascension-skills{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:600px){.monarch .ascension-layout{grid-template-columns:minmax(0,1fr);}.monarch .ascension-character{grid-column:1;grid-row:1;min-height:360px;}.monarch .ascension-character img{height:380px;}.monarch .ascension-profile{grid-column:1;grid-row:2;}.monarch .ascension-attributes{grid-row:3;}.monarch .ascension-profile h3{margin-bottom:16px;}}
+@media(max-width:360px){.monarch .ascension-skills{grid-template-columns:minmax(0,1fr);}}
+@media(prefers-reduced-motion:reduce){.monarch *,.monarch *::before,.monarch *::after{animation:none!important;transition:none!important;}}
+
+/* Blue and crimson inherit the selected theme. Both gold themes retain V1.2 art direction. */
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch {
+ --accent:inherit; --accent-rgb:inherit; --panel:inherit; --bg:inherit;
+ --text:inherit; --muted:inherit; --border:inherit; --surface-rgb:inherit;
+ background:radial-gradient(ellipse at 25% 35%,rgba(var(--accent-rgb),.10),transparent 55%),linear-gradient(145deg,rgba(var(--surface-rgb),.93),rgba(var(--bg-rgb),.97));
+}
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch .ascension-heading {border-bottom-color:rgba(var(--accent-rgb),.5);}
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch .ascension-halo {border-color:rgba(var(--accent-rgb),.5);box-shadow:0 0 35px rgba(var(--accent-rgb),.07);}
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch .monarch-moon {background:radial-gradient(circle at 35% 35%,rgba(var(--accent-rgb),.3),rgba(var(--accent-rgb),.03) 70%);}
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch .monarch-torii {border-color:rgba(var(--accent-rgb),.14);}
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch .monarch-torii::before,
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch .monarch-torii::after {background:rgba(var(--accent-rgb),.18);}
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch :is(.ascension-stat,.ascension-skill) {border-color:rgba(var(--accent-rgb),.4);background:linear-gradient(130deg,rgba(var(--surface-rgb),.55),rgba(var(--bg-rgb),.8));box-shadow:inset 0 1px rgba(var(--accent-rgb),.12);}
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch progress,
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch progress::-webkit-progress-bar {background:rgba(var(--accent-rgb),.12);}
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch progress::-webkit-progress-value {background:linear-gradient(90deg,rgba(var(--accent-rgb),.65),var(--accent));}
+:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch progress::-moz-progress-bar {background:var(--accent);}

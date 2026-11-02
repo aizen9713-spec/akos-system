@@ -2,6 +2,11 @@
 function renderPlayer() {
   const p = state.player;
   const needed = xpNeededForLevel(p.level);
+  const progress = document.getElementById("playerXpProgress");
+  const percent = Math.min(100, Math.max(0, p.xp / needed * 100));
+  if (progress) { progress.value = percent; progress.textContent = Math.round(percent) + "%"; }
+  const xpLabel = document.getElementById("playerXpLabel");
+  if (xpLabel) xpLabel.textContent = p.xp + " / " + needed + " XP";
   const coreValues = {
     corePlayerName: p.name, corePlayerTitle: p.title,
     corePlayerClass: p.class || "Unassigned", corePlayerArc: p.arc,
