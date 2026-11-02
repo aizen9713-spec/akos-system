@@ -1,7 +1,7 @@
-const CACHE_NAME = "akos-system-player-monarch-calendar-push-v1-recovery-20261102";
+const CACHE_NAME = "akos-system-player-monarch-calendar-push-v1-versioned-recovery-20261102";
 
 const ASSETS = [
- "./js/ui/notifications.js", "./js/core/push-worker.js", "./css/components/notifications.css",
+ "./js/ui/notifications.js?v=push-recovery-2", "./js/core/push-worker.js", "./css/components/notifications.css",
  "./css/components/readability.css",
  "./css/components/settings-monarch.css",
  "./js/data/hungarian-calendar.js",
@@ -16,14 +16,14 @@ const ASSETS = [
  "./js/ui/quest-stat-select.js",
  "./js/features/quest-v2.js", "./js/ui/quest-v2.js", "./css/components/quest-v2.css",
   "./js/features/training-build2.js",
-  "./js/core/cloud-core.js",
+  "./js/core/cloud-core.js?v=push-recovery-2",
   "./",
   "./index.html",
   "./styles.css",
   "./css/components/training.css",
   "./js/features/training-data.js",
   "./js/features/training.js",
-  "./app.js?v=0.4.2",
+  "./app.js?v=0.4.3-push-recovery",
   "./manifest.webmanifest",
   "./icon-512-v2.png",
   "./system-bg.png",
