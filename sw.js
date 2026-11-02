@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-player-monarch-v12-themes-webp-20261102";
+const CACHE_NAME = "akos-system-player-monarch-v12-monarch-frames-v2-20261102";
 
 const ASSETS = [
  "./css/components/player-ascension.css", "./assets/characters/akos-monarch-v1.webp",

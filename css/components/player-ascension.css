@@ -84,7 +84,6 @@
 .monarch-torii {position:absolute;inset:30% 16% 15%;border-left:12px solid #a17b3624;border-right:12px solid #a17b3624;transform:perspective(400px) rotateY(-8deg);z-index:-1;}
 .monarch-torii::before,.monarch-torii::after {content:'';position:absolute;left:-26%;width:152%;height:12px;background:#a17b362e;top:-18px;transform:rotate(-3deg);}
 .monarch-torii::after {top:30px;left:-15%;width:130%;height:8px;}
-.monarch .ascension-stat,.monarch .ascension-skill {border-radius:2px;border-color:#84633080;background:linear-gradient(130deg,#28231988,#080909cc);box-shadow:inset 0 1px #dfbb6320;}
 .monarch .ascension-stat-icon,.monarch .skill-icon {color:var(--accent);}
 .monarch .ascension-skills {grid-template-columns:repeat(3,minmax(0,1fr));}
 .monarch-progress {grid-column:1/-1;}
@@ -110,8 +109,52 @@
 :root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch .monarch-torii {border-color:rgba(var(--accent-rgb),.14);}
 :root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch .monarch-torii::before,
 :root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch .monarch-torii::after {background:rgba(var(--accent-rgb),.18);}
-:root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch :is(.ascension-stat,.ascension-skill) {border-color:rgba(var(--accent-rgb),.4);background:linear-gradient(130deg,rgba(var(--surface-rgb),.55),rgba(var(--bg-rgb),.8));box-shadow:inset 0 1px rgba(var(--accent-rgb),.12);}
 :root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch progress,
 :root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch progress::-webkit-progress-bar {background:rgba(var(--accent-rgb),.12);}
 :root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch progress::-webkit-progress-value {background:linear-gradient(90deg,rgba(var(--accent-rgb),.65),var(--accent));}
 :root:not([data-theme="imperial-gold"]):not([data-theme="shadow-monarch-gold"]) .monarch progress::-moz-progress-bar {background:var(--accent);}
+
+/* Monarch frames V2: layered armor edges and compact icon seals, no motion. */
+.monarch :is(.ascension-stat,.ascension-skill) {
+ position:relative; isolation:isolate; border:1px solid rgba(var(--accent-rgb),.5);
+ border-radius:0; padding:17px 20px;
+ clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+ background:linear-gradient(135deg,transparent 8px,rgba(var(--accent-rgb),.9) 8px,rgba(var(--accent-rgb),.9) 10px,transparent 10px) top left / 18px 18px no-repeat,
+ linear-gradient(315deg,transparent 8px,rgba(var(--accent-rgb),.9) 8px,rgba(var(--accent-rgb),.9) 10px,transparent 10px) bottom right / 18px 18px no-repeat,
+ linear-gradient(90deg,rgba(var(--accent-rgb),.75),transparent) top left / 75px 2px no-repeat,
+ linear-gradient(270deg,rgba(var(--accent-rgb),.65),transparent) bottom right / 75px 2px no-repeat,
+ radial-gradient(ellipse at 0 50%,rgba(var(--accent-rgb),.14),transparent 65%),linear-gradient(125deg,rgba(var(--surface-rgb),.85),rgba(0,0,0,.45));
+ box-shadow:inset 3px 0 rgba(var(--accent-rgb),.24),inset 0 1px rgba(var(--accent-rgb),.12),inset 0 -16px 24px rgba(0,0,0,.18);
+}
+.monarch :is(.ascension-stat,.ascension-skill)::before {
+ content:''; position:absolute; inset:4px; z-index:-1; pointer-events:none;
+ border:1px solid rgba(var(--accent-rgb),.15);
+ clip-path:polygon(11px 0,100% 0,100% calc(100% - 11px),calc(100% - 11px) 100%,0 100%,0 11px);
+ background:linear-gradient(180deg,rgba(var(--accent-rgb),.04),transparent 45%);
+}
+.monarch :is(.ascension-stat,.ascension-skill)::after {
+ content:''; position:absolute; top:7px; right:8px; width:4px; height:4px;
+ transform:rotate(45deg); border:1px solid rgba(var(--accent-rgb),.7);
+ background:rgba(var(--accent-rgb),.16); pointer-events:none;
+}
+.monarch .ascension-stat {grid-template-columns:34px minmax(0,1fr) auto;gap:10px;}
+.monarch :is(.ascension-stat-icon,.skill-icon) {
+ display:grid; place-items:center; width:30px; height:34px; flex:0 0 30px;
+ color:var(--accent); font-size:1.15rem;
+ background:linear-gradient(145deg,rgba(var(--accent-rgb),.18),rgba(var(--accent-rgb),.03));
+ border:1px solid rgba(var(--accent-rgb),.36);
+ clip-path:polygon(7px 0,calc(100% - 7px) 0,100% 7px,100% calc(100% - 7px),calc(100% - 7px) 100%,7px 100%,0 calc(100% - 7px),0 7px);
+}
+.monarch :is(.ascension-attributes,.ascension-mastery) h3 {display:flex;align-items:center;gap:12px;}
+.monarch :is(.ascension-attributes,.ascension-mastery) h3::after {
+ content:'';height:1px;flex:1;min-width:12px;
+ background:linear-gradient(90deg,rgba(var(--accent-rgb),.6),transparent);
+}
+@media(max-width:600px){
+ .monarch :is(.ascension-stat,.ascension-skill){padding:14px;}
+ .monarch .ascension-stat{grid-template-columns:30px minmax(0,1fr);gap:8px;}
+}
+@media(forced-colors:active){
+ .monarch :is(.ascension-stat,.ascension-skill){clip-path:none;border-color:CanvasText;}
+ .monarch :is(.ascension-stat-icon,.skill-icon){clip-path:none;border-color:CanvasText;}
+}
