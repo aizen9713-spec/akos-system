@@ -6,6 +6,7 @@ function validate(raw){
  if(typeof raw!=='string'||raw.length>4000000)throw Error('Invalid save size');
  const x=JSON.parse(raw);
  if(!x||Array.isArray(x)||!x.player||typeof x.player.name!=='string'||!Array.isArray(x.quests)||!Array.isArray(x.history)||!x.settings||!x.stats||!x.skills||!Array.isArray(x.achievements))throw Error('Invalid system save');
+ if(x.calendar!==undefined)CalendarData.validate(x.calendar);
  if(x.training!==undefined)TrainingData.validate(x.training);
  return x;
 }
@@ -65,6 +66,7 @@ function checkpoint(local,remote){localStorage.setItem(prefix+'backup:'+crypto.r
 async function push(local,remote){validate(local);checkpoint(local,remote);const revision=await request('/rest/v1/rpc/shadow_cloud_write',{expected_revision:remote?.revision||0,new_payload:local});baseline=local;observedRevision=revision;lastWrite=new Date().toISOString();persist();status('Felhő visszaigazolta · rev '+revision+' · felhasználói teszt még szükséges');}
 function pull(local,remote){
  const next=migrateState(validate(remote.payload));
+ if(JSON.parse(remote.payload).calendar===undefined&&state.calendar)next.calendar=structuredClone(state.calendar);
  if(next.training===undefined && state.training)next.training=structuredClone(state.training);
  if(next.training&&state.training)for(const k of ['cardio','recovery'])if(JSON.parse(remote.payload).training?.[k]===undefined)next.training[k]=structuredClone(state.training[k]||[]);
  if(localStorage.getItem(key)!==local)throw Error('A helyi mentés megváltozott; új összehasonlítás szükséges.');

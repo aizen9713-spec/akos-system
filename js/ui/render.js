@@ -1,5 +1,6 @@
 function render() {
   renderPlayer();
+  if (typeof CalendarUI !== "undefined") CalendarUI.render();
   renderStats();
   renderSkills();
   renderQuests();

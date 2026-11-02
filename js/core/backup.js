@@ -49,6 +49,7 @@ async function importSave(file) {
       throw new Error("Invalid AKOS SYSTEM save file.");
     }
 
+    if (imported.state.calendar !== undefined) CalendarData.validate(imported.state.calendar);
     if (imported.state.training !== undefined) TrainingData.validate(imported.state.training);
 
     const confirmed = window.confirm(
@@ -62,6 +63,7 @@ async function importSave(file) {
 
     const previousState = state;
     state = migrateState(imported.state);
+    if (imported.state.calendar === undefined && previousState.calendar) state.calendar = structuredClone(previousState.calendar);
     // Older system backups have no Training field: retain current workouts.
     if (imported.state.training === undefined && previousState.training) state.training = structuredClone(previousState.training);
     if(state.training&&previousState.training)for(const k of ['cardio','recovery'])if(imported.state.training?.[k]===undefined)state.training[k]=structuredClone(previousState.training[k]||[]);

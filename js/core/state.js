@@ -1,4 +1,5 @@
 const defaultState = {
+  calendar: {version:1,events:[]},
   activeDay: getDateKey(),
   dailyMessageIndex: 0,
  player: {
@@ -254,6 +255,7 @@ if (!Array.isArray(migrated.historyCorrections)) {
   migrated.dailyMessageIndex = 0;
 }
 
+  migrated.calendar = rawState.calendar === undefined ? {version:1,events:[]} : structuredClone(rawState.calendar);
   return migrated;
 }
 

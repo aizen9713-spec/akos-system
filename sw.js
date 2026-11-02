@@ -1,6 +1,8 @@
-const CACHE_NAME = "akos-system-player-monarch-premium-light-v1-20261102";
+const CACHE_NAME = "akos-system-player-monarch-calendar-hu-holidays-v12-20261102";
 
 const ASSETS = [
+ "./js/data/hungarian-calendar.js",
+ "./css/components/calendar.css", "./js/features/calendar-data.js", "./js/ui/calendar.js",
  "./css/components/premium-light.css",
  "./css/components/header-monarch.css", "./js/ui/header-monarch.js",
  "./css/components/training-monarch.css",
