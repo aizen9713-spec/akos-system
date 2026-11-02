@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-player-monarch-calendar-push-v1-queue-20261102";
+const CACHE_NAME = "akos-system-player-monarch-calendar-push-v1-diagnostics-20261102";
 
 const ASSETS = [
  "./js/ui/notifications.js", "./js/core/push-worker.js", "./css/components/notifications.css",
