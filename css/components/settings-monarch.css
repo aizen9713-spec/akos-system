@@ -1,0 +1,66 @@
+/* Settings presentation only, including the dynamically mounted Cloud Core panel. */
+#page-system.settings-monarch{padding:24px;border:1px solid var(--border);border-radius:16px;}
+#page-system.settings-monarch>.card:not(#cloud-core-panel){background:transparent;border:0;padding:0;box-shadow:none;margin:0;}
+#page-system .settings-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-bottom:22px;margin-bottom:24px;border-bottom:1px solid rgba(var(--accent-rgb),.35);}
+#page-system .settings-heading h2{font-size:clamp(1.7rem,3vw,2.3rem);margin:8px 0 12px;}
+#page-system :is(h2,h3){font-family:Georgia,'Times New Roman',serif;font-weight:500;overflow-wrap:anywhere;}
+#page-system .settings-heading .muted{font-size:.8rem;margin:0;line-height:1.7;}
+#page-system .settings-seal{color:var(--accent);font-family:serif;font-size:2.8rem;opacity:.65;}
+#page-system :is(.settings-card,.appearance-settings,.system-health-card,.achievement-panel,#cloud-core-panel){position:relative;padding:24px;margin:22px 0;border:1px solid rgba(var(--accent-rgb),.3);border-left:3px solid rgba(var(--accent-rgb),.6);border-radius:3px;background:linear-gradient(90deg,rgba(var(--accent-rgb),.65),transparent) top left / 80px 1px no-repeat,radial-gradient(ellipse at 0 0,rgba(var(--accent-rgb),.06),transparent 65%),linear-gradient(125deg,rgba(var(--surface-rgb),.85),rgba(0,0,0,.25));box-shadow:inset 0 0 0 4px rgba(var(--accent-rgb),.02);min-width:0;}
+#page-system :is(.settings-card,.appearance-settings,.system-health-card,.achievement-panel,#cloud-core-panel)::after{content:'';position:absolute;top:8px;right:8px;width:4px;height:4px;border:1px solid rgba(var(--accent-rgb),.55);transform:rotate(45deg);pointer-events:none;}
+#page-system .achievement-panel{margin-top:0;}
+#page-system .appearance-settings{padding:22px;margin:24px 0;}
+#page-system .appearance-settings>h3{font-size:1.4rem;}
+#page-system .appearance-settings>.muted,#page-system #background-help{font-size:.75rem;line-height:1.7;}
+#page-system .settings-status-row{display:flex;flex-wrap:wrap;gap:8px;}
+#page-system .settings-status-row span{font-size:.6rem;padding:7px 9px;border:1px solid rgba(var(--accent-rgb),.25);border-radius:3px;color:var(--accent);background:rgba(var(--accent-rgb),.05);}
+#page-system :is(.settings-grid,.appearance-grid){grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+#page-system .settings-grid{border-top:1px solid rgba(var(--accent-rgb),.2);padding-top:22px;margin:24px 0;}
+#page-system :is(.settings-grid,.appearance-grid) label{min-width:0;color:var(--muted);font-size:.8rem;gap:9px;}
+#page-system :is(.settings-grid,.appearance-grid) select,#page-system #cloud-core-panel input:not([type=checkbox]){width:100%;max-width:100%;min-width:0;box-sizing:border-box;min-height:46px;border-radius:4px;border:1px solid rgba(var(--accent-rgb),.3);padding:12px;background:var(--panel-2);color:var(--text);font:inherit;}
+#page-system .appearance-grid{grid-template-columns:minmax(0,1fr);max-width:420px;}
+#page-system .background-gallery-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
+#page-system .background-card-face{border:1px solid rgba(var(--accent-rgb),.25);border-radius:3px;background:rgba(var(--surface-rgb),.6);}
+#page-system .background-card-name{font-size:.73rem;line-height:1.5;padding:10px 10px 3px;}
+#page-system .background-selected{font-size:.65rem;padding:0 10px 10px;}
+#page-system .background-card input:checked+.background-card-face{border-color:var(--accent);box-shadow:inset 0 -2px var(--accent);}
+#page-system .background-card:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:3px;}
+#page-system .background-thumbnail{border-bottom:1px solid rgba(var(--accent-rgb),.15);}
+#page-system .background-visibility{font-size:.8rem;color:var(--muted);}
+#page-system .appearance-preview{border-radius:3px;box-shadow:inset 3px 0 rgba(var(--accent-rgb),.4);}
+#page-system .appearance-signal{box-shadow:0 0 8px rgba(var(--accent-rgb),.16);}
+#page-system .settings-training-days{grid-column:1/-1;color:var(--muted);font-size:.8rem;}
+#page-system .training-days-options{grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;}
+#page-system .training-days-options label{min-height:44px;border-radius:3px;border-color:rgba(var(--accent-rgb),.25);background:rgba(var(--surface-rgb),.7);color:var(--muted);font-size:.7rem;}
+#page-system .training-days-options label:has(input:checked){border-color:var(--accent);background:rgba(var(--accent-rgb),.12);color:var(--text);box-shadow:inset 0 -2px rgba(var(--accent-rgb),.6);}
+#page-system .training-days-options label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:3px;}
+#page-system :is(button,.system-control-btn){min-height:44px;border-radius:4px;max-width:100%;white-space:normal;overflow-wrap:anywhere;}
+#page-system button{background:rgba(var(--accent-rgb),.07);border:1px solid rgba(var(--accent-rgb),.3);color:var(--text);}
+#page-system :is(#save-settings-btn,#cloud-login){background:linear-gradient(120deg,rgba(var(--accent-rgb),.22),rgba(var(--accent-rgb),.07));border-color:rgba(var(--accent-rgb),.7);color:var(--accent);box-shadow:inset 3px 0 rgba(var(--accent-rgb),.5);}
+#page-system :is(#resetBtn,.control-reset){color:var(--danger);border-color:rgba(255,110,135,.3);background:rgba(255,85,110,.05);}
+#page-system :is(button,.system-control-btn):hover{transform:none;border-color:var(--accent);}
+#page-system :is(button,select,input,summary,.system-control-btn):focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+#page-system .system-health-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+#page-system .health-item{padding:18px;border:1px solid rgba(var(--accent-rgb),.2);border-left:2px solid rgba(var(--accent-rgb),.4);border-radius:3px;background:rgba(var(--surface-rgb),.5);min-width:0;}
+#page-system .health-item span{color:var(--muted);font-size:.65rem;}
+#page-system .health-item strong{font-size:.85rem;overflow-wrap:anywhere;}
+#page-system .health-live::before{box-shadow:none;}
+#page-system .save-controls{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0;padding:20px 0;border-block:1px solid rgba(var(--accent-rgb),.2);}
+#page-system .system-control-btn{flex:1 1 120px;border-radius:3px;}
+#page-system .system-divider{opacity:.5;margin:24px 0;}
+#page-system .log-list{border:1px solid rgba(var(--accent-rgb),.2);border-radius:3px;padding:12px;}
+#page-system .log-item{border-radius:2px;border-color:rgba(var(--accent-rgb),.15);background:rgba(var(--surface-rgb),.5);color:var(--muted);font-size:.75rem;line-height:1.7;overflow-wrap:anywhere;}
+#page-system #cloud-core-panel{margin:24px 0 0;}
+#page-system #cloud-core-panel h2{font-size:1.4rem;}
+#page-system #cloud-core-panel label{font-size:.8rem;line-height:1.6;color:var(--muted);}
+#page-system #cloud-core-panel label:has(input[type=checkbox]){display:flex;align-items:flex-start;gap:10px;}
+#page-system #cloud-core-panel input[type=checkbox]{width:22px;min-width:22px;height:22px;accent-color:var(--accent);margin:2px 0;}
+#page-system #cloud-core-panel button{margin:8px 8px 8px 0;font-size:.78rem;}
+#page-system #cloud-details{border-block:1px solid rgba(var(--accent-rgb),.2);margin:16px 0;padding:10px 0;}
+#page-system #cloud-details summary{cursor:pointer;min-height:44px;align-content:center;color:var(--accent);}
+#page-system #cloud-core-panel pre{white-space:pre-wrap;font-size:.7rem;line-height:1.7;background:rgba(var(--surface-rgb),.55);border-radius:3px;max-height:360px;overflow:auto;}
+#page-system #cloud-status{line-height:1.7;font-size:.8rem;overflow-wrap:anywhere;}
+@media(max-width:600px){#page-system.settings-monarch{padding:18px 12px;}#page-system :is(.settings-card,.appearance-settings,.system-health-card,.achievement-panel,#cloud-core-panel){padding:18px 12px;}#page-system :is(.settings-grid,.appearance-grid){grid-template-columns:minmax(0,1fr);}#page-system .system-health-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}#page-system .health-item{padding:14px 10px;}#page-system .training-days-options{grid-template-columns:repeat(4,minmax(0,1fr));}#page-system .background-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}#page-system .background-card-name{font-size:.65rem;}#page-system .settings-seal{font-size:2rem;}}
+@media(max-width:360px){#page-system .system-health-grid{grid-template-columns:minmax(0,1fr);}#page-system .training-days-options{grid-template-columns:repeat(3,minmax(0,1fr));}}
+@media(prefers-reduced-motion:reduce){#page-system *,#page-system *::before,#page-system *::after{animation:none!important;transition:none!important;}}
+@media(forced-colors:active){#page-system :is(.settings-card,.appearance-settings,.system-health-card,.achievement-panel,#cloud-core-panel,.health-item){border-color:CanvasText;}}

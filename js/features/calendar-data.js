@@ -4,14 +4,14 @@ const CalendarData = (() => {
  const date=x=>typeof x==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x)&&x>='1900-01-01'&&x<='2100-12-31'&&Number.isFinite(Date.parse(x+'T12:00:00Z'))&&new Date(x+'T12:00:00Z').toISOString().slice(0,10)===x;
  const time=x=>typeof x==='string'&&(x===''||/^([01]\d|2[0-3]):[0-5]\d$/.test(x));
  function event(x){
-  if(!x||Array.isArray(x)||typeof x.id!=='string'||! /^[a-zA-Z0-9_-]{1,100}$/.test(x.id)||typeof x.title!=='string'||!x.title.trim()||x.title.length>150||!date(x.date)||!time(x.time)||!time(x.endTime)||(!x.time&&x.endTime)||(x.endTime&&x.endTime<=x.time)||!kinds.includes(x.kind)||typeof x.note!=='string'||x.note.length>3000||typeof x.questId!=='string'||x.questId.length>150||typeof x.completed!=='boolean'||(x.sourceRef!==undefined&&(typeof x.sourceRef!=='string'||x.sourceRef.length>200)))throw Error('Érvénytelen naptári esemény. Dátum: 1900–2100, idő: HH:MM, a befejezés a kezdés után legyen.');
+  if(!x||Array.isArray(x)||typeof x.id!=='string'||! /^[a-zA-Z0-9_-]{1,100}$/.test(x.id)||typeof x.title!=='string'||!x.title.trim()||x.title.length>150||!date(x.date)||!time(x.time)||!time(x.endTime)||(!x.time&&x.endTime)||(x.endTime&&x.endTime<=x.time)||!kinds.includes(x.kind)||typeof x.note!=='string'||x.note.length>3000||typeof x.questId!=='string'||x.questId.length>150||typeof x.completed!=='boolean'||(x.sourceRef!==undefined&&(typeof x.sourceRef!=='string'||x.sourceRef.length>200)))throw Error('Invalid calendar event. Use a date from 1900–2100 and HH:MM times; end time must be after start time.');
   return {id:x.id,title:x.title.trim(),date:x.date,time:x.time,endTime:x.endTime,kind:x.kind,note:x.note,questId:x.questId,completed:x.completed,sourceRef:x.sourceRef??''};
  }
- function validate(x){if(!x||x.version!==1||!Array.isArray(x.events)||x.events.length>2000)throw Error('Érvénytelen Calendar V1 adat.');const events=x.events.map(event);if(new Set(events.map(e=>e.id)).size!==events.length)throw Error('Ismétlődő eseményazonosító.');const refs=events.map(e=>e.sourceRef).filter(Boolean);if(new Set(refs).size!==refs.length)throw Error('Egy edzésalkalomhoz csak egy naptári módosítás tartozhat.');if(new TextEncoder().encode(JSON.stringify(events)).length>500000)throw Error('A naptár elérte az 500 KB-os méretkorlátot. Archiválj régi bejegyzéseket JSON-ba.');return {version:1,events};}
+ function validate(x){if(!x||x.version!==1||!Array.isArray(x.events)||x.events.length>2000)throw Error('Invalid Calendar V1 data.');const events=x.events.map(event);if(new Set(events.map(e=>e.id)).size!==events.length)throw Error('Duplicate event ID.');const refs=events.map(e=>e.sourceRef).filter(Boolean);if(new Set(refs).size!==refs.length)throw Error('Only one calendar override is allowed per training occurrence.');if(new TextEncoder().encode(JSON.stringify(events)).length>500000)throw Error('The calendar reached its 500 KB size limit. Export old entries before archiving them.');return {version:1,events};}
  const equal=(a,b)=>JSON.stringify(a??null)===JSON.stringify(b??null);
  function preview(current,file){
   const local=validate(current);
-  if(!file||file.format!=='shadow-calendar'||file.version!==1||file.timeBasis!=='local')throw Error('Shadow Calendar V1 JSON szükséges, local időalappal.');
+  if(!file||file.format!=='shadow-calendar'||file.version!==1||file.timeBasis!=='local')throw Error('A Shadow Calendar V1 JSON file with local time basis is required.');
   const base=validate({version:1,events:file.baseEvents}),desired=validate({version:1,events:file.events});
   const before=new Map(base.events.map(e=>[e.id,e])),after=new Map(desired.events.map(e=>[e.id,e])),now=new Map(local.events.map(e=>[e.id,e]));
   const changes=[],conflicts=[];
@@ -20,7 +20,7 @@ const CalendarData = (() => {
    if(!equal(n,b)){conflicts.push(id);continue;}
    changes.push({id,action:!a?'delete':!b?'add':'update',before:n??null,after:a??null});
   }
-  if(conflicts.length)throw Error('Ütközés: '+conflicts.join(', ')+'. Exportálj friss fájlt; egyik változat sem lett felülírva.');
+  if(conflicts.length)throw Error('Conflict: '+conflicts.join(', ')+'. Export a fresh file; neither version was overwritten.');
   const merged=new Map(now);for(const c of changes){if(c.after)merged.set(c.id,c.after);else merged.delete(c.id);}
   return {changes,calendar:validate({version:1,events:[...merged.values()]})};
  }
@@ -29,13 +29,13 @@ const CalendarData = (() => {
  function derived(state,key){
   if(!date(key))return [];
   const rows=[];const day=new Date(key+'T12:00:00').getDay();
-  if((state.settings?.trainingDays||[]).includes(weekdays[day]))rows.push({ref:'planned:'+key,title:'Tervezett edzésnap',kind:'training',source:'Training beállítás',time:'',completed:false});
-  for(const s of state.training?.history||[])if(s.date===key)rows.push({ref:'workout:'+s.id,title:s.name||'Edzés',kind:'training',source:'Edzésnapló',time:'',completed:true});
-  for(const s of state.training?.cardio||[])if(s.date===key)rows.push({ref:'cardio:'+s.id,title:'Cardio · '+s.minutes+' perc',kind:'training',source:'Cardio napló',time:'',completed:true});
-  if(state.training?.draft?.date===key)rows.push({ref:'draft:'+state.training.draft.id,title:state.training.draft.name||'Aktív edzés',kind:'training',source:'Aktív edzéspiszkozat',time:'',completed:false});
+  if((state.settings?.trainingDays||[]).includes(weekdays[day]))rows.push({ref:'planned:'+key,title:'Scheduled training day',kind:'training',source:'Training schedule',time:'',completed:false});
+  for(const s of state.training?.history||[])if(s.date===key)rows.push({ref:'workout:'+s.id,title:s.name||'Training',kind:'training',source:'Workout history',time:'',completed:true});
+  for(const s of state.training?.cardio||[])if(s.date===key)rows.push({ref:'cardio:'+s.id,title:'Cardio · '+s.minutes+' perc',kind:'training',source:'Cardio history',time:'',completed:true});
+  if(state.training?.draft?.date===key)rows.push({ref:'draft:'+state.training.draft.id,title:state.training.draft.name||'Active workout',kind:'training',source:'Active workout draft',time:'',completed:false});
   return rows;
  }
- function entries(state,key){const all=validate(state.calendar??{version:1,events:[]}).events,refs=new Set(all.map(e=>e.sourceRef).filter(Boolean));return [...all.filter(e=>e.date===key).map(e=>({...e,source:e.sourceRef?'Naptári módosítás':'Calendar'})),...derived(state,key).filter(e=>!refs.has(e.ref))];}
+ function entries(state,key){const all=validate(state.calendar??{version:1,events:[]}).events,refs=new Set(all.map(e=>e.sourceRef).filter(Boolean));return [...all.filter(e=>e.date===key).map(e=>({...e,source:e.sourceRef?'Calendar override':'Calendar'})),...derived(state,key).filter(e=>!refs.has(e.ref))];}
  return {event,validate,preview,exportFile,derived,entries,date};
 })();
 if(typeof module!=='undefined')module.exports=CalendarData;
