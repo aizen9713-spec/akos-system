@@ -1,0 +1,6 @@
+# JWTs are explicitly verified with Supabase Auth in the user handler.
+# The dispatcher validates a dedicated server-only Cron secret.
+[functions.shadow-push]
+verify_jwt = false
+[functions.shadow-push-dispatch]
+verify_jwt = false

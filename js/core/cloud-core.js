@@ -53,7 +53,7 @@ function readConnection(){
  const u=new URL(c.config.url);if(c.version!==1||u.protocol!=='https:'||!/^[-a-z0-9]+\.supabase\.co$/.test(u.hostname)||u.origin!==c.config.url||!/^sb_publishable_[A-Za-z0-9_-]+$/.test(c.config.key)||!c.session.user?.id||typeof c.session.refresh_token!=='string'||typeof c.session.access_token!=='string'||!Number.isFinite(c.session.expires_at))throw Error('Érvénytelen mentett kapcsolat; új bejelentkezés szükséges.');
  if(c.baseline!==null)validate(c.baseline);return c;
 }
-function stop(){localStorage.removeItem(connectionKey);epoch++;session=null;baseline=null;preview=null;el('choices').hidden=true;status('Kikapcsolva · helyi adatok megőrizve');diagnose();}
+function stop(){root.ShadowPush?.beforeSignOut?.();localStorage.removeItem(connectionKey);epoch++;session=null;baseline=null;preview=null;el('choices').hidden=true;status('Kikapcsolva · helyi adatok megőrizve');diagnose();}
 async function request(path,body,token=true){
  const r=await fetch(config.url+path,{method:body===undefined?'GET':'POST',cache:'no-store',credentials:'omit',headers:{apikey:config.key,'Content-Type':'application/json',...(token?{Authorization:'Bearer '+session.access_token}:{})},...(body===undefined?{}:{body:JSON.stringify(body)}),signal:AbortSignal.timeout(15000)});
  if(!r.ok){if(r.status===401||r.status===403){session=null;localStorage.removeItem(connectionKey);}throw Error('Felhőkérés sikertelen ('+r.status+'). Helyi mentés megőrizve.'+(r.status===401||r.status===403?' Bejelentkezés/jogosultság ellenőrzése szükséges.':''));}
@@ -97,10 +97,10 @@ async function sync(source){
   if(action==='equal'){baseline=local;persist();status('Azonos helyi és felhőmentés · felhasználói teszt még szükséges');}
   if(action==='push')await push(local,remote);
   if(action==='pull')pull(local,remote);
- }catch(e){lastError=e.message;status(e.message+' Új összehasonlítás szükséges.');}finally{busy=false;diagnose();}
+ }catch(e){lastError=e.message;status(e.message+' Új összehasonlítás szükséges.');}finally{busy=false;diagnose();root.ShadowPush?.refresh?.();}
 }
 el('login').onclick=async()=>{
- if(busy)return;rememberPreferences();if(!el('test-project').checked){status('Külön tesztprojekt megerősítése szükséges.');return;}let remembered=null;try{remembered=readConnection();}catch{}epoch++;session=null;baseline=null;preview=null;el('choices').hidden=true;busy=true;
+ if(busy)return;rememberPreferences();if(!el('test-project').checked){status('Külön tesztprojekt megerősítése szükséges.');return;}let remembered=null;try{remembered=readConnection();}catch{}root.ShadowPush?.beforeSignOut?.();epoch++;session=null;baseline=null;preview=null;el('choices').hidden=true;busy=true;
  try{
   const u=new URL(el('url').value);if(u.protocol!=='https:'||!/^[-a-z0-9]+\.supabase\.co$/.test(u.hostname)||u.username||u.password||u.port)throw Error('Érvényes Supabase HTTPS projekt URL szükséges');
   const k=el('key').value.trim();if(!/^sb_publishable_[A-Za-z0-9_-]+$/.test(k))throw Error('Kizárólag nyilvános sb_publishable_ kulcs használható');
@@ -113,7 +113,14 @@ el('login').onclick=async()=>{
 };
 el('stop').onclick=()=>{if(busy){status('Folyamatban lévő kérés befejezésére várj, majd állítsd le.');return;}stop();};el('local').onclick=()=>sync('local');el('remote').onclick=()=>sync('remote');
 document.addEventListener('input',event=>{if(event.target?.matches('input,textarea,select,[contenteditable="true"]')&&!panel.contains(event.target))editingFields.add(event.target);},true);
-document.addEventListener('focusout',event=>{editingFields.delete(event.target);return Promise.resolve().then(()=>sync());},true);
+document.addEventListener('focusout',event=>{const wasEditing=editingFields.delete(event.target);if(wasEditing)return Promise.resolve().then(()=>sync());},true);
 setInterval(()=>{diagnose();return sync();},5000);window.addEventListener('focus',()=>sync());document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')sync();});window.addEventListener('online',()=>sync());window.addEventListener('offline',()=>status('Offline · helyi mentés megőrizve, szinkronizálás később'));
+
+root.CloudNotifications={
+ identity(){return session&&config?{userId:session.user.id,projectUrl:config.url}:null;},
+ async call(body){if(!session||!config)throw Error('Sign in to Cloud Core first.');if(busy)throw Error('Cloud sync is busy. Try again shortly.');busy=true;const generation=epoch;try{await refresh();const r=await fetch(config.url+'/functions/v1/shadow-push',{method:'POST',credentials:'omit',cache:'no-store',headers:{apikey:config.key,Authorization:'Bearer '+session.access_token,'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(20000)});if(generation!==epoch||!session)throw Error('Cloud account changed. Try again.');const value=await r.json().catch(()=>({}));if(!r.ok)throw Error(value.error||'Push backend unavailable ('+r.status+').');return value;}finally{busy=false;}},
+ disableDevice(deviceId){if(session&&config)return fetch(config.url+'/functions/v1/shadow-push',{method:'POST',credentials:'omit',headers:{apikey:config.key,Authorization:'Bearer '+session.access_token,'Content-Type':'application/json'},body:JSON.stringify({action:'disable',deviceId}),signal:AbortSignal.timeout(15000)}).catch(()=>{});}
+};
+
 root.cloudReady=(async()=>{try{const saved=readConnection();if(!saved)return;config=saved.config;session=saved.session;baseline=saved.baseline;el('url').value=config.url;el('key').value=config.key;if(!el('email').value)el('email').value=session.user.email||'';rememberPreferences();el('test-project').checked=true;status('Mentett kapcsolat · automatikus összehasonlítás');await sync();}catch(e){session=null;status(e.message);diagnose();}})();
 })(globalThis);

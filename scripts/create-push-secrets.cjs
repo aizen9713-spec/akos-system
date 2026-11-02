@@ -1,0 +1,7 @@
+// Run locally after choosing the real project, contact and app origin. Never commit the output.
+const fs=require('node:fs'),crypto=require('node:crypto'),path=require('node:path');
+const args=Object.fromEntries(process.argv.slice(2).map(v=>{const i=v.indexOf('=');return [v.slice(0,i),v.slice(i+1)]}));
+if(!args.contact||! /^(mailto:[^\s@]+@[^\s@]+\.[^\s@]+|https:\/\/[^\s]+)$/.test(args.contact))throw Error('Pass contact=mailto:you@example.com (a real contact).');
+const origins=(args.origins||'').split(',').map(x=>{const u=new URL(x);if(u.protocol!=='https:'||u.origin!==x)throw Error('origins must be comma-separated HTTPS origins with no paths.');return u.origin;});if(!origins.length)throw Error('Supply origins=https://your-app.example');
+const file=path.resolve('.env.push.local');if(fs.existsSync(file))throw Error('Refusing to replace existing keys. Back them up before rotating.');
+const ecdh=crypto.createECDH('prime256v1');ecdh.generateKeys();fs.writeFileSync(file,['PUSH_VAPID_PUBLIC_KEY='+ecdh.getPublicKey().toString('base64url'),'PUSH_VAPID_PRIVATE_KEY='+ecdh.getPrivateKey().toString('base64url'),'PUSH_VAPID_SUBJECT='+args.contact,'PUSH_CRON_SECRET='+crypto.randomBytes(32).toString('base64url'),'PUSH_ALLOWED_ORIGINS='+origins.join(',')].join('\n')+'\n',{mode:0o600});console.log('Created .env.push.local (ignored by Git). Import it with Supabase CLI; do not paste its contents into chats.');

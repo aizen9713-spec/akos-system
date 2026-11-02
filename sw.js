@@ -1,6 +1,7 @@
-const CACHE_NAME = "akos-system-player-monarch-calendar-english-v1-20261102";
+const CACHE_NAME = "akos-system-player-monarch-calendar-push-v1-20261102";
 
 const ASSETS = [
+ "./js/ui/notifications.js", "./js/core/push-worker.js", "./css/components/notifications.css",
  "./css/components/readability.css",
  "./css/components/settings-monarch.css",
  "./js/data/hungarian-calendar.js",
@@ -110,3 +111,6 @@ self.addEventListener("fetch", event => {
     return fetch(event.request);
   }));
 });
+
+// The receiver shares this worker and its existing offline/update lifecycle.
+if(typeof importScripts==='function')importScripts('./js/core/push-worker.js');

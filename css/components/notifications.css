@@ -1,0 +1,10 @@
+.notifications-panel{padding:20px;margin:22px 0;border:1px solid rgba(var(--accent-rgb),.3);border-left:3px solid rgba(var(--accent-rgb),.6);border-radius:3px;background:linear-gradient(125deg,rgba(var(--surface-rgb),.8),rgba(0,0,0,.25));}
+.notifications-panel>summary{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;min-height:44px;cursor:pointer;font-family:Georgia,serif;font-size:1.3rem;}
+#pushSummary{font-family:inherit;font-size:.8rem;color:var(--muted);}
+.notification-state{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+.notification-state dt{font-size:.8rem;color:var(--muted);}.notification-state dd{margin:8px 0;font-weight:700;}
+.notifications-panel label{display:grid;gap:8px;color:var(--muted);font-size:.85rem;}.notifications-panel input{min-height:44px;width:100%;box-sizing:border-box;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:3px;padding:12px;font:inherit;}
+.notification-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}.notifications-panel summary{cursor:pointer;}.notifications-panel pre{font-size:.8rem;white-space:pre-wrap;overflow-wrap:anywhere;}.notifications-panel p{font-size:.85rem;line-height:1.7;}
+#page-system #pushDisable{color:var(--danger);}#page-system button:disabled{opacity:.5;cursor:not-allowed;}
+.calendar-reminder{min-width:0;margin:20px 0;padding:16px;border:1px solid rgba(var(--accent-rgb),.3);}.calendar-reminder legend{padding:0 8px;color:var(--accent);}.calendar-reminder .muted{font-size:.85rem;line-height:1.6;}
+@media(max-width:600px){.notification-state{grid-template-columns:minmax(0,1fr);}.notifications-panel{padding:16px 12px;}.notification-actions button{width:100%;}}

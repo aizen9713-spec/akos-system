@@ -1,0 +1,14 @@
+{
+  "name": "shadow-os",
+  "private": true,
+  "scripts": {
+    "test": "node tests/run.cjs",
+    "test:browser": "node tests/push-browser.integration.cjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.14",
+    "fake-indexeddb": "6.2.7",
+    "web-push": "3.6.7",
+    "playwright": "1.62.1"
+  }
+}

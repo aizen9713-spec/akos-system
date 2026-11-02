@@ -1,1 +1,6 @@
 Microsoft VS Code/
+
+node_modules/
+.env
+.env.*
+supabase/.env*
