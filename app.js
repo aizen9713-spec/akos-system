@@ -121,12 +121,13 @@ window.addEventListener("online", renderSystemHealth);
 window.addEventListener("offline", renderSystemHealth);
 
 if (
-  "serviceWorker" in navigator &&
-  location.hostname !== "127.0.0.1" &&
-  location.hostname !== "localhost"
+  "serviceWorker" in navigator
 ) {
   window.addEventListener("load", async () => {
     try {
+      // Local development only needs an offline lifecycle after push opted in.
+      const localHost = ["127.0.0.1", "localhost"].includes(location.hostname);
+      if (localHost && !await navigator.serviceWorker.getRegistration()) return;
       const registration =
         await navigator.serviceWorker.register("./sw.js", {
           updateViaCache: "none"
@@ -168,6 +169,7 @@ updateButton.addEventListener("click", () => {
       }
 
       checkForUpdate();
+      registration.update().then(checkForUpdate).catch(error => console.warn("[SYSTEM] Update check deferred:", error));
 
       registration.addEventListener("updatefound", () => {
         const newWorker = registration.installing;
