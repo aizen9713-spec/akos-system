@@ -161,8 +161,7 @@ updateButton.addEventListener("click", () => {
 
       function checkForUpdate() {
         if (
-          registration.waiting &&
-          navigator.serviceWorker.controller
+          registration.waiting
         ) {
           updatePanel.hidden = false;
         }
@@ -171,6 +170,7 @@ updateButton.addEventListener("click", () => {
       checkForUpdate();
       registration.update().then(checkForUpdate).catch(error => console.warn("[SYSTEM] Update check deferred:", error));
 
+      if(registration.installing)registration.installing.addEventListener("statechange",checkForUpdate);
       registration.addEventListener("updatefound", () => {
         const newWorker = registration.installing;
 
