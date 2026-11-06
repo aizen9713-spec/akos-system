@@ -19,8 +19,8 @@ const connectionKey=prefix+'connection',preferencesKey=prefix+'preferences';
 const editingFields=new WeakSet();
 let observedRevision=null,lastRead=null,lastWrite=null,lastApply=null,lastError=null;
 const panel=document.createElement('section');panel.className='card';panel.id='cloud-core-panel';
- const style=document.createElement('style');style.textContent='#cloud-core-panel label,#cloud-relogin label{display:grid;gap:6px;margin:12px 0}#cloud-core-panel input,#cloud-relogin input{width:100%;min-width:0;box-sizing:border-box}#cloud-core-panel button,#cloud-relogin button{min-height:44px;margin:6px;white-space:normal}#cloud-core-panel pre{overflow-wrap:anywhere;white-space:pre-wrap}#cloud-relogin{width:min(30rem,calc(100% - 2rem));box-sizing:border-box;padding:clamp(1rem,5vw,2rem);background:linear-gradient(150deg,var(--panel-2),var(--bg));border:1px solid var(--accent);border-radius:12px;color:var(--text);box-shadow:0 1rem 3rem #000a}#cloud-relogin::backdrop{background:#000b}#cloud-relogin h2{margin:.5rem 0 1rem}#cloud-relogin button{margin:6px 4px 0 0}';document.head.appendChild(style);
-panel.innerHTML='<h2>CLOUD CORE · V2.0</h2><details id="cloud-details"><summary>Sync Status · Részletek / Diagnosztika</summary><p>Fejlesztői teszt. Első kapcsolódáskor az eltérő mentéseket egyeztesd. Utána a kapcsolat automatikusan folytatódik. A megjelenés eszközönként marad.</p><p>Csak külön Supabase tesztprojekttel használd. Éles adatokat ne kapcsolj hozzá.</p></details><details id="cloud-technical"><summary>Technikai beállítások</summary><label><input id="cloud-test-project" type="checkbox"> Megerősítem, hogy külön tesztprojektet és tesztadatokat használok.</label><label>Supabase URL<input id="cloud-url" type="url" placeholder="https://project.supabase.co"></label><label>Publishable kulcs<input id="cloud-key" autocomplete="off"></label></details><label>Email<input id="cloud-email" type="email" autocomplete="username"></label><label>Jelszó<input id="cloud-password" type="password" autocomplete="current-password"></label><button id="cloud-login" type="button">Bejelentkezés</button><button id="cloud-stop" type="button">Kijelentkezés és automatikus kapcsolat törlése</button><p id="cloud-status" role="status">Kikapcsolva · csak helyi mentés</p><pre id="cloud-preview" style="white-space:pre-wrap"></pre><div id="cloud-choices" hidden><button id="cloud-local" type="button">Ez az eszköz legyen a forrás</button><button id="cloud-remote" type="button">A felhő legyen a forrás</button></div><details id="cloud-storage"><summary>Storage Health</summary><pre id="cloud-health"></pre><button id="cloud-recovery" type="button">Recovery mentések letöltése</button></details><dialog id="cloud-relogin" aria-labelledby="cloud-relogin-title"><form id="cloud-relogin-form"><p class="muted">SHADOW OS · CLOUD CORE</p><h2 id="cloud-relogin-title">Kapcsolódás a felhőhöz</h2><label>Mentett fiók<input id="cloud-relogin-email" type="email" autocomplete="username" required></label><label>Jelszó<input id="cloud-relogin-password" type="password" autocomplete="current-password" required></label><p id="cloud-relogin-status" role="status"></p><button type="submit">Bejelentkezés</button><button id="cloud-offline" type="button">Folytatás helyben</button></form></dialog>';
+ const style=document.createElement('style');style.textContent='#cloud-core-panel label,#cloud-relogin label{display:grid;gap:6px;margin:12px 0}#cloud-core-panel input,#cloud-relogin input{width:100%;min-width:0;box-sizing:border-box}#cloud-core-panel button,#cloud-relogin button{min-height:44px;margin:6px;white-space:normal}#cloud-core-panel pre{overflow-wrap:anywhere;white-space:pre-wrap}#cloud-relogin{width:min(30rem,calc(100% - 2rem));box-sizing:border-box;padding:clamp(1rem,5vw,2rem);background:linear-gradient(150deg,var(--panel-2),var(--bg));border:1px solid var(--accent);border-radius:12px;color:var(--text);box-shadow:0 1rem 3rem #000a}#cloud-relogin::backdrop{background:#000b}#cloud-relogin h2{margin:.5rem 0 1rem}#cloud-relogin header{text-align:center;border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:16px;color:var(--accent-soft)}#cloud-relogin header p{font-size:.75rem;letter-spacing:.12em;color:var(--muted)}#cloud-relogin button{margin:6px 4px 0 0}#cloud-relogin-submit{display:block;width:100%;background:var(--accent);color:var(--bg);font-weight:700}#cloud-relogin-submit:disabled{opacity:.5}';document.head.appendChild(style);
+panel.innerHTML='<h2>CLOUD CORE · V2.0</h2><details id="cloud-details"><summary>Sync Status · Részletek / Diagnosztika</summary><p>Fejlesztői teszt. Első kapcsolódáskor az eltérő mentéseket egyeztesd. Utána a kapcsolat automatikusan folytatódik. A megjelenés eszközönként marad.</p><p>Csak külön Supabase tesztprojekttel használd. Éles adatokat ne kapcsolj hozzá.</p></details><details id="cloud-technical"><summary>Technikai beállítások</summary><label><input id="cloud-test-project" type="checkbox"> Megerősítem, hogy külön tesztprojektet és tesztadatokat használok.</label><label>Supabase URL<input id="cloud-url" type="url" placeholder="https://project.supabase.co"></label><label>Publishable kulcs<input id="cloud-key" autocomplete="off"></label></details><label>Email<input id="cloud-email" type="email" autocomplete="username"></label><label>Jelszó<input id="cloud-password" type="password" autocomplete="current-password"></label><button id="cloud-login" type="button">Bejelentkezés</button><button id="cloud-stop" type="button">Kijelentkezés és automatikus kapcsolat törlése</button><p id="cloud-status" role="status">Kikapcsolva · csak helyi mentés</p><pre id="cloud-preview" style="white-space:pre-wrap"></pre><div id="cloud-choices" hidden><button id="cloud-local" type="button">Ez az eszköz legyen a forrás</button><button id="cloud-remote" type="button">A felhő legyen a forrás</button></div><details id="cloud-storage"><summary>Storage Health</summary><pre id="cloud-health"></pre><button id="cloud-recovery" type="button">Recovery mentések letöltése</button></details><dialog id="cloud-relogin" aria-labelledby="cloud-relogin-title"><form id="cloud-relogin-form"><header><h2 id="cloud-relogin-title">♔ SHADOW OS</h2><p>MONARCH ACCESS PROTOCOL</p></header><label>E-mail / mentett fiók<input id="cloud-relogin-email" type="email" autocomplete="username" required></label><label>Jelszó<input id="cloud-relogin-password" type="password" autocomplete="current-password" required></label><p id="cloud-relogin-status" role="status"></p><button id="cloud-relogin-submit" type="submit">Belépés</button><button id="cloud-other-account" type="button">Másik fiók</button><button id="cloud-connection-settings" type="button">Kapcsolati beállítások</button><button id="cloud-offline" type="button">Folytatás helyben</button></form></dialog>';
 (document.getElementById('page-system')||document.querySelector('main')).appendChild(panel);
 const el=id=>document.getElementById('cloud-'+id),status=s=>el('status').textContent=s;
 document.body?.appendChild(el('relogin'));
@@ -47,10 +47,13 @@ restorePreferences();
 for(const field of ['url','key','email'])el(field).oninput=rememberPreferences;
 function showLogin() {
   const dialog = el('relogin');
-  if (!config || !el('email').value || dialog.open) return;
+  if (dialog.open) return;
+  el('relogin-submit').disabled = !config;
+  el('relogin-email').readOnly = !!el('email').value;
+  el('other-account').hidden = !el('email').value;
   el('relogin-email').value = el('email').value;
   el('relogin-password').value = '';
-  el('relogin-status').textContent = navigator.onLine ? '' : 'Offline módban a helyi mentés használható.';
+  el('relogin-status').textContent = !config ? 'Az első belépéshez állítsd be a felhőkapcsolatot.' : navigator.onLine ? '' : 'Offline módban a helyi mentés használható.';
   dialog.showModal?.();
 }
 function storageFailure(error) {
@@ -135,7 +138,7 @@ async function stop() {
   if (busy || booting) return;
   busy = true;
   try {
-    await CloudStorage.write({ version: 2, disabled: true });
+    await CloudStorage.write({ version: 2, disabled: true, config, email: session?.user.email || el('email').value });
     localStorage.removeItem(connectionKey);
     root.ShadowPush?.beforeSignOut?.();
     epoch++;
@@ -303,11 +306,22 @@ el('login').onclick = () => {
 };
 el('relogin-form').onsubmit = event => {
   event.preventDefault();
-  if (busy) return;
+  if (busy || !config) return;
   const password = el('relogin-password').value;
   el('relogin-password').value = '';
   el('email').value = el('relogin-email').value;
   return login(password, true);
+};
+el('other-account').onclick = () => {
+  el('relogin-email').readOnly = false;
+  el('relogin-email').value = '';
+  el('relogin-email').focus();
+};
+el('connection-settings').onclick = () => {
+  el('relogin').close?.();
+  document.querySelector('[aria-label="Open system settings"]')?.click();
+  el('technical').open = true;
+  el('url').focus();
 };
 el('offline').onclick = () => el('relogin').close?.();
 el('relogin').onclose = () => { el('relogin-password').value = ''; };
@@ -329,11 +343,15 @@ root.cloudReady = (async () => {
     try { await CloudStorage.archiveLegacy(localStorage); }
     catch (error) { storageFailure(error); }
     const saved = await readConnection();
-    if (saved?.disabled) return;
-    if (!saved) {
-      if (el('url').value && el('key').value && el('email').value) {
-        config = checkedConfig(el('url').value, el('key').value);
-        showLogin();
+    if (!saved || saved.disabled) {
+      const url = saved?.config?.url || el('url').value;
+      const key = saved?.config?.key || el('key').value;
+      if (url && key) {
+        config = checkedConfig(url, key);
+        el('url').value = url;
+        el('key').value = key;
+        el('email').value = saved?.email || el('email').value;
+        el('test-project').checked = !!saved?.config;
       }
       return;
     }
@@ -348,15 +366,16 @@ root.cloudReady = (async () => {
     el('test-project').checked = true;
     if (session && session.user.id !== accountId) throw Error('A mentett fiók nem egyezik a munkamenettel');
     if (session) status('Mentett kapcsolat · automatikus összehasonlítás');
-    else showLogin();
+
   } catch (error) {
     session = null;
     storageFailure(error);
     status(storageError);
-    try { config = checkedConfig(el('url').value, el('key').value); showLogin(); }
+    try { config = checkedConfig(el('url').value, el('key').value); }
     catch { /* Enrollment can be entered in technical settings. */ }
   } finally {
     booting = false;
+    if (!session) showLogin();
     diagnose();
   }
   await sync();

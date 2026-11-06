@@ -1,4 +1,4 @@
-const CACHE_NAME = "akos-system-player-monarch-cloud-storage-v2-20261106";
+const CACHE_NAME = "akos-system-player-monarch-cloud-monarch-access-20261106";
 
 const ASSETS = [
  "./js/ui/notifications.js?v=push-recovery-2", "./js/core/push-worker.js", "./css/components/notifications.css",
@@ -17,7 +17,7 @@ const ASSETS = [
  "./js/features/quest-v2.js", "./js/ui/quest-v2.js", "./css/components/quest-v2.css",
   "./js/features/training-build2.js",
   "./js/core/cloud-storage.js?v=2",
-  "./js/core/cloud-core.js?v=storage-v2",
+  "./js/core/cloud-core.js?v=monarch-access-1",
   "./",
   "./index.html",
   "./styles.css",
