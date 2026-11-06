@@ -49,3 +49,66 @@
 @media(max-width:600px){.core-console{padding:18px 12px;}.core-console .core-panel{padding:18px 14px;}.core-console .core-player{grid-template-columns:74px minmax(0,1fr) 46px;gap:10px;}.core-console .core-player-character{width:74px;height:150px;}.core-console .core-player-profile h2{font-size:1.5rem;}.core-console .core-player-profile p:not(.eyebrow){font-size:.7rem;}.core-console .core-player-level strong{font-size:2rem;}.core-console .core-player-level span{font-size:.5rem;}.core-console .core-metric{padding:14px 12px;}.core-console .growth-stat{padding:14px 12px;}.core-heading .muted{font-size:.7rem;}.core-layout{gap:14px;}}
 @media(max-width:360px){.core-console .core-player{grid-template-columns:60px minmax(0,1fr);}.core-console .core-player-character{width:60px;}.core-console .core-player-level{grid-column:1/-1;border-left:0;border-top:1px solid var(--border);padding:10px 0;}.core-metrics,.core-console .growth-snapshot{grid-template-columns:minmax(0,1fr);}}
 @media(prefers-reduced-motion:reduce){.core-console *,.core-console *::before,.core-console *::after{animation:none!important;transition:none!important;}}
+
+/* CORE V2 uses the active Monarch theme accents and keeps each tab independent. */
+#coreCommand [role="tabpanel"][hidden] { display: none; }
+.command-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0;
+}
+.command-tabs button,
+.command-actions button {
+  min-height: 44px;
+  border: 1px solid rgba(var(--accent-rgb), .3);
+  background: rgba(var(--surface-rgb), .8);
+  color: var(--text);
+  border-radius: 5px;
+}
+.command-tabs button { text-transform: uppercase; letter-spacing: .07em; }
+.command-tabs [aria-selected="true"] {
+  border-color: var(--accent);
+  color: var(--accent-soft);
+  background: linear-gradient(130deg, rgba(var(--accent-rgb), .18), var(--panel));
+  box-shadow: inset 0 -2px var(--accent);
+}
+#coreCommand :is(button, input, [role="tabpanel"]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.command-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.command-grid > .card { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.command-grid h3 { color: var(--accent-soft); margin: 0 0 12px; }
+.command-grid .command-actions + h3 { margin-top: 20px; }
+.command-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.command-actions button { padding: 8px 12px; }
+.command-actions [type="submit"] { border-color: var(--accent); color: var(--accent-soft); }
+.command-plan label { display: grid; gap: 5px; margin-bottom: 10px; color: var(--muted); }
+.command-plan input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 8px;
+}
+.command-plan fieldset { min-width: 0; border: 1px solid var(--border); margin: 0 0 12px; }
+.command-plan legend { padding: 0 6px; }
+#corePriorityMode { font-size: .75rem; margin-left: 5px; }
+#coreCommandError:empty, #corePlanStatus:empty { display: none; }
+#coreCommandError, #corePlanStatus { color: var(--accent-soft); }
+.command-list ul { margin: 0; padding: 0; list-style: none; }
+.command-list li, .command-totals div { padding: 9px 0; border-bottom: 1px solid var(--border); }
+.command-list li:last-child, .command-totals div:last-child { border-bottom: 0; }
+.command-list small { display: block; margin-top: 4px; color: var(--muted); }
+.command-totals { margin: 0; }
+.command-totals dt { color: var(--muted); font-size: .8rem; }
+.command-totals dd { margin: 4px 0 0; color: var(--accent-soft); }
+@media (max-width: 700px) {
+  .command-grid { grid-template-columns: minmax(0, 1fr); }
+  .command-tabs { gap: 5px; }
+  .command-tabs button { padding-inline: 4px; font-size: .74rem; }
+}

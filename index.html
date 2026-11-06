@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="./css/components/training.css">
 <link rel="stylesheet" href="./css/components/quest-v2.css">
 <link rel="stylesheet" href="./css/components/player-ascension.css?v=milestones-1">
-<link rel="stylesheet" href="./css/components/core-monarch.css">
+<link rel="stylesheet" href="./css/components/core-monarch.css?v=command-2">
 <link rel="stylesheet" href="./css/components/quest-monarch.css">
 <link rel="stylesheet" href="./css/components/training-monarch.css">
 <link rel="stylesheet" href="./css/components/header-monarch.css">
@@ -139,12 +139,57 @@
 </nav>
 
 <div id="page-dashboard" class="app-page active">
-  <div class="monarch core-console">
-    <header class="core-heading premium-surface"><span class="premium-glint" aria-hidden="true"></span><div><p class="eyebrow">SHADOW OS · CORE</p><h2>Command center</h2><p class="muted">Your progress. Your discipline. Your next step.</p></div><span class="core-seal" aria-hidden="true">影</span></header>
+  <div class="monarch core-console" id="coreCommand">
+    <header class="core-heading premium-surface"><span class="premium-glint" aria-hidden="true"></span><div><p class="eyebrow">SHADOW OS · CORE V2.0</p><h2>Monarch Command Center</h2><p class="muted">Your progress. Your discipline. Your next step.</p></div><span class="core-seal" aria-hidden="true">影</span></header>
+    <div class="command-tabs" role="tablist" aria-label="CORE views">
+      <button type="button" role="tab" id="coreTabDaily" aria-controls="coreDaily" aria-selected="true" data-core-tab="daily">Daily</button>
+      <button type="button" role="tab" id="coreTabOverview" aria-controls="coreOverview" aria-selected="false" tabindex="-1" data-core-tab="overview">Overview</button>
+      <button type="button" role="tab" id="coreTabWeekly" aria-controls="coreWeekly" aria-selected="false" tabindex="-1" data-core-tab="weekly">Weekly</button>
+    </div>
+    <p id="coreCommandError" role="status"></p>
+    <section id="coreDaily" role="tabpanel" aria-labelledby="coreTabDaily" tabindex="0">
+      <p class="eyebrow" id="coreDailyDate"></p>
+      <div class="command-grid">
+        <section class="card core-panel command-plan">
+          <h3>Today's Focus</h3>
+          <form id="corePlanForm">
+            <label>Most important goal<input id="coreFocus" list="coreFocusSuggestions" maxlength="150" placeholder="Choose or write a goal"></label>
+            <datalist id="coreFocusSuggestions"></datalist>
+            <fieldset><legend>Top 3 Priorities <span id="corePriorityMode" class="muted"></span></legend>
+              <label>Priority 1<input data-priority maxlength="150"></label>
+              <label>Priority 2<input data-priority maxlength="150"></label>
+              <label>Priority 3<input data-priority maxlength="150"></label>
+            </fieldset>
+            <div class="command-actions">
+              <button type="submit">Save plan</button>
+              <button type="button" id="coreUseSuggestions">Use suggestions</button>
+              <button type="button" id="coreReloadPlan">Reload saved plan</button>
+            </div>
+            <p id="corePlanStatus" role="status"></p>
+          </form>
+        </section>
+        <section class="card core-panel">
+          <h3>Quick Actions</h3>
+          <div class="command-actions">
+            <button type="button" id="coreNewQuest">New quest</button>
+            <button type="button" id="coreNewEvent">New event</button>
+            <button type="button" id="coreOpenTraining">Training</button>
+            <button type="button" id="coreCheckIn">Check-in</button>
+          </div>
+          <h3>Daily Transmission</h3>
+          <p id="coreLiveTransmission"></p>
+        </section>
+        <section class="card core-panel"><h3>Today’s calendar</h3><div class="command-list" id="coreDailyCalendar"></div></section>
+        <section class="card core-panel"><h3>Today’s training</h3><div class="command-list" id="coreDailyTraining"></div></section>
+        <section class="card core-panel"><h3>Current quests</h3><div class="command-list" id="coreDailyQuests"></div></section>
+        <section class="card core-panel"><h3>Due & overdue</h3><div class="command-list" id="coreDailyDeadlines"></div></section>
+      </div>
+    </section>
+    <section id="coreOverview" role="tabpanel" aria-labelledby="coreTabOverview" tabindex="0" hidden>
     <div class="core-layout">
       <section class="card core-player core-panel" aria-labelledby="corePlayerName">
         <div class="core-portrait"><span class="core-portrait-ring" aria-hidden="true"></span><img class="core-player-character" src="./assets/characters/akos-monarch-v1.webp" alt="Ákos karaktere" width="512" height="768" decoding="async"></div>
-        <div class="core-player-profile"><p class="eyebrow">PLAYER PROFILE</p><h2 id="corePlayerName">—</h2><p>Title: <span id="corePlayerTitle">—</span></p><p>Class: <span id="corePlayerClass">—</span></p><p>Arc: <span id="corePlayerArc">—</span></p></div>
+        <div class="core-player-profile"><p class="eyebrow">PLAYER PROFILE</p><h2 id="corePlayerName">—</h2><p>Title: <span id="corePlayerTitle">—</span></p><p>Class: <span id="corePlayerClass">—</span></p><p>Arc: <span id="corePlayerArc">—</span></p><p>Rank: <span id="corePlayerRank">—</span></p></div>
         <div class="level-box core-player-level"><span>LEVEL</span><strong id="corePlayerLevel">—</strong></div>
         <div class="core-player-xp"><span id="corePlayerXp">—</span><span id="corePlayerPercent">—</span></div>
         <div class="xp-bar core-player-bar" aria-hidden="true"><div id="corePlayerXpFill" class="xp-fill"></div></div>
@@ -168,6 +213,24 @@
       <section class="card core-panel core-main-quest" aria-labelledby="coreMainQuestHeading"><p class="eyebrow">MAIN QUEST</p><h2 id="coreMainQuestHeading">BUILD THE SYSTEM</h2><p class="muted">PHASE I · ACTIVE</p><div class="core-oath" aria-hidden="true">継続</div></section>
     </div>
     <div class="kaizen-signature"><div class="kaizen-jp">改善</div><div class="kaizen-motto">1% BETTER EVERY DAY.</div></div>
+    </section>
+    <section id="coreWeekly" role="tabpanel" aria-labelledby="coreTabWeekly" tabindex="0" hidden>
+      <p class="eyebrow" id="coreWeekDate"></p>
+      <div class="command-grid">
+        <section class="card core-panel">
+          <h3>Week so far</h3>
+          <dl class="command-totals">
+            <div><dt>Quests</dt><dd id="coreWeekQuests"></dd></div>
+            <div><dt>Training</dt><dd id="coreWeekTraining"></dd></div>
+            <div><dt>Recovery</dt><dd id="coreWeekRecovery"></dd></div>
+          </dl>
+        </section>
+        <section class="card core-panel"><h3>Upcoming agenda · next 7 days</h3><div class="command-list" id="coreUpcoming"></div></section>
+        <section class="card core-panel"><h3>Deadlines · through week end</h3><div class="command-list" id="coreWeekDeadlines"></div></section>
+        <section class="card core-panel"><h3>Milestones earned this week</h3><div class="command-list" id="coreWeekMilestones"></div></section>
+        <section class="card core-panel"><h3>Rest &amp; open time · next 7 days</h3><div class="command-list" id="coreWeekOpenDays"></div></section>
+      </div>
+    </section>
   </div>
 </div>
 
@@ -864,11 +927,13 @@
 <script src="./js/ui/dashboard.js"></script>
 <script src="./js/ui/achievements.js?v=milestones-1"></script>
 <script src="./js/ui/system.js"></script>
-<script src="./js/ui/render.js"></script>
-<script src="./js/ui/navigation.js?v=badges-1"></script>
+<script src="./js/features/core-command-data.js"></script>
+<script src="./js/ui/core-command.js"></script>
+<script src="./js/ui/render.js?v=core-v2"></script>
+<script src="./js/ui/navigation.js?v=command-2"></script>
 <script src="./js/ui/settings.js"></script>
 <script src="./js/ui/log.js"></script>
-<script src="./js/core/backup.js"></script>
+<script src="./js/core/backup.js?v=command-2"></script>
 <script src="./js/features/settings.js"></script>
 <script src="./js/features/transmissions.js"></script>
 <script src="./js/features/daily-quests.js"></script>
@@ -880,7 +945,7 @@
 <script src="./js/ui/calendar.js"></script>
 <script src="app.js?v=milestones-1"></script>
 <script src="./js/core/cloud-storage.js?v=2"></script>
-<script src="./js/core/cloud-core.js?v=settings-directory-1"></script>
+<script src="./js/core/cloud-core.js?v=command-2"></script>
 <script src="./js/ui/header-monarch.js"></script>
 <script src="./js/ui/notifications.js?v=push-recovery-2"></script>
 </body>

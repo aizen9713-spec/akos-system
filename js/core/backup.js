@@ -49,6 +49,7 @@ async function importSave(file) {
       throw new Error("Invalid AKOS SYSTEM save file.");
     }
 
+    if (imported.state.corePlan !== undefined && typeof CoreCommandData !== "undefined") CoreCommandData.validate(imported.state.corePlan);
     if (imported.state.calendar !== undefined) CalendarData.validate(imported.state.calendar);
     if (imported.state.training !== undefined) TrainingData.validate(imported.state.training);
 
@@ -63,6 +64,7 @@ async function importSave(file) {
 
     const previousState = state;
     state = migrateState(imported.state);
+    if (imported.state.corePlan === undefined && previousState.corePlan) state.corePlan = structuredClone(previousState.corePlan);
     if (imported.state.calendar === undefined && previousState.calendar) state.calendar = structuredClone(previousState.calendar);
     // Older system backups have no Training field: retain current workouts.
     if (imported.state.training === undefined && previousState.training) state.training = structuredClone(previousState.training);

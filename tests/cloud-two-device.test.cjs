@@ -3,8 +3,9 @@ const base=JSON.stringify({activeDay:'2026-10-31',lastSavedAt:'initial',player:{
 let remote={revision:1,payload:base},writes=0;
 const storageSource=fs.readFileSync('js/core/cloud-storage.js','utf8');
 const {IDBFactory}=require('./dependency.cjs')('fake-indexeddb');
+const CoreCommandData=require('../js/features/core-command-data.js');
 const source=fs.readFileSync('js/core/cloud-core.js','utf8');
-function device(){const elements=new Map(),store=new Map([['akos-system-v0.1.0',base]]);let tick;const documentEvents={};const el=id=>{if(!elements.has(id))elements.set(id,{value:'',textContent:'',hidden:true,appendChild(){}});return elements.get(id);};const c={indexedDB:new IDBFactory(),Blob,CalendarData:require('../js/features/calendar-data.js'),structuredClone,console,URL,Date,JSON,Error,AbortSignal,crypto:require('crypto').webcrypto,TrainingData:{validate:x=>x},state:JSON.parse(base),STORAGE_KEY:'akos-system-v0.1.0',migrateState:x=>x,render(){},getDateKey:()=> '2026-10-31',handleDayRollover(){throw Error('unexpected rollover');},alert:console.error,addLog(){},saveState(){c.state.lastSavedAt=new Date().toISOString();store.set(c.STORAGE_KEY,JSON.stringify(c.state));},confirm:()=>true,navigator:{onLine:true},localStorage:{get length(){return store.size;},key:i=>[...store.keys()][i],getItem:k=>store.get(k)??null,setItem:(k,v)=>store.set(k,v),removeItem:k=>store.delete(k)},document:{addEventListener(name,fn){documentEvents[name]=fn;},head:{appendChild(){}},activeElement:null,createElement:()=>({contains:target=>!!target.isCloud,appendChild(){},set id(id){elements.set(id,this);}}),getElementById:el,querySelector:()=>({appendChild(){}})},window:{addEventListener(){}},setInterval(fn){tick=fn;},fetch:async(url,o)=>{let value;if(url.includes('/token'))value={access_token:'fake',refresh_token:'fake-refresh',expires_in:3600,user:{id:'same-user'}};else if(url.includes('/rpc/')){const b=JSON.parse(o.body);assert.equal(b.expected_revision,remote.revision);remote={revision:remote.revision+1,payload:b.new_payload};writes++;value=remote.revision;}else value=[{...remote}];return {ok:true,status:200,json:async()=>value};}};vm.createContext(c);vm.runInContext(fs.readFileSync('js/features/training-data.js','utf8'),c);vm.runInContext(storageSource,c);vm.runInContext(source,c);vm.runInContext(fs.readFileSync('js/core/progression.js','utf8')+'\n'+fs.readFileSync('js/features/quests.js','utf8'),c);return {c,el,store,documentEvents,tick:()=>tick(),async login(){await c.cloudReady;el('cloud-password').value='fake';el('cloud-test-project').checked=true;el('cloud-url').value='https://test.supabase.co';el('cloud-key').value='sb_publishable_test';await el('cloud-login').onclick();}};}
+function device(){const elements=new Map(),store=new Map([['akos-system-v0.1.0',base]]);let tick;const documentEvents={};const el=id=>{if(!elements.has(id))elements.set(id,{value:'',textContent:'',hidden:true,appendChild(){}});return elements.get(id);};const c={CoreCommandData,indexedDB:new IDBFactory(),Blob,CalendarData:require('../js/features/calendar-data.js'),structuredClone,console,URL,Date,JSON,Error,AbortSignal,crypto:require('crypto').webcrypto,TrainingData:{validate:x=>x},state:JSON.parse(base),STORAGE_KEY:'akos-system-v0.1.0',migrateState:x=>x,render(){},getDateKey:()=> '2026-10-31',handleDayRollover(){throw Error('unexpected rollover');},alert:console.error,addLog(){},saveState(){c.state.lastSavedAt=new Date().toISOString();store.set(c.STORAGE_KEY,JSON.stringify(c.state));},confirm:()=>true,navigator:{onLine:true},localStorage:{get length(){return store.size;},key:i=>[...store.keys()][i],getItem:k=>store.get(k)??null,setItem:(k,v)=>store.set(k,v),removeItem:k=>store.delete(k)},document:{addEventListener(name,fn){documentEvents[name]=fn;},head:{appendChild(){}},activeElement:null,createElement:()=>({contains:target=>!!target.isCloud,appendChild(){},set id(id){elements.set(id,this);}}),getElementById:el,querySelector:()=>({appendChild(){}})},window:{addEventListener(){}},setInterval(fn){tick=fn;},fetch:async(url,o)=>{let value;if(url.includes('/token'))value={access_token:'fake',refresh_token:'fake-refresh',expires_in:3600,user:{id:'same-user'}};else if(url.includes('/rpc/')){const b=JSON.parse(o.body);assert.equal(b.expected_revision,remote.revision);remote={revision:remote.revision+1,payload:b.new_payload};writes++;value=remote.revision;}else value=[{...remote}];return {ok:true,status:200,json:async()=>value};}};vm.createContext(c);vm.runInContext(fs.readFileSync('js/features/training-data.js','utf8'),c);vm.runInContext(storageSource,c);vm.runInContext(source,c);vm.runInContext(fs.readFileSync('js/core/progression.js','utf8')+'\n'+fs.readFileSync('js/features/quests.js','utf8'),c);return {c,el,store,documentEvents,tick:()=>tick(),async login(){await c.cloudReady;el('cloud-password').value='fake';el('cloud-test-project').checked=true;el('cloud-url').value='https://test.supabase.co';el('cloud-key').value='sb_publishable_test';await el('cloud-login').onclick();}};}
 (async()=>{const pc=device(),phone=device();await pc.login();await phone.login();pc.c.undoQuestCompletion('quest');await pc.tick();assert.equal(JSON.parse(remote.payload).quests.find(q=>q.id==='quest').completed,false);await phone.tick();assert.equal(phone.c.state.quests.find(q=>q.id==='quest').completed,false);assert.equal(phone.c.state.player.xp,10);assert.equal(phone.c.state.stats.str,5);assert.equal(phone.c.state.skills.work.xp,7);assert.equal(writes,1);console.log('Two independent device simulations: PC undo -> revision 2 -> phone localStorage and UI state updated, rewards reversed.');phone.c.completeQuest('quest');await phone.tick();const field={matches:()=>true};pc.c.document.activeElement=field;await pc.tick();assert.equal(pc.c.state.quests.find(q=>q.id==='quest').completed,true);
 console.log('Focused untouched input does not block remote completion.');
 phone.c.undoQuestCompletion('quest');await phone.tick();pc.documentEvents.input({target:field});await pc.tick();assert.equal(pc.c.state.quests.find(q=>q.id==='quest').completed,true);assert.match(pc.el('cloud-status').textContent,/Aktív szerkesztés/);
@@ -46,4 +47,38 @@ trainingPC.c.state.calendar.events[0].title='PC offline';trainingPC.c.saveState(
 trainingPC.c.navigator.onLine=true;await trainingPC.tick();const calendarRemoteBefore={...remote};trainingPhone.c.navigator.onLine=true;await trainingPhone.tick();assert.deepEqual(remote,calendarRemoteBefore);assert.equal(trainingPhone.c.state.calendar.events[0].title,'Phone offline');assert.equal(trainingPhone.el('cloud-choices').hidden,false);
 console.log('Calendar actual Cloud Core simulations: offline persistence/reconnect to second device, unchanged rewards/Training, older-client field retention and conflicting offline calendars preserved PASS.');
 
+
+remote={revision:1,payload:base};
+const corePC=device(),corePhone=device();
+await corePC.login();await corePhone.login();
+const date='2026-11-06',focus={focus:'Offline focus',priorities:['One','','Three']};
+corePhone.c.navigator.onLine=false;
+const original=JSON.parse(corePhone.store.get(corePhone.c.STORAGE_KEY));
+corePhone.c.state=CoreCommandData.withDay(original,date,focus,'2026-11-06T09:00:00Z');
+corePhone.store.set(corePhone.c.STORAGE_KEY,JSON.stringify(corePhone.c.state));
+await corePhone.tick();
+assert.equal(remote.revision,1);
+const {corePlan,lastSavedAt,...preserved}=corePhone.c.state;
+const {lastSavedAt:previousTime,...previous}=original;
+assert.deepEqual(preserved,previous);
+corePhone.c.navigator.onLine=true;await corePhone.tick();await corePC.tick();
+assert.deepEqual(JSON.parse(corePC.store.get(corePC.c.STORAGE_KEY)).corePlan.days[date],focus);
+const oldClient=JSON.parse(remote.payload);delete oldClient.corePlan;
+oldClient.player.title='Legacy client title';
+remote={revision:remote.revision+1,payload:JSON.stringify(oldClient)};
+await corePhone.tick();
+assert.equal(corePhone.c.state.player.title,'Legacy client title');
+assert.deepEqual(JSON.parse(corePhone.store.get(corePhone.c.STORAGE_KEY)).corePlan.days[date],focus);
+await corePhone.tick();await corePC.tick();
+for(const [d,focus] of [[corePC,'PC draft'],[corePhone,'Phone draft']]){
+ d.c.navigator.onLine=false;
+ d.c.state=CoreCommandData.withDay(d.c.state,date,{focus,priorities:null},new Date().toISOString());
+ d.store.set(d.c.STORAGE_KEY,JSON.stringify(d.c.state));
+}
+corePC.c.navigator.onLine=true;await corePC.tick();
+corePhone.c.navigator.onLine=true;await corePhone.tick();
+assert.equal(JSON.parse(remote.payload).corePlan.days[date].focus,'PC draft');
+assert.equal(corePhone.c.state.corePlan.days[date].focus,'Phone draft');
+assert.equal(corePhone.el('cloud-choices').hidden,false);
+console.log('PASS: CORE plan sync, older client retention, conflict keeps both edits, unrelated save fields unchanged.');
 })().catch(e=>{console.error(e);process.exitCode=1;});

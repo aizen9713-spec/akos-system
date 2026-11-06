@@ -6,6 +6,7 @@ function render() {
   renderQuests();
   if (typeof QuestV2UI !== "undefined") QuestV2UI.render();
   renderDashboard();
+  if (typeof CoreCommand !== "undefined") CoreCommand.render();
   renderAchievements();
   renderSettings();
   renderSystemHealth();

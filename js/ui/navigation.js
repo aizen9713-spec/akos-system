@@ -22,6 +22,7 @@ function showPage(pageName) {
 
   if (targetPage) {
     targetPage.classList.add("active");
+    if (pageName === "dashboard" && typeof CoreCommand !== "undefined") CoreCommand.render();
     if (pageName === "skills" && typeof renderAchievements === "function") renderAchievements();
   }
 
