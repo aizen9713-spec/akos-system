@@ -22,6 +22,7 @@ function showPage(pageName) {
 
   if (targetPage) {
     targetPage.classList.add("active");
+    if (pageName === "skills" && typeof renderAchievements === "function") renderAchievements();
   }
 
   if (targetButton) {

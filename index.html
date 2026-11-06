@@ -17,14 +17,14 @@
 <link rel="stylesheet" href="./css/components/appearance.css">
 <link rel="stylesheet" href="./css/components/training.css">
 <link rel="stylesheet" href="./css/components/quest-v2.css">
-<link rel="stylesheet" href="./css/components/player-ascension.css">
+<link rel="stylesheet" href="./css/components/player-ascension.css?v=badges-1">
 <link rel="stylesheet" href="./css/components/core-monarch.css">
 <link rel="stylesheet" href="./css/components/quest-monarch.css">
 <link rel="stylesheet" href="./css/components/training-monarch.css">
 <link rel="stylesheet" href="./css/components/header-monarch.css">
 <link rel="stylesheet" href="./css/components/premium-light.css">
 <link rel="stylesheet" href="./css/components/calendar.css">
-<link rel="stylesheet" href="./css/components/settings-monarch.css">
+<link rel="stylesheet" href="./css/components/settings-monarch.css?v=directory-1">
 <link rel="stylesheet" href="./css/components/readability.css">
 <link rel="stylesheet" href="./css/components/notifications.css">
 </head>
@@ -200,6 +200,11 @@
           <div id="playerCoreStats" class="ascension-stats"></div>
         </section>
       </div>
+      <section class="ascension-mastery player-achievements" aria-labelledby="playerAchievementsHeading">
+        <p class="eyebrow">PLAYER MILESTONES</p>
+        <h3 id="playerAchievementsHeading">Achievements</h3>
+        <div id="achievementList"></div>
+      </section>
       <section class="ascension-mastery" aria-labelledby="ascensionSkillsHeading">
         <p class="eyebrow">YOUR DISCIPLINES</p><h3 id="ascensionSkillsHeading">Skill mastery</h3>
         <div id="playerSkillMastery" class="ascension-skills"></div>
@@ -328,26 +333,14 @@
 
 <div id="page-system" class="app-page monarch settings-monarch">
   <header class="settings-heading premium-surface"><span class="premium-glint" aria-hidden="true"></span><div><p class="eyebrow">SHADOW OS · SYSTEM CONFIGURATION</p><h2>System settings</h2><p class="muted">Your rules. Your environment. Your system.</p></div><span class="settings-seal" aria-hidden="true">律</span></header>
-    <section class="card">
-        <div class="achievement-panel">
-  <p class="eyebrow">ACHIEVEMENTS</p>
-  <div id="achievementList"></div>
-</div>
-
-<details class="notifications-panel" id="notificationsPanel"><summary>Notifications <span id="pushSummary">Not enabled</span></summary><p class="muted">Calendar reminders on this device, including when the app is closed. Sign in to Cloud Core first.</p><dl class="notification-state"><div><dt>Browser permission</dt><dd id="pushPermission">Checking</dd></div><div><dt>This device</dt><dd id="pushDeviceStatus">Not registered</dd></div></dl><label>Device name<input id="pushDeviceName" maxlength="80" autocomplete="off" value="This device"></label><div class="notification-actions"><button id="pushEnable" type="button">Enable notifications</button><button id="pushTest" type="button">Send test notification</button><button id="pushDisable" type="button">Disable this device</button></div><p id="pushStatus" role="status" aria-live="polite"></p><details><summary>Diagnostics</summary><button id="pushUpdateWorker" type="button">Update notification worker</button><button id="pushLocalTest" type="button">Test local notification display</button><button id="pushInspect" type="button">Refresh delivery diagnostics</button><pre id="pushDiagnostics"></pre></details></details>
-<section class="settings-card">
-  <div class="section-head">
-    <div>
-      <p class="eyebrow">SYSTEM PROFILE</p>
-      <h2>Settings</h2>
-      <div class="settings-status-row">
-  <span id="settings-mode-badge">MODE: HIGH</span>
-  <span id="settings-units-badge">UNITS: METRIC</span>
-  <span id="settings-checkin-badge">CHECK-IN: SUN</span>
-</div>
-    </div>
-  </div>
-
+  <nav class="settings-directory" aria-label="Settings sections">
+    <a href="#settings-appearance">Appearance</a>
+    <a href="#settings-profile">Preferences</a>
+    <a href="#settings-connectivity">Cloud &amp; alerts</a>
+    <a href="#settings-data">Data &amp; recovery</a>
+    <a href="#settings-diagnostics">Diagnostics</a>
+  </nav>
+  <section id="settings-appearance" aria-label="Appearance">
   <section class="appearance-settings" aria-labelledby="appearance-title">
     <p class="eyebrow">SHADOW OS BACKGROUND ENGINE · V1.1</p>
     <h3 id="appearance-title">Theme &amp; Background</h3>
@@ -460,6 +453,21 @@
     <p id="appearance-status" class="muted" role="status" aria-live="polite"></p>
     <button id="appearance-reset" type="button">RESET APPEARANCE</button>
   </section>
+  </section>
+  <section id="settings-profile" aria-label="Preferences">
+<section class="settings-card">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">SYSTEM PROFILE</p>
+      <h2>Preferences</h2>
+      <div class="settings-status-row">
+  <span id="settings-mode-badge">MODE: HIGH</span>
+  <span id="settings-units-badge">UNITS: METRIC</span>
+  <span id="settings-checkin-badge">CHECK-IN: SUN</span>
+</div>
+    </div>
+  </div>
+
   <div class="settings-grid">
     <label>
       <span>Guidance Mode</span>
@@ -520,10 +528,59 @@
   </button>
 </section>
 
-<div class="system-divider" aria-hidden="true">
-  <span></span>
-</div>
+  </section>
+  <section id="settings-connectivity" class="settings-card" aria-labelledby="settings-connectivity-title">
+    <p class="eyebrow">CONNECTIONS</p>
+    <h2 id="settings-connectivity-title">Cloud &amp; alerts</h2>
+    <div id="cloud-core-mount"></div>
+<details class="notifications-panel" id="notificationsPanel"><summary>Notifications <span id="pushSummary">Not enabled</span></summary><p class="muted">Calendar reminders on this device, including when the app is closed. Sign in to Cloud Core first.</p><dl class="notification-state"><div><dt>Browser permission</dt><dd id="pushPermission">Checking</dd></div><div><dt>This device</dt><dd id="pushDeviceStatus">Not registered</dd></div></dl><label>Device name<input id="pushDeviceName" maxlength="80" autocomplete="off" value="This device"></label><div class="notification-actions"><button id="pushEnable" type="button">Enable notifications</button><button id="pushTest" type="button">Send test notification</button><button id="pushDisable" type="button">Disable this device</button></div><p id="pushStatus" role="status" aria-live="polite"></p><details><summary>Diagnostics</summary><button id="pushUpdateWorker" type="button">Update notification worker</button><button id="pushLocalTest" type="button">Test local notification display</button><button id="pushInspect" type="button">Refresh delivery diagnostics</button><pre id="pushDiagnostics"></pre></details></details>
+  </section>
+  <section id="settings-data" class="settings-card" aria-labelledby="settings-data-title">
+    <p class="eyebrow">LOCAL SAVE</p>
+    <h2 id="settings-data-title">Data &amp; recovery</h2>
+    <p class="muted">Export a copy of your save or import a backup.</p>
+        <div class="save-controls premium-controls">
 
+          <button
+    id="exportSaveBtn"
+    class="system-control-btn control-export"
+    type="button"
+  >
+    <span class="control-icon">⇩</span>
+    <span>Export</span>
+  </button>
+
+  <label
+    for="importSaveInput"
+    class="system-control-btn control-import"
+    role="button" tabindex="0"
+    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('importSaveInput').click();}"
+  >
+    <span class="control-icon">⇧</span>
+    <span>Import</span>
+  </label>
+
+  <input
+    id="importSaveInput"
+    type="file"
+    accept=".json,application/json"
+    hidden
+  />
+
+</div>
+<details class="settings-danger"><summary>Reset options</summary>
+  <button
+    id="resetBtn"
+    class="system-control-btn control-reset"
+    type="button"
+  >
+    <span class="control-icon">↻</span>
+    <span>Reset</span>
+  </button>
+</details>
+
+  </section>
+  <section id="settings-diagnostics" aria-label="Diagnostics">
 <section class="system-health-card">
   <div class="section-head">
     <div>
@@ -565,53 +622,11 @@
   </div>
 </section>
 
-        <div class="save-controls premium-controls">
-
-          <button
-    id="exportSaveBtn"
-    class="system-control-btn control-export"
-    type="button"
-  >
-    <span class="control-icon">⇩</span>
-    <span>Export</span>
-  </button>
-
-  <label
-    for="importSaveInput"
-    class="system-control-btn control-import"
-    role="button" tabindex="0"
-    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('importSaveInput').click();}"
-  >
-    <span class="control-icon">⇧</span>
-    <span>Import</span>
-  </label>
-
-  <input
-    id="importSaveInput"
-    type="file"
-    accept=".json,application/json"
-    hidden
-  />
-
-  <button
-    id="resetBtn"
-    class="system-control-btn control-reset"
-    type="button"
-  >
-    <span class="control-icon">↻</span>
-    <span>Reset</span>
-  </button>
-</div>
-
-<div class="section-head">
-  <div>
-    <p class="eyebrow">SYSTEM LOG</p>
-    <h2>Recent events</h2>
-  </div>
-</div>
-
+    <details class="settings-secondary">
+      <summary>Recent events</summary>
       <div id="logList" class="log-list"></div>
-    </section>
+    </details>
+  </section>
     </div> <!-- page-system -->
 
 <!-- SHADOW PROTOCOL — MODULES HUB -->
@@ -847,10 +862,10 @@
 <script src="./js/ui/skills.js"></script>
 <script src="./js/ui/quests.js"></script>
 <script src="./js/ui/dashboard.js"></script>
-<script src="./js/ui/achievements.js"></script>
+<script src="./js/ui/achievements.js?v=badges-1"></script>
 <script src="./js/ui/system.js"></script>
 <script src="./js/ui/render.js"></script>
-<script src="./js/ui/navigation.js"></script>
+<script src="./js/ui/navigation.js?v=badges-1"></script>
 <script src="./js/ui/settings.js"></script>
 <script src="./js/ui/log.js"></script>
 <script src="./js/core/backup.js"></script>
@@ -865,7 +880,7 @@
 <script src="./js/ui/calendar.js"></script>
 <script src="app.js?v=0.4.3-push-recovery"></script>
 <script src="./js/core/cloud-storage.js?v=2"></script>
-<script src="./js/core/cloud-core.js?v=monarch-access-1"></script>
+<script src="./js/core/cloud-core.js?v=settings-directory-1"></script>
 <script src="./js/ui/header-monarch.js"></script>
 <script src="./js/ui/notifications.js?v=push-recovery-2"></script>
 </body>

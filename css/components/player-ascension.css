@@ -158,3 +158,38 @@
  .monarch :is(.ascension-stat,.ascension-skill,.core-metric,.growth-stat,.core-panel){clip-path:none;border-color:CanvasText;}
  .monarch :is(.ascension-stat-icon,.skill-icon){clip-path:none;border-color:CanvasText;}
 }
+
+/* Compact achievement badges with native disclosure for touch and keyboard. */
+.player-badge-strip { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px; }
+.player-badge { max-width: 100%; }
+.player-badge > summary {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  list-style: none;
+  border: 1px solid rgba(var(--accent-rgb), .55);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), .22), var(--panel));
+  font-size: 1.2rem;
+}
+.player-badge > summary::-webkit-details-marker { display: none; }
+.player-badge > summary:is(:hover, :focus-visible),
+.player-badge[open] > summary { outline: 2px solid var(--accent); outline-offset: 2px; }
+.player-badge-info {
+  display: grid;
+  gap: 5px;
+  max-width: min(15rem, 100%);
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: .8rem;
+  overflow-wrap: anywhere;
+}
+.player-badge-info small { color: var(--accent-soft); }
+.player-badge-goals { margin-top: 12px; }
+.player-badge-goals > summary { cursor: pointer; padding: 10px 0; color: var(--muted); }
+.player-badge-strip.locked .player-badge > summary { filter: saturate(.35); }

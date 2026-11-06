@@ -64,3 +64,50 @@
 @media(max-width:360px){#page-system .system-health-grid{grid-template-columns:minmax(0,1fr);}#page-system .training-days-options{grid-template-columns:repeat(3,minmax(0,1fr));}}
 @media(prefers-reduced-motion:reduce){#page-system *,#page-system *::before,#page-system *::after{animation:none!important;transition:none!important;}}
 @media(forced-colors:active){#page-system :is(.settings-card,.appearance-settings,.system-health-card,.achievement-panel,#cloud-core-panel,.health-item){border-color:CanvasText;}}
+
+/* Directory and grouped settings cards */
+#page-system .settings-directory {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 20px;
+}
+#page-system .settings-directory a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(var(--accent-rgb), .26);
+  border-radius: 6px;
+  background: rgba(var(--surface-rgb), .8);
+  color: var(--accent-soft);
+  text-decoration: none;
+  font-size: .82rem;
+}
+#page-system .settings-directory a:hover,
+#page-system .settings-directory a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+#page-system > section[id] { scroll-margin-top: 16px; }
+#page-system #cloud-core-panel { margin: 16px 0; }
+#page-system .settings-secondary,
+#page-system .settings-danger {
+  margin: 12px 0;
+  padding: 0 12px;
+  border: 1px solid rgba(var(--accent-rgb), .22);
+  border-radius: 6px;
+  background: rgba(var(--surface-rgb), .55);
+}
+#page-system :is(.settings-secondary, .settings-danger) > summary {
+  min-height: 44px;
+  align-content: center;
+  cursor: pointer;
+}
+#page-system .settings-danger > summary { color: var(--danger); }
+#page-system .settings-danger > button { margin-bottom: 12px; }
+#page-system #settings-data .save-controls { border: 0; padding: 0; margin: 16px 0; }
+@media (max-width: 600px) {
+  #page-system .settings-directory { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #page-system .settings-directory a { padding: 0 9px; }
+}
