@@ -8,7 +8,7 @@ const CoreCommand = (() => {
   const dateLabel = date => dateKeyToLocalDate(date).toLocaleDateString("en-GB", {
     weekday: "short", day: "numeric", month: "short"
   });
-  let active = "daily";
+  let active = "overview";
   let dirty = false;
   let editingDay, editingSnapshot;
   let automatic = true;

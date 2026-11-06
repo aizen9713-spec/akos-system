@@ -1,7 +1,7 @@
-const CACHE_NAME = "akos-system-player-monarch-core-command-v2-20261106";
+const CACHE_NAME = "akos-system-player-monarch-core-command-v2-overview-first";
 
 const ASSETS = [
-  "./js/features/core-command-data.js", "./js/ui/core-command.js",
+  "./js/features/core-command-data.js", "./js/ui/core-command.js?v=overview-first",
  "./js/ui/notifications.js?v=push-recovery-2", "./js/core/push-worker.js", "./css/components/notifications.css",
  "./css/components/readability.css",
  "./css/components/settings-monarch.css?v=directory-1",

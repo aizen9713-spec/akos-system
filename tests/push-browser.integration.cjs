@@ -19,7 +19,8 @@ const root=process.cwd();const server=http.createServer((req,res)=>{if(legacyWor
  await page.goto('http://127.0.0.1:'+port+'/');await page.locator('#cloud-relogin').waitFor({state:'visible'});assert.equal(await page.locator('#cloud-relogin-submit').isDisabled(),true);await page.locator('#cloud-connection-settings').click();assert.equal(await page.locator('#notificationsPanel').getAttribute('open'),null);await page.locator('#notificationsPanel>summary').click();assert.equal(await page.evaluate(()=>window.__permissionCalls),0);await page.locator('#pushEnable').click();assert.equal(await page.evaluate(()=>window.__permissionCalls),0);assert.ok((await page.locator('#pushStatus').innerText()).includes('Sign in'));
  await page.locator('#cloud-test-project').check();await page.locator('#cloud-url').fill('https://test.supabase.co');await page.locator('#cloud-key').fill('sb_publishable_test');await page.locator('#cloud-email').fill('test@example.test');await page.locator('#cloud-password').fill('test-only');await page.locator('#cloud-login').click();await page.locator('#cloud-choices').waitFor({state:'visible'});page.once('dialog',d=>d.accept());await page.locator('#cloud-local').click();await page.waitForFunction(()=>document.getElementById('cloud-status').textContent.includes('rev'));
  await page.locator('.nav-btn[data-page="dashboard"]').click();
- assert.equal(await page.getByRole('tab',{name:'Daily'}).getAttribute('aria-selected'),'true');
+ assert.equal(await page.getByRole('tab',{name:'Overview'}).getAttribute('aria-selected'),'true');
+ await page.locator('#coreTabDaily').click();
  const beforePlan=await page.evaluate(()=>JSON.parse(localStorage.getItem(STORAGE_KEY)));
  await context.setOffline(true);
  await page.locator('#coreFocus').fill('Practice one focused session');
@@ -45,10 +46,10 @@ const root=process.cwd();const server=http.createServer((req,res)=>{if(legacyWor
  await page.locator('#coreReloadPlan').click();
  await context.setOffline(false);
  await page.locator('#coreTabDaily').focus();
- await page.keyboard.press('ArrowRight');
+ await page.keyboard.press('ArrowLeft');
  assert.equal(await page.locator('#coreOverview').isVisible(),true);
  assert.ok(await page.locator('#growthSnapshot').isVisible());
- await page.keyboard.press('ArrowRight');
+ await page.keyboard.press('End');
  assert.equal(await page.locator('#coreWeekly').isVisible(),true);
  assert.match(await page.locator('#coreWeekQuests').innerText(),/completed/);
  await page.setViewportSize({width:320,height:844});

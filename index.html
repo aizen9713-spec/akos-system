@@ -142,12 +142,12 @@
   <div class="monarch core-console" id="coreCommand">
     <header class="core-heading premium-surface"><span class="premium-glint" aria-hidden="true"></span><div><p class="eyebrow">SHADOW OS · CORE V2.0</p><h2>Monarch Command Center</h2><p class="muted">Your progress. Your discipline. Your next step.</p></div><span class="core-seal" aria-hidden="true">影</span></header>
     <div class="command-tabs" role="tablist" aria-label="CORE views">
-      <button type="button" role="tab" id="coreTabDaily" aria-controls="coreDaily" aria-selected="true" data-core-tab="daily">Daily</button>
-      <button type="button" role="tab" id="coreTabOverview" aria-controls="coreOverview" aria-selected="false" tabindex="-1" data-core-tab="overview">Overview</button>
+      <button type="button" role="tab" id="coreTabOverview" aria-controls="coreOverview" aria-selected="true" data-core-tab="overview">Overview</button>
+      <button type="button" role="tab" id="coreTabDaily" aria-controls="coreDaily" aria-selected="false" tabindex="-1" data-core-tab="daily">Daily</button>
       <button type="button" role="tab" id="coreTabWeekly" aria-controls="coreWeekly" aria-selected="false" tabindex="-1" data-core-tab="weekly">Weekly</button>
     </div>
     <p id="coreCommandError" role="status"></p>
-    <section id="coreDaily" role="tabpanel" aria-labelledby="coreTabDaily" tabindex="0">
+    <section id="coreDaily" role="tabpanel" aria-labelledby="coreTabDaily" tabindex="0" hidden>
       <p class="eyebrow" id="coreDailyDate"></p>
       <div class="command-grid">
         <section class="card core-panel command-plan">
@@ -185,7 +185,7 @@
         <section class="card core-panel"><h3>Due & overdue</h3><div class="command-list" id="coreDailyDeadlines"></div></section>
       </div>
     </section>
-    <section id="coreOverview" role="tabpanel" aria-labelledby="coreTabOverview" tabindex="0" hidden>
+    <section id="coreOverview" role="tabpanel" aria-labelledby="coreTabOverview" tabindex="0">
     <div class="core-layout">
       <section class="card core-player core-panel" aria-labelledby="corePlayerName">
         <div class="core-portrait"><span class="core-portrait-ring" aria-hidden="true"></span><img class="core-player-character" src="./assets/characters/akos-monarch-v1.webp" alt="Ákos karaktere" width="512" height="768" decoding="async"></div>
@@ -928,7 +928,7 @@
 <script src="./js/ui/achievements.js?v=milestones-1"></script>
 <script src="./js/ui/system.js"></script>
 <script src="./js/features/core-command-data.js"></script>
-<script src="./js/ui/core-command.js"></script>
+<script src="./js/ui/core-command.js?v=overview-first"></script>
 <script src="./js/ui/render.js?v=core-v2"></script>
 <script src="./js/ui/navigation.js?v=command-2"></script>
 <script src="./js/ui/settings.js"></script>
