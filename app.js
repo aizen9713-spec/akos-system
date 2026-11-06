@@ -111,8 +111,8 @@ document
 const unlocked7Day = checkNoZeroDaysAchievement();
 const unlockedMilestones = checkStreakMilestones();
 
-if (unlocked7Day || unlockedMilestones > 0) {
-  saveState();
+if (unlocked7Day || unlockedMilestones > 0 || recordMilestoneAchievements(state) !== state.achievements) {
+  try { saveState(); } catch (error) { console.warn("[SYSTEM] Milestone save deferred", error); }
 }
 
 render();

@@ -275,10 +275,10 @@ function loadState() {
 }
 
 function saveState() {
-  state.lastSavedAt = new Date().toISOString();
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(state)
-  );
+  const lastSavedAt = new Date().toISOString();
+  const achievements = typeof recordMilestoneAchievements === "function"
+    ? recordMilestoneAchievements(state) : state.achievements;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, lastSavedAt, achievements }));
+  state.lastSavedAt = lastSavedAt;
+  state.achievements = achievements;
 }

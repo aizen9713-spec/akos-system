@@ -193,3 +193,15 @@
 .player-badge-goals { margin-top: 12px; }
 .player-badge-goals > summary { cursor: pointer; padding: 10px 0; color: var(--muted); }
 .player-badge-strip.locked .player-badge > summary { filter: saturate(.35); }
+
+.player-next-milestone {
+  display: grid;
+  gap: 7px;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid rgba(var(--accent-rgb), .25);
+  border-radius: 6px;
+  background: rgba(var(--accent-rgb), .06);
+}
+.player-next-milestone progress { width: 100%; accent-color: var(--accent); }
+.player-next-milestone small { color: var(--muted); }
